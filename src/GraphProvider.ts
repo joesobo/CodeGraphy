@@ -1,8 +1,6 @@
 import * as vscode from "vscode";
 import fetch from "node-fetch";
 
-const canvasSize: number = 300;
-
 const currentPath = vscode.workspace.workspaceFolders
   ? vscode.workspace.workspaceFolders[0].uri.path.substring(1)
   : "";
@@ -59,7 +57,7 @@ export class GraphProvider implements vscode.WebviewViewProvider {
       </head>
       <body>
         <h1>Code Graph</h1>
-        <div id="cy" style="height: ${canvasSize}px; width: ${canvasSize}px; background-color: #1e1e1e"></div>
+        <div id="cy" style="height: 300px; width: 300px; background-color: #1e1e1e"></div>
         <script type="module" src="${scriptUri}"></script>
       </body>
     </html>`;
