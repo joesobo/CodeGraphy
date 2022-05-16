@@ -7,6 +7,10 @@ This is the README for your extension "codegraphy". After writing up a brief des
 1. `yarn` - install
 2. `yarn watch` - watch for changes
 3. `F5` - run new developer window
+4. Open a new terminal
+5. `cd` to the api folder
+6. `yarn` - install
+7. `node app.js` - run the server
 
 ## Features
 
