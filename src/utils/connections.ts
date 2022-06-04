@@ -1,7 +1,7 @@
 import readline from "readline";
 import fs from "fs";
 
-export const findConnections = async (file, removeDir) => {
+export const findConnections = async (file: any, removeDir: any) => {
   let connections = [];
   const startConnection = file.replace(/\\/g, "/").replace(removeDir, "");
   const startTemp = startConnection.split("/");

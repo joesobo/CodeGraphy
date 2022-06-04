@@ -1,10 +1,10 @@
 import fs from "fs";
 import path from "path";
 
-const files = [];
-const dirs = [];
+const files: string[] = [];
+const dirs: string[] = [];
 
-export const dirIt = (directory) => {
+export const dirIt = (directory: any) => {
   try {
     let dirContent = fs.readdirSync(directory);
 
@@ -20,6 +20,6 @@ export const dirIt = (directory) => {
     return files;
   } catch (ex) {
     console.log(ex);
-    return false;
+    return [];
   }
 };

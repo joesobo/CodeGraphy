@@ -1,16 +1,4 @@
-let files = [];
-let path = "";
-let connections = [];
-
 const run = async () => {
-  await fetch(`http://localhost:8081/`)
-    .then((r) => r.json())
-    .then((data) => {
-      files = data.files;
-      path = data.path;
-      connections = data.connections;
-    });
-
   let nodes = [];
 
   // push root nodes
@@ -184,4 +172,4 @@ const run = async () => {
   });
 };
 
-run();
+await run();
