@@ -1,5 +1,9 @@
 import readline from "readline";
 import fs from "fs";
+import {
+  containsWhiteListExtension,
+  removeWhiteListExtension,
+} from "../view/whitelistFiles";
 
 export type Connection = {
   data: {
@@ -20,25 +24,26 @@ export const findConnections = async (
   const removeDir = currentPath.replace(currentDir, "").substring(1);
   const startConnection = file.replace(/\\/g, "/").replace(removeDir, "");
   const startTemp = startConnection.split("/");
-  const start = startTemp[startTemp.length - 1].replace(".js", "");
+  const start = removeWhiteListExtension(startTemp[startTemp.length - 1]);
   const lineReader = readline.createInterface({
     input: fs.createReadStream(file),
   });
 
   for await (const line of lineReader) {
     const lineArr = line.split(" ");
-    const first = lineArr[0];
     const temp = lineArr[lineArr.length - 1].split("/");
     const last = temp[temp.length - 1].replace(";", "").replace('"', "");
 
-    if (first === "import") {
-      connections.push({
-        data: {
-          id: start + "-" + last,
-          source: start,
-          target: last,
-        },
-      });
+    if (containsWhiteListExtension(last)) {
+      if (line.startsWith("import") && line.includes("from")) {
+        connections.push({
+          data: {
+            id: start + "-" + last,
+            source: start,
+            target: removeWhiteListExtension(last),
+          },
+        });
+      }
     }
   }
 

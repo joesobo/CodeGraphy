@@ -1,4 +1,4 @@
-export const WhiteListFiles = ["js", "ts", "json"];
+export const WhiteListFiles = ["js", "ts", "json", "vue"];
 
 export const removeWhiteListExtension = (input: string) => {
   let output = input;

@@ -50,6 +50,7 @@ export class GraphProvider implements vscode.WebviewViewProvider {
       currentPath,
       currentDir
     );
+    const size = 500;
 
     return `
     <!DOCTYPE html>
@@ -60,8 +61,8 @@ export class GraphProvider implements vscode.WebviewViewProvider {
       </head>
       <body>
         <h1>CodeGraphy</h1>
-        <p>Dir: ${currentDir}</p>
-        <div id="cy" style="height: 300px; width: 300px; background-color: #1e1e1e"></div>
+        <p>Directory: /${currentDir}</p>
+        <div id="cy" style="height: ${size}px; width: ${size}px; background-color: #1e1e1e"></div>
         <script>
             var connections = ${JSON.stringify(allConnections)}
             var files = ${JSON.stringify(files)}
@@ -70,7 +71,7 @@ export class GraphProvider implements vscode.WebviewViewProvider {
         <script type="module"
             src="${scriptUri}">
         </script>
-        <button style="padding: 8px 16px; margin-top: 8px; background-color: #1177bb; color: white; border: none; width: 300px;" type="button" onclick="reload()">Reload</button>
+        <button style="padding: 8px 16px; margin-top: 8px; background-color: #1177bb; color: white; border: none; width: ${size}px;" type="button" onclick="reload()">Reload</button>
       </body>
     </html>`;
   }
