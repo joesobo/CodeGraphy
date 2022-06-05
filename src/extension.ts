@@ -1,5 +1,5 @@
 import * as vscode from "vscode";
-import { GraphProvider } from "./GraphProvider";
+import { GraphProvider } from "./view/GraphProvider";
 
 export function activate(context: vscode.ExtensionContext) {
   console.log('Congratulations, your extension "CodeGraphy" is now active!');

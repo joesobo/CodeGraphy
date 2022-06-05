@@ -1,6 +1,6 @@
 export const WhiteListFiles = ["js", "ts", "json"];
 
-export const removeWhiteListExtension = (input) => {
+export const removeWhiteListExtension = (input: string) => {
   let output = input;
 
   WhiteListFiles.some((element) => {
@@ -11,9 +11,9 @@ export const removeWhiteListExtension = (input) => {
   return output;
 };
 
-export const containsWhiteListExtension = (file) => {
+export const containsWhiteListExtension = (input: string) => {
   return WhiteListFiles.some((element) => {
-    if (file.includes("." + element)) {
+    if (input.includes("." + element)) {
       return true;
     }
 

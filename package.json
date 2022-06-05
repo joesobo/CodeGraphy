@@ -12,8 +12,8 @@
   "main": "./dist/extension.js",
   "scripts": {
     "vscode:prepublish": "yarn run package",
-    "compile": "webpack",
-    "watch": "webpack --watch",
+    "compile": "concurrently \"rollup -c\" \"webpack\"",
+    "watch": "concurrently \"rollup -c -w\" \"webpack --watch\"",
     "package": "webpack --mode production --devtool hidden-source-map",
     "lint": "eslint src --ext ts",
     "test": "node ./out/test/runTest.js"
@@ -52,6 +52,10 @@
     ]
   },
   "devDependencies": {
+    "@rollup/plugin-commonjs": "^17.0.0",
+    "@rollup/plugin-node-resolve": "^11.0.1",
+    "@rollup/plugin-typescript": "^8.1.0",
+    "@types/cytoscape": "^3.19.4",
     "@types/glob": "^7.2.0",
     "@types/mocha": "^9.1.1",
     "@types/node": "14.x",
@@ -59,16 +63,18 @@
     "@typescript-eslint/eslint-plugin": "^5.21.0",
     "@typescript-eslint/parser": "^5.21.0",
     "@vscode/test-electron": "^2.1.3",
+    "concurrently": "^7.2.1",
     "eslint": "^8.14.0",
     "glob": "^8.0.1",
     "mocha": "^9.2.2",
+    "rollup": "^2.3.4",
+    "rollup-plugin-terser": "^7.0.2",
     "ts-loader": "^9.2.8",
     "typescript": "^4.6.4",
     "webpack": "^5.70.0",
     "webpack-cli": "^4.9.2"
   },
   "dependencies": {
-    "cytoscape": "^3.21.1",
-    "node-fetch": "^3.2.4"
+    "cytoscape": "^3.21.1"
   }
 }

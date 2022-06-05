@@ -1,6 +1,6 @@
 import * as vscode from "vscode";
-import { dirIt } from "./utils/dirIt";
-import { getConnections, Connections } from "./utils/connections";
+import { dirIt } from "../utils/dirIt";
+import { getConnections, Connections } from "../utils/connections";
 
 const currentPath = vscode.workspace.workspaceFolders
   ? vscode.workspace.workspaceFolders[0].uri.path.substring(1)
@@ -39,7 +39,11 @@ export class GraphProvider implements vscode.WebviewViewProvider {
 
   private async _getHtmlForWebview(webview: vscode.Webview) {
     const scriptUri = webview.asWebviewUri(
-      vscode.Uri.joinPath(this._extensionUri, "src", "cytoscapeGraph.js")
+      vscode.Uri.joinPath(
+        this._extensionUri,
+        "dist",
+        "compiled/cytoscapeGraph.js"
+      )
     );
     const allConnections: Connections[] = await getConnections(
       files,
@@ -63,7 +67,9 @@ export class GraphProvider implements vscode.WebviewViewProvider {
             var files = ${JSON.stringify(files)}
             var path = ${JSON.stringify(currentPath)}
         </script>
-        <script type="module" src="${scriptUri}"></script>
+        <script type="module"
+            src="${scriptUri}">
+        </script>
         <button style="padding: 8px 16px; margin-top: 8px; background-color: #1177bb; color: white; border: none; width: 300px;" type="button" onclick="reload()">Reload</button>
       </body>
     </html>`;

@@ -1,10 +1,10 @@
 import {
   removeWhiteListExtension,
   containsWhiteListExtension,
-} from "./whitelistFiles.js";
+} from "./whitelistFiles";
 
-export const processData = async (files) => {
-  let nodes = [];
+export const processData = async (files: string[], connections: any) => {
+  let nodes: any[] = [];
 
   // push root nodes
   files.forEach((file) => {
@@ -21,7 +21,7 @@ export const processData = async (files) => {
   });
 
   // push edges
-  connections.forEach((connectionSet) => {
+  connections.forEach((connectionSet: any[]) => {
     connectionSet.forEach((connection) => {
       nodes.push(connection);
     });

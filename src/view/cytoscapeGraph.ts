@@ -1,7 +1,13 @@
 import { processData } from "./dataProcessor.js";
+import cytoscape from "cytoscape";
 
 const run = () => {
-  let nodes = processData(files, connections);
+  // @ts-ignore
+  const nodeFiles = files;
+  // @ts-ignore
+  const nodeConnections = connections;
+
+  let nodes = processData(nodeFiles, nodeConnections);
 
   cytoscape({
     container: document.getElementById("cy"),
@@ -61,7 +67,7 @@ const run = () => {
 
       // The layout animates only after this many milliseconds for animate:true
       // (prevents flashing on fast runs)
-      animationThreshold: 250,
+      //   animationThreshold: 250,
 
       // Number of iterations between consecutive screen positions update
       refresh: 20,
