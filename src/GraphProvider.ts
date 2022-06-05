@@ -56,7 +56,7 @@ export class GraphProvider implements vscode.WebviewViewProvider {
       </head>
       <body>
         <h1>CodeGraphy</h1>
-        <p>${currentDir}</p>
+        <p>Dir: ${currentDir}</p>
         <div id="cy" style="height: 300px; width: 300px; background-color: #1e1e1e"></div>
         <script>
             var connections = ${JSON.stringify(allConnections)}
@@ -64,7 +64,7 @@ export class GraphProvider implements vscode.WebviewViewProvider {
             var path = ${JSON.stringify(currentPath)}
         </script>
         <script type="module" src="${scriptUri}"></script>
-        <button style="padding: 4px 8px; margin-top: 8px; background-color: '#1177bb';" type="button" onclick="reload()">Reload</button>
+        <button style="padding: 8px 16px; margin-top: 8px; background-color: #1177bb; color: white; border: none; width: 300px;" type="button" onclick="reload()">Reload</button>
       </body>
     </html>`;
   }
