@@ -1,12 +1,22 @@
 import readline from "readline";
 import fs from "fs";
 
+export type Connection = {
+  data: {
+    id: string;
+    source: string;
+    target: string;
+  };
+};
+
+export type Connections = Connection[];
+
 export const findConnections = async (
-  file: any,
+  file: string,
   currentPath: string,
   currentDir: string
-) => {
-  let connections = [];
+): Promise<Connections> => {
+  let connections: Connection[] = [];
   const removeDir = currentPath.replace(currentDir, "").substring(1);
   const startConnection = file.replace(/\\/g, "/").replace(removeDir, "");
   const startTemp = startConnection.split("/");
@@ -32,5 +42,20 @@ export const findConnections = async (
     }
   }
 
+  return connections;
+};
+
+export const getConnections = async (
+  files: string[],
+  currentPath: string,
+  currentDir: string
+) => {
+  let connections = [];
+  for (const file of files) {
+    const result = await findConnections(file, currentPath, currentDir);
+    if (result.length > 0) {
+      connections.push(result);
+    }
+  }
   return connections;
 };

@@ -1,28 +1,9 @@
-const run = async () => {
-  let nodes = [];
+import { processData } from "./dataProcessor.js";
 
-  // push root nodes
-  files.forEach((file) => {
-    const temp = file.replace(/\\/g, "/");
-    const fileName = temp.split("/").pop();
-    const filePath = temp;
-    nodes.push({
-      data: {
-        id: fileName?.replace(".js", ""),
-        label: fileName,
-        path: filePath,
-      },
-    });
-  });
+const run = () => {
+  let nodes = processData(files, connections);
 
-  // push edges
-  connections.forEach((connectionSet) => {
-    connectionSet.forEach((connection) => {
-      nodes.push(connection);
-    });
-  });
-
-  var cy = cytoscape({
+  cytoscape({
     container: document.getElementById("cy"),
     elements: nodes,
     style: [
@@ -30,7 +11,7 @@ const run = async () => {
         selector: "node",
         style: {
           "background-color": "#4a4a4c",
-          label: "data(id)",
+          label: "data(label)",
         },
       },
       {
@@ -47,7 +28,6 @@ const run = async () => {
         selector: "label",
         style: {
           color: "#d4d4d4",
-          "text-transform": "uppercase",
         },
       },
     ],
@@ -172,4 +152,4 @@ const run = async () => {
   });
 };
 
-await run();
+run();

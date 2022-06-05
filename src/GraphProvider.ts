@@ -1,6 +1,6 @@
 import * as vscode from "vscode";
 import { dirIt } from "./utils/dirIt";
-import { findConnections } from "./utils/connections";
+import { getConnections, Connections } from "./utils/connections";
 
 const currentPath = vscode.workspace.workspaceFolders
   ? vscode.workspace.workspaceFolders[0].uri.path.substring(1)
@@ -8,18 +8,7 @@ const currentPath = vscode.workspace.workspaceFolders
 const currentDir = vscode.workspace.workspaceFolders
   ? vscode.workspace.workspaceFolders[0].name
   : "";
-const files: any[] = dirIt(currentPath);
-
-const getConnections = async () => {
-  let connections = [];
-  for (const file of files) {
-    const result = await findConnections(file, currentPath, currentDir);
-    if (result.length > 0) {
-      connections.push(result);
-    }
-  }
-  return connections;
-};
+const files: string[] = dirIt(currentPath);
 
 export class GraphProvider implements vscode.WebviewViewProvider {
   _view?: vscode.WebviewView;
@@ -52,7 +41,11 @@ export class GraphProvider implements vscode.WebviewViewProvider {
     const scriptUri = webview.asWebviewUri(
       vscode.Uri.joinPath(this._extensionUri, "src", "cytoscapeGraph.js")
     );
-    const allConnections = await getConnections();
+    const allConnections: Connections[] = await getConnections(
+      files,
+      currentPath,
+      currentDir
+    );
 
     return `
     <!DOCTYPE html>
@@ -63,6 +56,7 @@ export class GraphProvider implements vscode.WebviewViewProvider {
       </head>
       <body>
         <h1>CodeGraphy</h1>
+        <p>${currentDir}</p>
         <div id="cy" style="height: 300px; width: 300px; background-color: #1e1e1e"></div>
         <script>
             var connections = ${JSON.stringify(allConnections)}
@@ -70,6 +64,7 @@ export class GraphProvider implements vscode.WebviewViewProvider {
             var path = ${JSON.stringify(currentPath)}
         </script>
         <script type="module" src="${scriptUri}"></script>
+        <button style="padding: 4px 8px; margin-top: 8px; background-color: '#1177bb';" type="button" onclick="reload()">Reload</button>
       </body>
     </html>`;
   }
