@@ -8,13 +8,12 @@ const currentPath = vscode.workspace.workspaceFolders
 const currentDir = vscode.workspace.workspaceFolders
   ? vscode.workspace.workspaceFolders[0].name
   : "";
-const removeDir = currentPath.replace(currentDir, "").substring(1);
 const files: any[] = dirIt(currentPath);
 
-const allConnections = async () => {
+const getConnections = async () => {
   let connections = [];
   for (const file of files) {
-    const result = await findConnections(file, removeDir);
+    const result = await findConnections(file, currentPath, currentDir);
     if (result.length > 0) {
       connections.push(result);
     }
@@ -53,6 +52,7 @@ export class GraphProvider implements vscode.WebviewViewProvider {
     const scriptUri = webview.asWebviewUri(
       vscode.Uri.joinPath(this._extensionUri, "src", "cytoscapeGraph.js")
     );
+    const allConnections = await getConnections();
 
     return `
     <!DOCTYPE html>
@@ -62,10 +62,10 @@ export class GraphProvider implements vscode.WebviewViewProvider {
         <script src="https://cdnjs.cloudflare.com/ajax/libs/cytoscape/3.21.1/cytoscape.min.js" integrity="sha512-H44mkyNG9R5Y8NDjFoZ0lnMGgxfsbfbuewUNJJjecVOUzR3n/JL8+UFc07pP74T5tA+aGOMKCwazdDYwoquE8g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
       </head>
       <body>
-        <h1>Code Graph</h1>
+        <h1>CodeGraphy</h1>
         <div id="cy" style="height: 300px; width: 300px; background-color: #1e1e1e"></div>
         <script>
-            var connections = ${JSON.stringify(await allConnections())}
+            var connections = ${JSON.stringify(allConnections)}
             var files = ${JSON.stringify(files)}
             var path = ${JSON.stringify(currentPath)}
         </script>
