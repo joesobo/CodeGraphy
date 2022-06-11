@@ -59,6 +59,18 @@ export class GraphProvider implements vscode.WebviewViewProvider {
         <meta charset="UTF-8">
         <script src="https://cdnjs.cloudflare.com/ajax/libs/cytoscape/3.21.1/cytoscape.min.js" integrity="sha512-H44mkyNG9R5Y8NDjFoZ0lnMGgxfsbfbuewUNJJjecVOUzR3n/JL8+UFc07pP74T5tA+aGOMKCwazdDYwoquE8g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
       </head>
+
+      <style>
+        button {
+            padding: 8px 16px;
+            margin-top: 8px;
+            background-color: #1177bb;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+    </style>
+
       <body>
         <h1>CodeGraphy</h1>
         <p>Directory: /${currentDir}</p>
@@ -71,7 +83,18 @@ export class GraphProvider implements vscode.WebviewViewProvider {
         <script type="module"
             src="${scriptUri}">
         </script>
-        <button style="padding: 8px 16px; margin-top: 8px; background-color: #1177bb; color: white; border: none; width: ${size}px;" type="button" onclick="reload()">Reload</button>
+        <button id="reload" style="width: ${size}px;">Reload</button>
+        <div style="display: flex;">
+            <button id="cose-button" style="margin-right: 8px;">Cose</button>
+            <button id="fcose-button" style="margin-right: 8px;">FCose</button>
+            <button id="cose-bilkent-button" style="margin-right: 8px;">Cose Bilkent</button>
+
+            <button id="grid-button" style="margin-right: 8px;">Grid</button>
+            <button id="random-button" style="margin-right: 8px;">Random</button>
+            <button id="circle-button" style="margin-right: 8px;">Circle</button>
+            <button id="concentric-button" style="margin-right: 8px;">Concentric</button>
+            <button id="breadthfirst-button" style="margin-right: 8px;">Breadthfirst</button>
+        </div>
       </body>
     </html>`;
   }
