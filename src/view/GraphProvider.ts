@@ -88,7 +88,10 @@ export class GraphProvider implements vscode.WebviewViewProvider {
             <button id="cose-button" style="margin-right: 8px;">Cose</button>
             <button id="fcose-button" style="margin-right: 8px;">FCose</button>
             <button id="cose-bilkent-button" style="margin-right: 8px;">Cose Bilkent</button>
+            <button id="cola-button" style="margin-right: 8px;">Cola</button>
+        </div>
 
+        <div style="display: flex;">
             <button id="grid-button" style="margin-right: 8px;">Grid</button>
             <button id="random-button" style="margin-right: 8px;">Random</button>
             <button id="circle-button" style="margin-right: 8px;">Circle</button>

@@ -77,6 +77,7 @@
   "dependencies": {
     "cose-base": "^2.1.0",
     "cytoscape": "^3.21.1",
+    "cytoscape-cola": "^2.5.1",
     "cytoscape-cose-bilkent": "^4.1.0",
     "cytoscape-fcose": "^2.1.0"
   }

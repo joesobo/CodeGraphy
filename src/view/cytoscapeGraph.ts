@@ -4,9 +4,12 @@ import cytoscape from "cytoscape";
 import coseBilkent from "../build/cytoscape-cose-bilkent";
 // @ts-ignore
 import fcose from "../build/cytoscape-fcose";
+// @ts-ignore
+import cola from "../build/cytoscape-cola";
 
 cytoscape.use(coseBilkent);
 cytoscape.use(fcose);
+cytoscape.use(cola);
 
 // @ts-ignore
 const nodeFiles = files;
@@ -117,6 +120,7 @@ document
       name: "fcose",
       animationEasing: "ease-out",
       animationDuration: 1000,
+      randomize: false,
     } as any);
 
     layout.run();
@@ -133,6 +137,18 @@ document
 
     layout.run();
   });
+
+document?.getElementById("cola-button")?.addEventListener("click", function () {
+  layout = cy.layout({
+    name: "cola",
+    infinite: true,
+    animate: true,
+    animationEasing: "ease-out",
+    animationDuration: 1000,
+  } as any);
+
+  layout.run();
+});
 
 document?.getElementById("grid-button")?.addEventListener("click", function () {
   layout = cy.layout({
