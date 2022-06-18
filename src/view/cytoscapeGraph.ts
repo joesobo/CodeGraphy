@@ -99,6 +99,7 @@ document?.getElementById("reload")?.addEventListener("click", function () {
       animationDuration: 1000,
     } as any);
   }
+  layout.stop();
   layout.run();
 });
 
@@ -110,6 +111,7 @@ document?.getElementById("cose-button")?.addEventListener("click", function () {
     animationDuration: 1000,
   } as any);
 
+  layout.stop();
   layout.run();
 });
 
@@ -123,6 +125,7 @@ document
       randomize: false,
     } as any);
 
+    layout.stop();
     layout.run();
   });
 
@@ -135,6 +138,7 @@ document
       animationDuration: 1000,
     } as any);
 
+    layout.stop();
     layout.run();
   });
 
@@ -147,6 +151,7 @@ document?.getElementById("cola-button")?.addEventListener("click", function () {
     animationDuration: 1000,
   } as any);
 
+  layout.stop();
   layout.run();
 });
 
@@ -158,6 +163,7 @@ document?.getElementById("grid-button")?.addEventListener("click", function () {
     animationDuration: 1000,
   });
 
+  layout.stop();
   layout.run();
 });
 
@@ -171,6 +177,7 @@ document
       animationDuration: 1000,
     });
 
+    layout.stop();
     layout.run();
   });
 
@@ -184,6 +191,7 @@ document
       animationDuration: 1000,
     });
 
+    layout.stop();
     layout.run();
   });
 
@@ -197,6 +205,7 @@ document
       animationDuration: 1000,
     });
 
+    layout.stop();
     layout.run();
   });
 
@@ -210,5 +219,6 @@ document
       animationDuration: 1000,
     });
 
+    layout.stop();
     layout.run();
   });

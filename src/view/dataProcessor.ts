@@ -3,7 +3,7 @@ import {
   containsWhiteListExtension,
 } from "./whitelistFiles";
 
-export const processData = async (files: string[], connections: any) => {
+export const processData = (files: string[], connections: any) => {
   let nodes: any[] = [];
 
   // push root nodes
@@ -12,6 +12,7 @@ export const processData = async (files: string[], connections: any) => {
       const filePath = file.replace(/\\/g, "/");
       const fileName = filePath.split("/").pop() || "";
       nodes.push({
+        group: "nodes",
         data: {
           id: removeWhiteListExtension(fileName),
           label: fileName,

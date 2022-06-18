@@ -6,6 +6,7 @@ import {
 } from "../view/whitelistFiles";
 
 export type Connection = {
+  group: string;
   data: {
     id: string;
     source: string;
@@ -32,13 +33,17 @@ export const findConnections = async (
   for await (const line of lineReader) {
     const lineArr = line.split(" ");
     const temp = lineArr[lineArr.length - 1].split("/");
-    const last = temp[temp.length - 1].replace(";", "").replace('"', "");
+    const last = temp[temp.length - 1]
+      .replace(";", "")
+      .replace('"', "")
+      .replace("'", "");
 
     if (containsWhiteListExtension(last)) {
       if (line.startsWith("import") && line.includes("from")) {
         connections.push({
+          group: "edges",
           data: {
-            id: start + "-" + last,
+            id: start + "-" + removeWhiteListExtension(last),
             source: start,
             target: removeWhiteListExtension(last),
           },
