@@ -1,7 +1,7 @@
 import {
   removeWhiteListExtension,
   containsWhiteListExtension,
-} from "./whitelistFiles";
+} from "../utils/whitelistHelper";
 
 export const processData = (files: string[], connections: any) => {
   let nodes: any[] = [];

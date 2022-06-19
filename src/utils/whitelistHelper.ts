@@ -1,9 +1,9 @@
-export const WhiteListFiles = ["js", "ts", "json", "vue"];
+import { whiteListExtensions, whiteListDirs } from "../temp/tempInfo";
 
 export const removeWhiteListExtension = (input: string) => {
   let output = input;
 
-  WhiteListFiles.some((element) => {
+  whiteListExtensions.some((element) => {
     if (input.includes(element)) {
       output = input.replace("." + element, "");
     }
@@ -12,8 +12,18 @@ export const removeWhiteListExtension = (input: string) => {
 };
 
 export const containsWhiteListExtension = (input: string) => {
-  return WhiteListFiles.some((element) => {
+  return whiteListExtensions.some((element) => {
     if (input.includes("." + element)) {
+      return true;
+    }
+
+    return false;
+  });
+};
+
+export const containsWhitelistDir = (path: string) => {
+  return whiteListDirs.some((element) => {
+    if (path.includes(element)) {
       return true;
     }
 

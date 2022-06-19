@@ -1,6 +1,10 @@
 import fs from "fs";
 import path from "path";
-import { containsWhiteListExtension } from "../view/whitelistFiles";
+import {
+  containsWhitelistDir,
+  containsWhiteListExtension,
+} from "./whitelistHelper";
+import { containsBlacklistDir } from "./blacklistHelper";
 
 const files: string[] = [];
 const dirs: string[] = [];
@@ -14,7 +18,7 @@ export const dirIt = (directory: any) => {
     dirContent.forEach((dirPath) => {
       const fullPath = path.join(directory, dirPath);
 
-      if (!fullPath.includes("node_modules")) {
+      if (containsWhitelistDir(fullPath) && !containsBlacklistDir(fullPath)) {
         if (fs.statSync(fullPath).isFile()) {
           if (containsWhiteListExtension(fullPath)) {
             files.push(fullPath);
@@ -25,7 +29,9 @@ export const dirIt = (directory: any) => {
       }
     });
 
-    if (dirs.length !== 0) dirIt(dirs.pop());
+    if (dirs.length !== 0) {
+      dirIt(dirs.pop());
+    }
 
     return files;
   } catch (ex) {

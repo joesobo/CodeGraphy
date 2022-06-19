@@ -3,7 +3,7 @@ import fs from "fs";
 import {
   containsWhiteListExtension,
   removeWhiteListExtension,
-} from "../view/whitelistFiles";
+} from "./whitelistHelper";
 
 export type Connection = {
   group: string;
