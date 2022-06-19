@@ -83,7 +83,7 @@ export class GraphProvider implements vscode.WebviewViewProvider {
         <script type="module"
             src="${scriptUri}">
         </script>
-        <button id="reload" style="width: ${size}px;">Reload</button>
+        <button id="reload-button" style="width: ${size}px;">Reload</button>
         <div style="display: flex;">
             <button id="cose-button" style="margin-right: 8px;">Cose</button>
             <button id="fcose-button" style="margin-right: 8px;">FCose</button>

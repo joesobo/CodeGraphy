@@ -89,136 +89,44 @@ var cy = cytoscape({
 } as any);
 
 let layout: any;
+let lastLayout = "cose";
 
-document?.getElementById("reload")?.addEventListener("click", function () {
-  if (!layout) {
-    layout = cy.layout({
-      name: "cose",
-      animate: "end",
-      animationEasing: "ease-out",
-      animationDuration: 1000,
-    } as any);
-  }
-  layout.stop();
-  layout.run();
+const buttonNames = [
+  "reload",
+  "cose",
+  "fcose",
+  "cose-bilkent",
+  "cola",
+  "grid",
+  "random",
+  "circle",
+  "concentric",
+  "breadthfirst",
+];
+
+buttonNames.forEach((buttonName) => {
+  document
+    ?.getElementById(buttonName + "-button")
+    ?.addEventListener("click", function () {
+      if (layout) {
+        layout.stop();
+      }
+
+      setLayout(buttonName);
+
+      layout.run();
+    });
 });
 
-document?.getElementById("cose-button")?.addEventListener("click", function () {
+const setLayout = (layoutName: string) => {
   layout = cy.layout({
-    name: "cose",
+    name: layoutName === "reload" ? lastLayout : layoutName,
     animate: "end",
     animationEasing: "ease-out",
     animationDuration: 1000,
-  } as any);
-
-  layout.stop();
-  layout.run();
-});
-
-document
-  ?.getElementById("fcose-button")
-  ?.addEventListener("click", function () {
-    layout = cy.layout({
-      name: "fcose",
-      animationEasing: "ease-out",
-      animationDuration: 1000,
-      randomize: false,
-    } as any);
-
-    layout.stop();
-    layout.run();
-  });
-
-document
-  ?.getElementById("cose-bilkent-button")
-  ?.addEventListener("click", function () {
-    layout = cy.layout({
-      name: "cose-bilkent",
-      animationEasing: "ease-out",
-      animationDuration: 1000,
-    } as any);
-
-    layout.stop();
-    layout.run();
-  });
-
-document?.getElementById("cola-button")?.addEventListener("click", function () {
-  layout = cy.layout({
-    name: "cola",
+    randomize: false,
     infinite: true,
-    animate: true,
-    animationEasing: "ease-out",
-    animationDuration: 1000,
   } as any);
 
-  layout.stop();
-  layout.run();
-});
-
-document?.getElementById("grid-button")?.addEventListener("click", function () {
-  layout = cy.layout({
-    name: "grid",
-    animate: true,
-    animationEasing: "ease-out",
-    animationDuration: 1000,
-  });
-
-  layout.stop();
-  layout.run();
-});
-
-document
-  ?.getElementById("random-button")
-  ?.addEventListener("click", function () {
-    layout = cy.layout({
-      name: "random",
-      animate: true,
-      animationEasing: "ease-out",
-      animationDuration: 1000,
-    });
-
-    layout.stop();
-    layout.run();
-  });
-
-document
-  ?.getElementById("circle-button")
-  ?.addEventListener("click", function () {
-    layout = cy.layout({
-      name: "circle",
-      animate: true,
-      animationEasing: "ease-out",
-      animationDuration: 1000,
-    });
-
-    layout.stop();
-    layout.run();
-  });
-
-document
-  ?.getElementById("concentric-button")
-  ?.addEventListener("click", function () {
-    layout = cy.layout({
-      name: "concentric",
-      animate: true,
-      animationEasing: "ease-out",
-      animationDuration: 1000,
-    });
-
-    layout.stop();
-    layout.run();
-  });
-
-document
-  ?.getElementById("breadthfirst-button")
-  ?.addEventListener("click", function () {
-    layout = cy.layout({
-      name: "breadthfirst",
-      animate: true,
-      animationEasing: "ease-out",
-      animationDuration: 1000,
-    });
-
-    layout.stop();
-    layout.run();
-  });
+  lastLayout = layoutName === "reload" ? lastLayout : layoutName;
+};
