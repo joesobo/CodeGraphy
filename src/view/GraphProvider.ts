@@ -74,7 +74,7 @@ export class GraphProvider implements vscode.WebviewViewProvider {
       <body>
         <h1>CodeGraphy</h1>
         <p>Directory: /${currentDir}</p>
-        <div id="cy" style="height: ${size}px; width: ${size}px; background-color: #1e1e1e"></div>
+        <div id="cy"></div>
         <script>
             var connections = ${JSON.stringify(allConnections)}
             var files = ${JSON.stringify(files)}
@@ -83,15 +83,13 @@ export class GraphProvider implements vscode.WebviewViewProvider {
         <script type="module"
             src="${scriptUri}">
         </script>
-        <button id="reload-button" style="width: ${size}px;">Reload</button>
-        <div style="display: flex;">
+        <button id="reload-button">Reload</button>
+        <div style="display: flex; flex-wrap: wrap;">
             <button id="cose-button" style="margin-right: 8px;">Cose</button>
             <button id="fcose-button" style="margin-right: 8px;">FCose</button>
             <button id="cose-bilkent-button" style="margin-right: 8px;">Cose Bilkent</button>
             <button id="cola-button" style="margin-right: 8px;">Cola</button>
-        </div>
-
-        <div style="display: flex;">
+            
             <button id="grid-button" style="margin-right: 8px;">Grid</button>
             <button id="random-button" style="margin-right: 8px;">Random</button>
             <button id="circle-button" style="margin-right: 8px;">Circle</button>
