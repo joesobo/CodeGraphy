@@ -1,4 +1,5 @@
-import { processData } from "./dataProcessor.js";
+import { processData } from "./dataProcessor";
+import { setWindowSize } from "../utils/windowHelper";
 import cytoscape from "cytoscape";
 // @ts-ignore
 import coseBilkent from "../build/cytoscape-cose-bilkent";
@@ -21,6 +22,22 @@ let nodes = processData(nodeFiles, nodeConnections);
 // console.log(nodeFiles);
 // console.log(nodeConnections);
 // console.log(nodes);
+
+let layout: any;
+let lastLayout = "cose";
+
+const buttonNames = [
+  "reload",
+  "cose",
+  "fcose",
+  "cose-bilkent",
+  "cola",
+  "grid",
+  "random",
+  "circle",
+  "concentric",
+  "breadthfirst",
+];
 
 var cy = cytoscape({
   container: document.getElementById("cy"),
@@ -92,22 +109,6 @@ var cy = cytoscape({
   pixelRatio: "auto",
 } as any);
 
-let layout: any;
-let lastLayout = "cose";
-
-const buttonNames = [
-  "reload",
-  "cose",
-  "fcose",
-  "cose-bilkent",
-  "cola",
-  "grid",
-  "random",
-  "circle",
-  "concentric",
-  "breadthfirst",
-];
-
 buttonNames.forEach((buttonName) => {
   document
     ?.getElementById(buttonName + "-button")
@@ -123,6 +124,12 @@ buttonNames.forEach((buttonName) => {
 });
 
 const setLayout = (layoutName: string) => {
+  if (layoutName === "reload") {
+    setWindowSize();
+  } else {
+    lastLayout = layoutName;
+  }
+
   layout = cy.layout({
     name: layoutName === "reload" ? lastLayout : layoutName,
     animate: "end",
@@ -131,19 +138,6 @@ const setLayout = (layoutName: string) => {
     randomize: false,
     infinite: true,
   } as any);
-
-  lastLayout = layoutName === "reload" ? lastLayout : layoutName;
 };
 
-const size = document.body.clientWidth - 32;
-
-document
-  .getElementById("cy")
-  ?.setAttribute(
-    "style",
-    `height: ${size}px; width: ${size}px; background-color: #1e1e1e;`
-  );
-
-document
-  .getElementById("reload-button")
-  ?.setAttribute("style", `width: ${size}px;`);
+setWindowSize();
