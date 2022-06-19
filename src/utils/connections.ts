@@ -17,6 +17,7 @@ export type Connection = {
 export type Connections = Connection[];
 
 export const findConnections = async (
+  files: string[],
   file: string,
   currentPath: string,
   currentDir: string
@@ -33,19 +34,22 @@ export const findConnections = async (
   for await (const line of lineReader) {
     const lineArr = line.split(" ");
     const temp = lineArr[lineArr.length - 1].split("/");
-    const last = temp[temp.length - 1]
-      .replace(";", "")
-      .replace('"', "")
-      .replace("'", "");
+    const last = removeWhiteListExtension(
+      temp[temp.length - 1]
+        .replace(";", "")
+        .replace('"', "")
+        .replace("'", "")
+        .replace('"', "")
+    );
 
-    if (containsWhiteListExtension(last)) {
-      if (line.startsWith("import") && line.includes("from")) {
+    if (line.startsWith("import") && line.includes("from")) {
+      if (edgeNodeExists(files, last)) {
         connections.push({
           group: "edges",
           data: {
-            id: start + "-" + removeWhiteListExtension(last),
+            id: start + "-" + last,
             source: start,
-            target: removeWhiteListExtension(last),
+            target: last,
           },
         });
       }
@@ -55,6 +59,20 @@ export const findConnections = async (
   return connections;
 };
 
+const edgeNodeExists = (files: string[], edgeNode: string) => {
+  return files.some((file) => {
+    const extensionlessFile = file.split("/");
+    const directFileName = removeWhiteListExtension(
+      extensionlessFile[extensionlessFile.length - 1]
+    );
+
+    if (directFileName === edgeNode) {
+      return true;
+    }
+    return false;
+  });
+};
+
 export const getConnections = async (
   files: string[],
   currentPath: string,
@@ -62,7 +80,7 @@ export const getConnections = async (
 ) => {
   let connections = [];
   for (const file of files) {
-    const result = await findConnections(file, currentPath, currentDir);
+    const result = await findConnections(files, file, currentPath, currentDir);
     if (result.length > 0) {
       connections.push(result);
     }

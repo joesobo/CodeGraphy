@@ -18,6 +18,10 @@ const nodeConnections = connections;
 
 let nodes = processData(nodeFiles, nodeConnections);
 
+// console.log(nodeFiles);
+// console.log(nodeConnections);
+// console.log(nodes);
+
 var cy = cytoscape({
   container: document.getElementById("cy"),
   elements: nodes,
