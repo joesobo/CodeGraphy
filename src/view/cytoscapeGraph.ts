@@ -12,6 +12,7 @@ cytoscape.use(coseBilkent);
 cytoscape.use(fcose);
 cytoscape.use(cola);
 
+// IMPORTS
 // @ts-ignore
 const nodeFiles = files;
 // @ts-ignore
@@ -19,10 +20,11 @@ const nodeConnections = connections;
 
 let nodes = processData(nodeFiles, nodeConnections);
 
-// console.log(nodeFiles);
-// console.log(nodeConnections);
-// console.log(nodes);
+console.log(nodeFiles);
+console.log(nodeConnections);
+console.log(nodes);
 
+// SETUP
 let layout: any;
 let lastLayout = "cose";
 
@@ -39,6 +41,7 @@ const buttonNames = [
   "breadthfirst",
 ];
 
+// CYTOSCAPE SETUP
 var cy = cytoscape({
   container: document.getElementById("cy"),
   elements: nodes,
@@ -109,6 +112,7 @@ var cy = cytoscape({
   pixelRatio: "auto",
 } as any);
 
+// BUTTON EVENT LISTENERS
 buttonNames.forEach((buttonName) => {
   document
     ?.getElementById(buttonName + "-button")
@@ -123,6 +127,7 @@ buttonNames.forEach((buttonName) => {
     });
 });
 
+// LAYOUT SETUP
 const setLayout = (layoutName: string) => {
   if (layoutName === "reload") {
     setWindowSize();
@@ -140,4 +145,9 @@ const setLayout = (layoutName: string) => {
   } as any);
 };
 
+// WINDOW SIZE SETUP
 setWindowSize();
+
+cy.on("click", "node", function (evt) {
+  console.log(cy.$(evt.target).id());
+});

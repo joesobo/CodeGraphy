@@ -50,7 +50,6 @@ export class GraphProvider implements vscode.WebviewViewProvider {
       currentPath,
       currentDir
     );
-    const size = 500;
 
     return `
     <!DOCTYPE html>
@@ -69,7 +68,7 @@ export class GraphProvider implements vscode.WebviewViewProvider {
             border: none;
             cursor: pointer;
         }
-    </style>
+      </style>
 
       <body>
         <h1>CodeGraphy</h1>
