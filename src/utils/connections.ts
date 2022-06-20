@@ -9,8 +9,8 @@ export type Connection = {
   group: string;
   data: {
     id: string;
-    source: string;
-    target: string;
+    source: number;
+    target: number;
   };
 };
 
@@ -18,15 +18,11 @@ export type Connections = Connection[];
 
 export const findConnections = async (
   files: string[],
-  file: string,
-  currentPath: string,
-  currentDir: string
+  startIndex: number
 ): Promise<Connections> => {
   let connections: Connection[] = [];
-  const removeDir = currentPath.replace(currentDir, "").substring(1);
-  const startConnection = file.replace(/\\/g, "/").replace(removeDir, "");
-  const startTemp = startConnection.split("/");
-  const start = removeWhiteListExtension(startTemp[startTemp.length - 1]);
+
+  const file = files[startIndex];
   const lineReader = readline.createInterface({
     input: fs.createReadStream(file),
   });
@@ -43,13 +39,14 @@ export const findConnections = async (
     );
 
     if (line.startsWith("import") && line.includes("from")) {
-      if (edgeNodeExists(files, last)) {
+      const lastIndex = indexOfNode(files, last);
+      if (lastIndex != -1) {
         connections.push({
           group: "edges",
           data: {
-            id: start + "-" + last,
-            source: start,
-            target: last,
+            id: startIndex + "-" + lastIndex,
+            source: startIndex,
+            target: lastIndex,
           },
         });
       }
@@ -59,28 +56,26 @@ export const findConnections = async (
   return connections;
 };
 
-const edgeNodeExists = (files: string[], edgeNode: string) => {
-  return files.some((file) => {
+const indexOfNode = (files: string[], edgeNode: string) => {
+  for (let index = 0; index < files.length; index++) {
+    const file = files[index];
     const extensionlessFile = file.split("/");
     const directFileName = removeWhiteListExtension(
       extensionlessFile[extensionlessFile.length - 1]
     );
 
     if (directFileName === edgeNode) {
-      return true;
+      return index;
     }
-    return false;
-  });
+  }
+
+  return -1;
 };
 
-export const getConnections = async (
-  files: string[],
-  currentPath: string,
-  currentDir: string
-) => {
+export const getConnections = async (files: string[]) => {
   let connections = [];
-  for (const file of files) {
-    const result = await findConnections(files, file, currentPath, currentDir);
+  for (let index = 0; index < files.length; index++) {
+    const result = await findConnections(files, index);
     if (result.length > 0) {
       connections.push(result);
     }

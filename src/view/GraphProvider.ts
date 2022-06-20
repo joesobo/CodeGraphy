@@ -45,11 +45,7 @@ export class GraphProvider implements vscode.WebviewViewProvider {
         "compiled/cytoscapeGraph.js"
       )
     );
-    const allConnections: Connections[] = await getConnections(
-      files,
-      currentPath,
-      currentDir
-    );
+    const allConnections: Connections[] = await getConnections(files);
 
     return `
     <!DOCTYPE html>
@@ -77,7 +73,6 @@ export class GraphProvider implements vscode.WebviewViewProvider {
         <script>
             var connections = ${JSON.stringify(allConnections)}
             var files = ${JSON.stringify(files)}
-            var path = ${JSON.stringify(currentPath)}
         </script>
         <script type="module"
             src="${scriptUri}">

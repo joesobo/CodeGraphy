@@ -1,6 +1,7 @@
 import { processData } from "./dataProcessor";
 import { setWindowSize } from "../utils/windowHelper";
 import cytoscape from "cytoscape";
+
 // @ts-ignore
 import coseBilkent from "../build/cytoscape-cose-bilkent";
 // @ts-ignore
@@ -149,5 +150,12 @@ const setLayout = (layoutName: string) => {
 setWindowSize();
 
 cy.on("click", "node", function (evt) {
-  console.log(cy.$(evt.target).id());
+  const id = evt.target.id();
+  console.log(nodes[id].data);
+
+  // Test opening a file
+  // var openPath = vscode.Uri.parse("file:///" + path); //A request file path
+  // vscode.workspace.openTextDocument(openPath).then((doc) => {
+  //   vscode.window.showTextDocument(doc);
+  // });
 });
