@@ -7,8 +7,4 @@ export const setWindowSize = () => {
       "style",
       `height: ${size}px; width: ${size}px; background-color: #1e1e1e;`
     );
-
-  document
-    .getElementById("reload-button")
-    ?.setAttribute("style", `width: ${size}px;`);
 };

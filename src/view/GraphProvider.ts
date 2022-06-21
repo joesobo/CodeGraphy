@@ -47,6 +47,18 @@ export class GraphProvider implements vscode.WebviewViewProvider {
     );
     const allConnections: Connections[] = await getConnections(files);
 
+    // Handle messages from the webview
+    webview.onDidReceiveMessage((message) => {
+      switch (message.command) {
+        case "openFile":
+          const openPath = vscode.Uri.file(message.text);
+          vscode.workspace.openTextDocument(openPath).then((doc) => {
+            vscode.window.showTextDocument(doc);
+          });
+          return;
+      }
+    });
+
     return `
     <!DOCTYPE html>
     <html lang="en">
@@ -57,12 +69,12 @@ export class GraphProvider implements vscode.WebviewViewProvider {
 
       <style>
         button {
-            padding: 8px 16px;
-            margin-top: 8px;
-            background-color: #1177bb;
-            color: white;
-            border: none;
-            cursor: pointer;
+          padding: 8px 16px;
+          margin-top: 8px;
+          background-color: #1177bb;
+          color: white;
+          border: none;
+          cursor: pointer;
         }
       </style>
 
@@ -71,24 +83,33 @@ export class GraphProvider implements vscode.WebviewViewProvider {
         <p>Directory: /${currentDir}</p>
         <div id="cy"></div>
         <script>
-            var connections = ${JSON.stringify(allConnections)}
-            var files = ${JSON.stringify(files)}
+          var connections = ${JSON.stringify(allConnections)}
+          var files = ${JSON.stringify(files)}
         </script>
         <script type="module"
-            src="${scriptUri}">
+          src="${scriptUri}">
         </script>
-        <button id="reload-button">Reload</button>
+        <script>
+          const vscode = acquireVsCodeApi();
+          var openFile = (test) => {
+            vscode.postMessage({
+              command: 'openFile',
+              text: test,
+            })
+          }
+        </script>
+        <button id="reload-button" style="width: 100%">Reload</button>
         <div style="display: flex; flex-wrap: wrap;">
-            <button id="cose-button" style="margin-right: 8px;">Cose</button>
-            <button id="fcose-button" style="margin-right: 8px;">FCose</button>
-            <button id="cose-bilkent-button" style="margin-right: 8px;">Cose Bilkent</button>
-            <button id="cola-button" style="margin-right: 8px;">Cola</button>
-            
-            <button id="grid-button" style="margin-right: 8px;">Grid</button>
-            <button id="random-button" style="margin-right: 8px;">Random</button>
-            <button id="circle-button" style="margin-right: 8px;">Circle</button>
-            <button id="concentric-button" style="margin-right: 8px;">Concentric</button>
-            <button id="breadthfirst-button" style="margin-right: 8px;">Breadthfirst</button>
+          <button id="cose-button" style="margin-right: 8px;">Cose</button>
+          <button id="fcose-button" style="margin-right: 8px;">FCose</button>
+          <button id="cose-bilkent-button" style="margin-right: 8px;">Cose Bilkent</button>
+          <button id="cola-button" style="margin-right: 8px;">Cola</button>
+          
+          <button id="grid-button" style="margin-right: 8px;">Grid</button>
+          <button id="random-button" style="margin-right: 8px;">Random</button>
+          <button id="circle-button" style="margin-right: 8px;">Circle</button>
+          <button id="concentric-button" style="margin-right: 8px;">Concentric</button>
+          <button id="breadthfirst-button" style="margin-right: 8px;">Breadthfirst</button>
         </div>
       </body>
     </html>`;

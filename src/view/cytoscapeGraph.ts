@@ -153,9 +153,8 @@ cy.on("click", "node", function (evt) {
   const id = evt.target.id();
   console.log(nodes[id].data);
 
-  // Test opening a file
-  // var openPath = vscode.Uri.parse("file:///" + path); //A request file path
-  // vscode.workspace.openTextDocument(openPath).then((doc) => {
-  //   vscode.window.showTextDocument(doc);
-  // });
+  const path = nodes[id].data.fullPath;
+
+  // @ts-ignore
+  openFile(path);
 });
