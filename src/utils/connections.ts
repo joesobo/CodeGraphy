@@ -1,9 +1,6 @@
 import readline from "readline";
 import fs from "fs";
-import {
-  containsWhiteListExtension,
-  removeWhiteListExtension,
-} from "./whitelistHelper";
+import { removeWhiteListExtension } from "./whitelistHelper";
 
 export type Connection = {
   group: string;
@@ -16,30 +13,68 @@ export type Connection = {
 
 export type Connections = Connection[];
 
-export const findConnections = async (
+const findConnections = async (
   files: string[],
-  startIndex: number
+  startIndex: number,
+  currentPath: string
 ): Promise<Connections> => {
   let connections: Connection[] = [];
 
-  const file = files[startIndex];
   const lineReader = readline.createInterface({
-    input: fs.createReadStream(file),
+    input: fs.createReadStream(files[startIndex]),
   });
+  const sanitizedFiles = sanitize(files);
+  const file = sanitizedFiles[startIndex];
 
   for await (const line of lineReader) {
-    const lineArr = line.split(" ");
-    const temp = lineArr[lineArr.length - 1].split("/");
-    const last = removeWhiteListExtension(
-      temp[temp.length - 1]
-        .replace(";", "")
-        .replace('"', "")
-        .replace("'", "")
-        .replace('"', "")
-    );
+    // if line starts with import
+    if (line.startsWith("import")) {
+      // split line up by spaces
+      const lineArr = line.split(" ");
+      // set import path = to whatever comes after `from`
+      const fromIndex = lineArr.findIndex((el) => el === "from");
+      let importPath = lineArr[fromIndex + 1].replace(";", "");
+      let lastIndex = -1;
 
-    if (line.startsWith("import") && line.includes("from")) {
-      const lastIndex = indexOfNode(files, last);
+      // check if root path
+      if (importPath.startsWith("'") || importPath.startsWith('"')) {
+        importPath = importPath
+          .replace('"', "")
+          .replace("'", "")
+          .replace('"', "");
+        let testPath = "";
+
+        // if a relative path, walk back from current path
+        if (importPath.startsWith(".")) {
+          const relativePathArr = importPath.split("/");
+          let tempPath = file.split("/");
+
+          if (importPath.startsWith("..")) {
+            tempPath = tempPath.slice(0, -1);
+          }
+
+          relativePathArr.forEach((element) => {
+            if (element === "." || element === "..") {
+              tempPath = tempPath.slice(0, -1);
+            } else {
+              tempPath.push(element);
+            }
+          });
+
+          testPath = tempPath.join("/");
+        }
+        // if a direct path, search root dir following path
+        else {
+          testPath = `${currentPath}/${importPath}`;
+        }
+
+        lastIndex = indexOfPath(sanitizedFiles, testPath);
+      }
+      // if just a name, look for file in files
+      else {
+        lastIndex = indexOfNode(sanitizedFiles, importPath.slice(-1));
+      }
+
       if (lastIndex != -1) {
         connections.push({
           group: "edges",
@@ -54,6 +89,16 @@ export const findConnections = async (
   }
 
   return connections;
+};
+
+const indexOfPath = (files: string[], testPath: string) => {
+  for (let index = 0; index < files.length; index++) {
+    if (files[index].includes(testPath)) {
+      return index;
+    }
+  }
+
+  return -1;
 };
 
 const indexOfNode = (files: string[], edgeNode: string) => {
@@ -72,10 +117,25 @@ const indexOfNode = (files: string[], edgeNode: string) => {
   return -1;
 };
 
-export const getConnections = async (files: string[]) => {
+const sanitize = (files: string[]): string[] => {
+  const santizedFiles: string[] = [];
+
+  files.forEach((file) => {
+    santizedFiles.push(
+      JSON.stringify(file)
+        .replace(";", "")
+        .replace(/\\\\/g, "/")
+        .replace("\\", "/")
+    );
+  });
+
+  return santizedFiles;
+};
+
+export const getConnections = async (files: string[], currentPath: string) => {
   let connections = [];
   for (let index = 0; index < files.length; index++) {
-    const result = await findConnections(files, index);
+    const result = await findConnections(files, index, currentPath);
     if (result.length > 0) {
       connections.push(result);
     }

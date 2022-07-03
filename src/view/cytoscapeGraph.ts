@@ -21,7 +21,7 @@ const nodeConnections = connections;
 
 let nodes = processData(nodeFiles, nodeConnections);
 
-console.log(nodeFiles);
+// console.log(nodeFiles);
 console.log(nodeConnections);
 console.log(nodes);
 

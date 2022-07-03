@@ -45,7 +45,10 @@ export class GraphProvider implements vscode.WebviewViewProvider {
         "compiled/cytoscapeGraph.js"
       )
     );
-    const allConnections: Connections[] = await getConnections(files);
+    const allConnections: Connections[] = await getConnections(
+      files,
+      currentPath
+    );
 
     // Handle messages from the webview
     webview.onDidReceiveMessage((message) => {
@@ -104,7 +107,7 @@ export class GraphProvider implements vscode.WebviewViewProvider {
           <button id="fcose-button" style="margin-right: 8px;">FCose</button>
           <button id="cose-bilkent-button" style="margin-right: 8px;">Cose Bilkent</button>
           <button id="cola-button" style="margin-right: 8px;">Cola</button>
-          
+
           <button id="grid-button" style="margin-right: 8px;">Grid</button>
           <button id="random-button" style="margin-right: 8px;">Random</button>
           <button id="circle-button" style="margin-right: 8px;">Circle</button>
