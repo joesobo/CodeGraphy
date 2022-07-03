@@ -1,6 +1,6 @@
-[![](https://vsmarketplacebadge.apphb.com/version-short/eamodio.gitlens.svg)](https://marketplace.visualstudio.com/items?itemName=eamodio.gitlens)
-[![](https://vsmarketplacebadge.apphb.com/downloads-short/eamodio.gitlens.svg)](https://marketplace.visualstudio.com/items?itemName=eamodio.gitlens)
-[![](https://vsmarketplacebadge.apphb.com/rating-short/eamodio.gitlens.svg)](https://marketplace.visualstudio.com/items?itemName=eamodio.gitlens)
+[![](https://vsmarketplacebadge.apphb.com/version-short/codegraphy.codegraphy.svg)](https://marketplace.visualstudio.com/items?itemName=codegraphy.codegraphy)
+[![](https://vsmarketplacebadge.apphb.com/downloads-short/codegraphy.codegraphy.svg)](https://marketplace.visualstudio.com/items?itemName=codegraphy.codegraphy)
+[![](https://vsmarketplacebadge.apphb.com/rating-short/codegraphy.codegraphy.svg)](https://marketplace.visualstudio.com/items?itemName=codegraphy.codegraphy)
 
 # CodeGraphy
 <p align="center">
@@ -11,13 +11,13 @@
 
 # CodeGraphy
 
-[CodeGraphy](https://gitlens.amod.io 'Learn more about CodeGraphy') is an [open-source](https://github.com/gitkraken/vscode-gitlens 'Open CodeGraphy on GitHub') extension for [Visual Studio Code](https://code.visualstudio.com).
+CodeGraphy is an [open-source](https://github.com/joesobo/CodeGraphy 'Open CodeGraphy on GitHub') extension for [Visual Studio Code](https://code.visualstudio.com).
 
 Simply CodeGraphy helps you **better understand file connections**. With its force-based grpah you can get a completely different view of the architecture of your codebase and make quick informed decisions about where your code is "knotted" in the graph.
 
 ## Install CodeGraphy
 
-Install CodeGraphy for [VSCode](https://marketplace.visualstudio.com/items?itemName=CodeStream.codestream)
+Install CodeGraphy for [VSCode](https://marketplace.visualstudio.com/items?itemName=codegraphy.codegraphy)
 
 ## Features
 
