@@ -6,10 +6,37 @@
   "engines": {
     "vscode": "^1.67.0"
   },
+  "author": {
+    "name": "Joe Soboleski",
+    "email": "soboleskijoe@gmail.com"
+  },
+  "homepage": "https://github.com/joesobo/CodeGraphy",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/joesobo/CodeGraphy.git"
+  },
   "categories": [
+    "Visualization",
     "Other"
   ],
+  "galleryBanner": {
+    "color": "#023859",
+    "theme": "dark"
+  },
+  "keywords": [
+    "code",
+    "graph",
+    "codegraphy",
+    "codegraph",
+    "graphy",
+    "connection",
+    "physics",
+    "node",
+    "js",
+    "ts"
+  ],
   "main": "./dist/extension.js",
+  "icon": "img/graph.png",
   "scripts": {
     "vscode:prepublish": "yarn run package",
     "compile": "concurrently \"rollup -c\" \"webpack\"",
