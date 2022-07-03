@@ -83,7 +83,6 @@ export class GraphProvider implements vscode.WebviewViewProvider {
 
       <body>
         <h1>CodeGraphy</h1>
-        <p>Directory: /${currentDir}</p>
         <div id="cy"></div>
         <script>
           var connections = ${JSON.stringify(allConnections)}

@@ -22,8 +22,8 @@ const nodeConnections = connections;
 let nodes = processData(nodeFiles, nodeConnections);
 
 // console.log(nodeFiles);
-console.log(nodeConnections);
-console.log(nodes);
+// console.log(nodeConnections);
+// console.log(nodes);
 
 // SETUP
 let layout: any;
@@ -151,7 +151,7 @@ setWindowSize();
 
 cy.on("click", "node", function (evt) {
   const id = evt.target.id();
-  console.log(nodes[id].data);
+  //   console.log(nodes[id].data);
 
   const path = nodes[id].data.fullPath;
 
