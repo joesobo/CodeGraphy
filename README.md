@@ -42,7 +42,7 @@ This extension is still a work in progress. It is subject to major changes still
 - Does not include custom relative pathing
 
 ## Contributing
-Contributions are always welcome for CodeGraphy! Please make sure to read the [Contributing Guide](https://github.com/vuejs/vue/blob/dev/.github/CONTRIBUTING.md) before making a pull request.
+Contributions are always welcome for CodeGraphy! Please make sure to read the [Contributing Guide](https://github.com/joesobo/CodeGraphy/blob/main/.github/CONTRIBUTING.md) before making a pull request.
 
 ## License
 
