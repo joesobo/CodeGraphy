@@ -44,8 +44,7 @@
     "compile": "concurrently \"rollup -c\" \"webpack\"",
     "watch": "concurrently \"rollup -c -w\" \"webpack --watch\"",
     "package": "webpack --mode production --devtool hidden-source-map",
-    "lint": "eslint src --ext ts",
-    "test": "node ./out/test/runTest.js"
+    "lint": "eslint src --ext ts"
   },
   "activationEvents": [
     "onView:code-graphy-sidebar",
