@@ -5,9 +5,6 @@ import { getConnections, Connections } from "../utils/connections";
 const currentPath = vscode.workspace.workspaceFolders
   ? vscode.workspace.workspaceFolders[0].uri.path.substring(1)
   : "";
-const currentDir = vscode.workspace.workspaceFolders
-  ? vscode.workspace.workspaceFolders[0].name
-  : "";
 const files: string[] = dirIt(currentPath);
 
 export class GraphProvider implements vscode.WebviewViewProvider {
@@ -84,35 +81,43 @@ export class GraphProvider implements vscode.WebviewViewProvider {
       <body>
         <h1>CodeGraphy</h1>
         <div id="cy"></div>
+
         <script>
+          // Connection and file data transfer
           var connections = ${JSON.stringify(allConnections)}
           var files = ${JSON.stringify(files)}
         </script>
+
         <script type="module"
+          // Running Cytoscape Graph
           src="${scriptUri}">
         </script>
+
         <script>
+          // Ability to open file on click
           const vscode = acquireVsCodeApi();
-          var openFile = (test) => {
+          var openFile = (file) => {
             vscode.postMessage({
               command: 'openFile',
-              text: test,
+              text: file,
             })
           }
         </script>
-        <button id="reload-button" style="width: 100%">Reload</button>
-        <div style="display: flex; flex-wrap: wrap;">
-          <button id="cose-button" style="margin-right: 8px;">Cose</button>
-          <button id="fcose-button" style="margin-right: 8px;">FCose</button>
-          <button id="cose-bilkent-button" style="margin-right: 8px;">Cose Bilkent</button>
-          <button id="cola-button" style="margin-right: 8px;">Cola</button>
 
-          <button id="grid-button" style="margin-right: 8px;">Grid</button>
-          <button id="random-button" style="margin-right: 8px;">Random</button>
-          <button id="circle-button" style="margin-right: 8px;">Circle</button>
-          <button id="concentric-button" style="margin-right: 8px;">Concentric</button>
-          <button id="breadthfirst-button" style="margin-right: 8px;">Breadthfirst</button>
-        </div>
+        <button id="reload" style="width: 100%; margin-bottom: 8px">Reload</button>
+
+        <label>Sorting:</label>
+        <select onchange="changeSorting()" id="sorting-options">
+            <option value="cose" selected>Cose</option>
+            <option value="fcose">FCose</option>
+            <option value="cose-bilkent">Cose Bilkent</option>
+            <option value="cola">Cola</option>
+            <option value="grid">Grid</option>
+            <option value="random">Random</option>
+            <option value="circle">Circle</option>
+            <option value="concentric">Concentric</option>
+            <option value="breadthfirst">Breadthfirst</option>
+        </select>
       </body>
     </html>`;
   }

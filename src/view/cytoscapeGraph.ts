@@ -21,26 +21,9 @@ const nodeConnections = connections;
 
 let nodes = processData(nodeFiles, nodeConnections);
 
-// console.log(nodeFiles);
-// console.log(nodeConnections);
-// console.log(nodes);
-
 // SETUP
 let layout: any;
 let lastLayout = "cose";
-
-const buttonNames = [
-  "reload",
-  "cose",
-  "fcose",
-  "cose-bilkent",
-  "cola",
-  "grid",
-  "random",
-  "circle",
-  "concentric",
-  "breadthfirst",
-];
 
 // CYTOSCAPE SETUP
 var cy = cytoscape({
@@ -113,21 +96,6 @@ var cy = cytoscape({
   pixelRatio: "auto",
 } as any);
 
-// BUTTON EVENT LISTENERS
-buttonNames.forEach((buttonName) => {
-  document
-    ?.getElementById(buttonName + "-button")
-    ?.addEventListener("click", function () {
-      if (layout) {
-        layout.stop();
-      }
-
-      setLayout(buttonName);
-
-      layout.run();
-    });
-});
-
 // LAYOUT SETUP
 const setLayout = (layoutName: string) => {
   if (layoutName === "reload") {
@@ -146,6 +114,20 @@ const setLayout = (layoutName: string) => {
   } as any);
 };
 
+// BUTTON EVENT LISTENERS
+const select = document.getElementById("sorting-options") as HTMLSelectElement;
+let sortingOption = select.options[select.selectedIndex].value;
+
+select.onchange = () => {
+  sortingOption = select.options[select.selectedIndex].value;
+  reload(sortingOption);
+};
+
+// RELOAD EVENT LISTENERS
+document?.getElementById("reload")?.addEventListener("click", function () {
+  reload(sortingOption);
+});
+
 // WINDOW SIZE SETUP
 setWindowSize();
 
@@ -158,3 +140,13 @@ cy.on("click", "node", function (evt) {
   // @ts-ignore
   openFile(path);
 });
+
+const reload = (layoutOption: string) => {
+  if (layout) {
+    layout.stop();
+  }
+
+  setLayout(layoutOption);
+
+  layout.run();
+};
