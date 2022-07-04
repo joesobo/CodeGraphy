@@ -1,15 +1,16 @@
-[![](https://vsmarketplacebadge.apphb.com/version-short/codegraphy.codegraphy.svg)](https://marketplace.visualstudio.com/items?itemName=codegraphy.codegraphy)
-[![](https://vsmarketplacebadge.apphb.com/downloads-short/codegraphy.codegraphy.svg)](https://marketplace.visualstudio.com/items?itemName=codegraphy.codegraphy)
-[![](https://vsmarketplacebadge.apphb.com/rating-short/codegraphy.codegraphy.svg)](https://marketplace.visualstudio.com/items?itemName=codegraphy.codegraphy)
-
-# CodeGraphy
 <p align="center">
   <img src="https://user-images.githubusercontent.com/26047842/177056994-e6be0cd0-6e18-40c1-a254-ae847c62ffaf.png" />
+ </p> 
+ 
+ <p align="center">
+  <a href="https://marketplace.visualstudio.com/items?itemName=codegraphy.codegraphy"><img src="https://vsmarketplacebadge.apphb.com/version-short/codegraphy.codegraphy.svg" alt="Marketplace"></a>
+  <a href="https://marketplace.visualstudio.com/items?itemName=codegraphy.codegraphy"><img src="https://vsmarketplacebadge.apphb.com/downloads-short/codegraphy.codegraphy.svg" alt="Marketplace"></a>
+  <a href="https://marketplace.visualstudio.com/items?itemName=codegraphy.codegraphy"><img src="https://vsmarketplacebadge.apphb.com/rating-short/codegraphy.codegraphy.svg" alt="Marketplace"></a>
 </p>
 
-> CodeGraphy **enhances** files connections inside VSCode and allows for **birds eye views** of each repository. It helps you to **visualize code hierarchy** at a glance, **seamlessly navigate and explore** your file hierarchy, **gain valuable insights** via a force based node graph UI, and so much more.
-
 # CodeGraphy
+
+> CodeGraphy **enhances** files connections inside VSCode and allows for **birds eye views** of each repository. It helps you to **visualize code hierarchy** at a glance, **seamlessly navigate and explore** your file hierarchy, **gain valuable insights** via a force based node graph UI, and so much more.
 
 CodeGraphy is an [open-source](https://github.com/joesobo/CodeGraphy 'Open CodeGraphy on GitHub') extension for [Visual Studio Code](https://code.visualstudio.com).
 
@@ -39,3 +40,12 @@ This extension is still a work in progress. It is subject to major changes still
 
 - Does not include `required` connections 
 - Does not include custom relative pathing
+
+## Contributing
+Contributions are always welcome for CodeGraphy! Please make sure to read the [Contributing Guide](https://github.com/vuejs/vue/blob/dev/.github/CONTRIBUTING.md) before making a pull request.
+
+## License
+
+[MIT](https://opensource.org/licenses/MIT)
+
+Copyright (c) 2022-present, Joe Soboleski
