@@ -1,6 +1,8 @@
 import { processData } from "./dataProcessor";
 import { setWindowSize } from "../utils/windowHelper";
 import cytoscape from "cytoscape";
+// @ts-ignore
+import cypopper from "cytoscape-popper";
 
 // @ts-ignore
 import coseBilkent from "../build/cytoscape-cose-bilkent";
@@ -9,9 +11,17 @@ import fcose from "../build/cytoscape-fcose";
 // @ts-ignore
 import cola from "../build/cytoscape-cola";
 
+cytoscape.use(cypopper);
 cytoscape.use(coseBilkent);
 cytoscape.use(fcose);
 cytoscape.use(cola);
+
+// @ts-ignore
+window.process = {
+  env: {
+    NODE_ENV: "development",
+  },
+};
 
 // IMPORTS
 // @ts-ignore
@@ -52,6 +62,7 @@ var cy = cytoscape({
       selector: "label",
       style: {
         color: "#d4d4d4",
+        fontSize: 12,
       },
     },
   ],
@@ -114,7 +125,7 @@ const setLayout = (layoutName: string) => {
   } as any);
 };
 
-// BUTTON EVENT LISTENERS
+// SELECT EVENT LISTENERS
 const select = document.getElementById("sorting-options") as HTMLSelectElement;
 let sortingOption = select.options[select.selectedIndex].value;
 
@@ -131,14 +142,54 @@ document?.getElementById("reload")?.addEventListener("click", function () {
 // WINDOW SIZE SETUP
 setWindowSize();
 
-cy.on("click", "node", function (evt) {
-  const id = evt.target.id();
-  //   console.log(nodes[id].data);
+// CLICK NODE EVENT
+cy.on("click", "node", function (event) {
+  const id = event.target.id();
 
   const path = nodes[id].data.fullPath;
 
   // @ts-ignore
   openFile(path);
+});
+
+// HOVER EVENT LISTENERS
+let canUseHover = true;
+const hoverSwitch = document?.getElementById(
+  "hover-switch"
+) as HTMLInputElement;
+hoverSwitch.onchange = () => {
+  canUseHover = !canUseHover;
+};
+
+// HOVER NODE EVENT
+cy.on("mouseover", "node", function (event) {
+  if (canUseHover) {
+    event.target.popperRefObj = event.target.popper({
+      content: () => {
+        let content = document.createElement("div");
+
+        content.classList.add("popper-div");
+
+        const nodeData = event.target.data();
+
+        content.innerHTML = `
+        <h3>${nodeData.label}</h3>
+        <p>Id: ${nodeData.id}</p>
+        <p>Path: ${nodeData.fullPath}</p>
+      `;
+
+        document.body.appendChild(content);
+        return content;
+      },
+    });
+  }
+});
+
+cy.on("mouseout", "node", function (event) {
+  if (event.target.popper) {
+    event.target.popperRefObj.state.elements.popper.remove();
+    event.target.popperRefObj.destroy();
+  }
 });
 
 const reload = (layoutOption: string) => {

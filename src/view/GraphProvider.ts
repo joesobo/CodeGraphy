@@ -76,6 +76,84 @@ export class GraphProvider implements vscode.WebviewViewProvider {
           border: none;
           cursor: pointer;
         }
+
+        .popper-div {
+            position: relative;
+            background-color: #333;
+            color: #fff;
+            border-radius: 4px;
+            font-size: 14px;
+            line-height: 1.4;
+            outline: 0;
+            padding: 5px 9px;
+            max-width: 200px;
+            overflow-wrap: break-word;
+        }
+
+        /* The switch - the box around the slider */
+        .switch {
+            margin-top: 2px;
+            margin-left: 8px;
+            position: relative;
+            display: inline-block;
+            width: 30px;
+            height: 17px;
+        }
+
+        /* Hide default HTML checkbox */
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        /* The slider */
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            -webkit-transition: .4s;
+            transition: .4s;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 13px;
+            width: 13px;
+            left: 2px;
+            bottom: 2px;
+            background-color: white;
+            -webkit-transition: .4s;
+            transition: .4s;
+        }
+
+        input:checked + .slider {
+            background-color: #2196F3;
+        }
+
+        input:focus + .slider {
+            box-shadow: 0 0 1px #2196F3;
+        }
+
+        input:checked + .slider:before {
+            -webkit-transform: translateX(13px);
+            -ms-transform: translateX(13px);
+            transform: translateX(13px);
+        }
+
+        /* Rounded sliders */
+        .slider.round {
+            border-radius: 17px;
+        }
+
+        .slider.round:before {
+            border-radius: 50%;
+        }
       </style>
 
       <body>
@@ -106,18 +184,30 @@ export class GraphProvider implements vscode.WebviewViewProvider {
 
         <button id="reload" style="width: 100%; margin-bottom: 8px">Reload</button>
 
-        <label>Sorting:</label>
-        <select onchange="changeSorting()" id="sorting-options">
-            <option value="cose" selected>Cose</option>
-            <option value="fcose">FCose</option>
-            <option value="cose-bilkent">Cose Bilkent</option>
-            <option value="cola">Cola</option>
-            <option value="grid">Grid</option>
-            <option value="random">Random</option>
-            <option value="circle">Circle</option>
-            <option value="concentric">Concentric</option>
-            <option value="breadthfirst">Breadthfirst</option>
-        </select>
+        <div style="display: flex; flex-direction: column;">
+            <div>
+                <label>Sorting:</label>
+                <select id="sorting-options">
+                    <option value="cose" selected>Cose</option>
+                    <option value="fcose">FCose</option>
+                    <option value="cose-bilkent">Cose Bilkent</option>
+                    <option value="cola">Cola</option>
+                    <option value="grid">Grid</option>
+                    <option value="random">Random</option>
+                    <option value="circle">Circle</option>
+                    <option value="concentric">Concentric</option>
+                    <option value="breadthfirst">Breadthfirst</option>
+                </select>
+            </div>
+
+            <div style="margin-top: 8px; display: flex; align-items: center;">
+                <label>Hover:</label>
+                <label class="switch">
+                    <input type="checkbox" id="hover-switch" checked=true>
+                    <span class="slider round"></span>
+                </label>
+            </div>
+        </div>
       </body>
     </html>`;
   }

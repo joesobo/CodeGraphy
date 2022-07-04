@@ -103,10 +103,14 @@
     "webpack-cli": "^4.9.2"
   },
   "dependencies": {
+    "@popperjs/core": "^2.11.5",
     "cose-base": "^2.1.0",
     "cytoscape": "^3.21.1",
     "cytoscape-cola": "^2.5.1",
     "cytoscape-cose-bilkent": "^4.1.0",
-    "cytoscape-fcose": "^2.1.0"
+    "cytoscape-fcose": "^2.1.0",
+    "cytoscape-popper": "^2.0.0",
+    "cytoscape-qtip": "^2.8.0",
+    "jquery": "^3.6.0"
   }
 }
