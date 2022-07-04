@@ -1,9 +1,10 @@
+import cytoscape from "cytoscape";
 import { processData } from "./dataProcessor";
 import { setWindowSize } from "../utils/windowHelper";
-import cytoscape from "cytoscape";
+import { styles } from "../utils/cytoscapeStyles";
+
 // @ts-ignore
 import cypopper from "cytoscape-popper";
-
 // @ts-ignore
 import coseBilkent from "../build/cytoscape-cose-bilkent";
 // @ts-ignore
@@ -29,43 +30,18 @@ const nodeFiles = files;
 // @ts-ignore
 const nodeConnections = connections;
 
-let nodes = processData(nodeFiles, nodeConnections);
-
 // SETUP
+let nodes = processData(nodeFiles, nodeConnections);
 let layout: any;
 let lastLayout = "cose";
+let canUseLabels = true;
+let canUseHover = true;
 
 // CYTOSCAPE SETUP
 var cy = cytoscape({
   container: document.getElementById("cy"),
   elements: nodes,
-  style: [
-    {
-      selector: "node",
-      style: {
-        shape: "heptagon",
-        "background-color": "#4a4a4c",
-        label: "data(label)",
-      },
-    },
-    {
-      selector: "edge",
-      style: {
-        width: 2,
-        "line-color": "#d4d4d4",
-        "target-arrow-color": "#d4d4d4",
-        "target-arrow-shape": "triangle",
-        "curve-style": "bezier",
-      },
-    },
-    {
-      selector: "label",
-      style: {
-        color: "#d4d4d4",
-        fontSize: 12,
-      },
-    },
-  ],
+  style: styles(canUseLabels),
   layout: {
     name: "cose",
   },
@@ -125,15 +101,6 @@ const setLayout = (layoutName: string) => {
   } as any);
 };
 
-// SELECT EVENT LISTENERS
-const select = document.getElementById("sorting-options") as HTMLSelectElement;
-let sortingOption = select.options[select.selectedIndex].value;
-
-select.onchange = () => {
-  sortingOption = select.options[select.selectedIndex].value;
-  reload(sortingOption);
-};
-
 // RELOAD EVENT LISTENERS
 document?.getElementById("reload")?.addEventListener("click", function () {
   reload(sortingOption);
@@ -152,8 +119,24 @@ cy.on("click", "node", function (event) {
   openFile(path);
 });
 
+// SELECT EVENT LISTENERS
+const select = document.getElementById("sorting-options") as HTMLSelectElement;
+let sortingOption = select.options[select.selectedIndex].value;
+select.onchange = () => {
+  sortingOption = select.options[select.selectedIndex].value;
+  reload(sortingOption);
+};
+
+// LABEL EVENT LISTENERS
+const labelSwitch = document?.getElementById(
+  "label-switch"
+) as HTMLInputElement;
+labelSwitch.onchange = () => {
+  canUseLabels = !canUseLabels;
+  cy.style(styles(canUseLabels));
+};
+
 // HOVER EVENT LISTENERS
-let canUseHover = true;
 const hoverSwitch = document?.getElementById(
   "hover-switch"
 ) as HTMLInputElement;
@@ -186,7 +169,7 @@ cy.on("mouseover", "node", function (event) {
 });
 
 cy.on("mouseout", "node", function (event) {
-  if (event.target.popper) {
+  if (canUseHover && event.target.popper) {
     event.target.popperRefObj.state.elements.popper.remove();
     event.target.popperRefObj.destroy();
   }

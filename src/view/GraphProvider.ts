@@ -207,6 +207,14 @@ export class GraphProvider implements vscode.WebviewViewProvider {
                     <span class="slider round"></span>
                 </label>
             </div>
+
+            <div style="margin-top: 8px; display: flex; align-items: center;">
+                <label>Hide Labels:</label>
+                <label class="switch">
+                    <input type="checkbox" id="label-switch">
+                    <span class="slider round"></span>
+                </label>
+            </div>
         </div>
       </body>
     </html>`;
