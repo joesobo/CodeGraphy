@@ -1,7 +1,10 @@
 import cytoscape from "cytoscape";
-import { processData } from "./dataProcessor";
-import { setWindowSize } from "../utils/windowHelper";
-import { styles } from "../utils/cytoscapeStyles";
+import { processData } from "../utils/dataProcessor";
+import { styles, reload } from "../utils/cytoscapeHelper";
+import { runNodeHover } from "../utils/nodeHover";
+import { runNodeClick } from "../utils/nodeClick";
+import { canUseLabels, runNodeLabels } from "../utils/nodeLabels";
+import { sortingOption, runNodeSort } from "../utils/nodeSort";
 
 // @ts-ignore
 import cypopper from "cytoscape-popper";
@@ -17,14 +20,7 @@ cytoscape.use(coseBilkent);
 cytoscape.use(fcose);
 cytoscape.use(cola);
 
-// @ts-ignore
-window.process = {
-  env: {
-    NODE_ENV: "development",
-  },
-};
-
-// IMPORTS
+// EXTERNAL IMPORTS
 // @ts-ignore
 const nodeFiles = files;
 // @ts-ignore
@@ -32,10 +28,6 @@ const nodeConnections = connections;
 
 // SETUP
 let nodes = processData(nodeFiles, nodeConnections);
-let layout: any;
-let lastLayout = "cose";
-let canUseLabels = true;
-let canUseHover = true;
 
 // CYTOSCAPE SETUP
 var cy = cytoscape({
@@ -83,104 +75,12 @@ var cy = cytoscape({
   pixelRatio: "auto",
 } as any);
 
-// LAYOUT SETUP
-const setLayout = (layoutName: string) => {
-  if (layoutName === "reload") {
-    setWindowSize();
-  } else {
-    lastLayout = layoutName;
-  }
-
-  layout = cy.layout({
-    name: layoutName === "reload" ? lastLayout : layoutName,
-    animate: "end",
-    animationEasing: "ease-out",
-    animationDuration: 1000,
-    randomize: false,
-    infinite: true,
-  } as any);
-};
-
 // RELOAD EVENT LISTENERS
 document?.getElementById("reload")?.addEventListener("click", function () {
-  reload(sortingOption);
+  reload(cy, sortingOption);
 });
 
-// WINDOW SIZE SETUP
-setWindowSize();
-
-// CLICK NODE EVENT
-cy.on("click", "node", function (event) {
-  const id = event.target.id();
-
-  const path = nodes[id].data.fullPath;
-
-  // @ts-ignore
-  openFile(path);
-});
-
-// SELECT EVENT LISTENERS
-const select = document.getElementById("sorting-options") as HTMLSelectElement;
-let sortingOption = select.options[select.selectedIndex].value;
-select.onchange = () => {
-  sortingOption = select.options[select.selectedIndex].value;
-  reload(sortingOption);
-};
-
-// LABEL EVENT LISTENERS
-const labelSwitch = document?.getElementById(
-  "label-switch"
-) as HTMLInputElement;
-labelSwitch.onchange = () => {
-  canUseLabels = !canUseLabels;
-  cy.style(styles(canUseLabels));
-};
-
-// HOVER EVENT LISTENERS
-const hoverSwitch = document?.getElementById(
-  "hover-switch"
-) as HTMLInputElement;
-hoverSwitch.onchange = () => {
-  canUseHover = !canUseHover;
-};
-
-// HOVER NODE EVENT
-cy.on("mouseover", "node", function (event) {
-  if (canUseHover) {
-    event.target.popperRefObj = event.target.popper({
-      content: () => {
-        let content = document.createElement("div");
-
-        content.classList.add("popper-div");
-
-        const nodeData = event.target.data();
-
-        content.innerHTML = `
-        <h3>${nodeData.label}</h3>
-        <p>Id: ${nodeData.id}</p>
-        <p>Path: ${nodeData.fullPath}</p>
-      `;
-
-        document.body.appendChild(content);
-        return content;
-      },
-    });
-  }
-});
-
-cy.on("mouseout", "node", function (event) {
-  if (canUseHover && event.target.popper) {
-    event.target.popperRefObj.state.elements.popper.remove();
-    event.target.popperRefObj.destroy();
-  }
-});
-
-const reload = (layoutOption: string) => {
-  if (layout) {
-    layout.stop();
-  }
-
-  setLayout(layoutOption);
-
-  layout.run();
-};
+runNodeHover(cy);
+runNodeClick(cy);
+runNodeLabels(cy);
+runNodeSort(cy);
