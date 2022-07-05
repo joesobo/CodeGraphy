@@ -38,7 +38,7 @@ export const processData = (
             const nonSelectedFile = files[nonSelectedIndex];
             if (
               !tempFiles.includes(nonSelectedFile) &&
-              currentQueueElement.depth <= depth
+              currentQueueElement.depth < depth
             ) {
               // add file to temp files
               tempFiles.push(nonSelectedFile);
