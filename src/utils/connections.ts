@@ -11,13 +11,11 @@ export type Connection = {
   };
 };
 
-export type Connections = Connection[];
-
 const findConnections = async (
   files: string[],
   startIndex: number,
   currentPath: string
-): Promise<Connections> => {
+): Promise<Connection[]> => {
   let connections: Connection[] = [];
 
   const lineReader = readline.createInterface({

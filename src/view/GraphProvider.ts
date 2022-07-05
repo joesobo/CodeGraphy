@@ -1,10 +1,11 @@
 import * as vscode from "vscode";
 import { dirIt } from "../utils/dirIt";
-import { getConnections, Connections } from "../utils/connections";
+import { getConnections, Connection } from "../utils/connections";
 
 const currentPath = vscode.workspace.workspaceFolders
   ? vscode.workspace.workspaceFolders[0].uri.path.substring(1)
   : "";
+const currentFile = vscode.window.activeTextEditor?.document.fileName;
 const files: string[] = dirIt(currentPath);
 
 export class GraphProvider implements vscode.WebviewViewProvider {
@@ -42,7 +43,14 @@ export class GraphProvider implements vscode.WebviewViewProvider {
         "compiled/cytoscapeGraph.js"
       )
     );
-    const allConnections: Connections[] = await getConnections(
+    const relativeScriptUri = webview.asWebviewUri(
+      vscode.Uri.joinPath(
+        this._extensionUri,
+        "dist",
+        "compiled/cytoscapeRelativeGraph.js"
+      )
+    );
+    const allConnections: Connection[][] = await getConnections(
       files,
       currentPath
     );
@@ -158,17 +166,27 @@ export class GraphProvider implements vscode.WebviewViewProvider {
 
       <body>
         <h1>CodeGraphy</h1>
+        <h3>Full Graph</h3>
         <div id="cy"></div>
+
+        <h3>Local Graph</h3>
+        <div id="cy-relative"></div>
 
         <script>
           // Connection and file data transfer
           var connections = ${JSON.stringify(allConnections)}
           var files = ${JSON.stringify(files)}
+          var currentFile = ${JSON.stringify(currentFile)}
         </script>
 
         <script type="module"
           // Running Cytoscape Graph
           src="${scriptUri}">
+        </script>
+
+        <script type="module"
+          // Running Cytoscape Relative Graph
+          src="${relativeScriptUri}">
         </script>
 
         <script>
@@ -184,7 +202,7 @@ export class GraphProvider implements vscode.WebviewViewProvider {
 
         <button id="reload" style="width: 100%; margin-bottom: 8px">Reload</button>
 
-        <div style="display: flex; flex-direction: column;">
+        <div style="display: flex; flex-direction: column; margin-bottom: 8px;">
             <div>
                 <label>Sorting:</label>
                 <select id="sorting-options">
@@ -214,6 +232,11 @@ export class GraphProvider implements vscode.WebviewViewProvider {
                     <input type="checkbox" id="label-switch">
                     <span class="slider round"></span>
                 </label>
+            </div>
+
+            <div style="margin-top: 8px;">
+                <label>Local Depth:</label>
+                <input style="margin-left: 8px;" id="local-depth" value=1>
             </div>
         </div>
       </body>

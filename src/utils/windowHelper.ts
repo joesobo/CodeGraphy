@@ -7,4 +7,11 @@ export const setWindowSize = () => {
       "style",
       `height: ${size}px; width: ${size}px; background-color: #1e1e1e;`
     );
+
+  document
+    .getElementById("cy-relative")
+    ?.setAttribute(
+      "style",
+      `height: ${size}px; width: ${size}px; background-color: #1e1e1e;`
+    );
 };
