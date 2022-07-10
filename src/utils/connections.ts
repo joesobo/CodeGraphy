@@ -36,10 +36,7 @@ const findConnections = async (
 
       // check if root path
       if (importPath.startsWith("'") || importPath.startsWith('"')) {
-        importPath = importPath
-          .replace('"', "")
-          .replace("'", "")
-          .replace('"', "");
+        importPath = importPath.replace(/["']/g, "");
         let testPath = "";
 
         // if a relative path, walk back from current path
@@ -48,12 +45,12 @@ const findConnections = async (
           let tempPath = file.split("/");
 
           if (importPath.startsWith("..")) {
-            tempPath = tempPath.slice(0, -1);
+            tempPath.pop();
           }
 
           relativePathArr.forEach((element) => {
             if (element === "." || element === "..") {
-              tempPath = tempPath.slice(0, -1);
+              tempPath.pop();
             } else {
               tempPath.push(element);
             }
@@ -73,7 +70,7 @@ const findConnections = async (
         lastIndex = indexOfNode(sanitizedFiles, importPath.slice(-1));
       }
 
-      if (lastIndex != -1) {
+      if (lastIndex !== -1) {
         connections.push({
           group: "edges",
           data: {

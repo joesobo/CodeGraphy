@@ -29,6 +29,10 @@ const nodeConnections = connections;
 // SETUP
 let nodes = processData(nodeFiles, nodeConnections);
 
+// console.log(nodeFiles);
+// console.log(nodeConnections);
+// console.log(nodes);
+
 // CYTOSCAPE SETUP
 var cy = cytoscape({
   container: document.getElementById("cy"),

@@ -4,7 +4,10 @@ import {
   containsWhitelistDir,
   containsWhiteListExtension,
 } from "./whitelistHelper";
-import { containsBlacklistDir } from "./blacklistHelper";
+import {
+  containsBlacklistDir,
+  containsBlackListExtension,
+} from "./blacklistHelper";
 
 const files: string[] = [];
 const dirs: string[] = [];
@@ -20,7 +23,10 @@ export const dirIt = (directory: any) => {
 
       if (containsWhitelistDir(fullPath) && !containsBlacklistDir(fullPath)) {
         if (fs.statSync(fullPath).isFile()) {
-          if (containsWhiteListExtension(fullPath)) {
+          if (
+            containsWhiteListExtension(fullPath) &&
+            !containsBlackListExtension(fullPath)
+          ) {
             files.push(fullPath);
           }
         } else {

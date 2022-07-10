@@ -70,7 +70,6 @@ export const processData = (
   // push root nodes
   for (let index = 0; index < tempFiles.length; index++) {
     const file = tempFiles[index];
-    // console.log(file);
     if (containsWhiteListExtension(file)) {
       const filePath = file.replace(/\\/g, "/");
       const fileName = filePath.split("/").pop() || "";
@@ -91,9 +90,6 @@ export const processData = (
       nodes.push(connection);
     });
   });
-
-  //   console.log(tempFiles);
-  //   console.log(tempConnections);
-  //   console.log(nodes);
+  
   return nodes;
 };

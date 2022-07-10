@@ -5,7 +5,7 @@ export const removeWhiteListExtension = (input: string) => {
 
   whiteListExtensions.some((element) => {
     if (input.includes(element)) {
-      output = input.replace("." + element, "");
+      output = input.replace(element, "");
     }
   });
   return output;
@@ -13,7 +13,7 @@ export const removeWhiteListExtension = (input: string) => {
 
 export const containsWhiteListExtension = (input: string) => {
   return whiteListExtensions.some((element) => {
-    if (input.includes("." + element)) {
+    if (input.includes(element)) {
       return true;
     }
 
