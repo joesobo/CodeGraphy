@@ -5,7 +5,8 @@ import { getConnections, Connection } from "../utils/connections";
 const currentPath = vscode.workspace.workspaceFolders
   ? vscode.workspace.workspaceFolders[0].uri.path.substring(1)
   : "";
-const currentFile = vscode.window.activeTextEditor?.document.fileName;
+let currentFile = vscode.window.activeTextEditor?.document.fileName || '';
+currentFile = currentFile.startsWith('/') ? currentFile.substring(1) : currentFile;
 const files: string[] = dirIt(currentPath);
 
 export class GraphProvider implements vscode.WebviewViewProvider {

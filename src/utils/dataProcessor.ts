@@ -19,7 +19,7 @@ export const processData = (
 
     while (queue.length > 0) {
       const currentQueueElement = queue.shift();
-      const currentIndex = files.indexOf(currentQueueElement.file);
+      const currentIndex = findIndexInFiles(files, currentQueueElement.file);
 
       // search connections for input / output of current queue pop
       connections.forEach((connectionSet: any[]) => {
@@ -90,6 +90,17 @@ export const processData = (
       nodes.push(connection);
     });
   });
-  
+
   return nodes;
+};
+
+const findIndexInFiles = (files: string[], testElement: string) => {
+  for (let i = 0; i < files.length; i++) {
+    const file = files[i];
+    if (file.includes(testElement)) {
+      return i;
+    }
+  }
+
+  return -1;
 };
