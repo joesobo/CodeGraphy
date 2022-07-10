@@ -1,12 +1,17 @@
 export const whiteListExtensions = [".js", ".ts", ".json", ".vue"];
 export const blackListExtensions = [
-  ".spec.ts",
-  ".spec.js",
+  ".spec.",
   ".d.ts",
   ".config.js",
-  ".stories.ts",
-  ".map"
+  ".stories.",
+  ".map",
 ];
 
 export const whiteListDirs = [""];
-export const blackListDirs = ["node_modules", "dist", "static"];
+export const blackListDirs = [
+  "node_modules/",
+  "dist/",
+  "static/",
+  "coverage/",
+  "storybook-static/",
+];
