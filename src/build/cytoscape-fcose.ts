@@ -1,3 +1,5 @@
+// @ts-nocheck - external library for graph sorting (skipping typecheck)
+
 (function webpackUniversalModuleDefinition(root, factory) {
   if (typeof exports === "object" && typeof module === "object")
     module.exports = factory(require("cose-base"));
@@ -475,7 +477,8 @@
                 // in case there is no edge, but option gives a value to use
                 CoSEConstants.DEFAULT_EDGE_LENGTH =
                   FDLayoutConstants.DEFAULT_EDGE_LENGTH =
-                    options.idealEdgeLength; // in case there is no edge and we cannot get a value from option (because it's a function)
+                    options.idealEdgeLength;
+              // in case there is no edge and we cannot get a value from option (because it's a function)
               else
                 CoSEConstants.DEFAULT_EDGE_LENGTH =
                   FDLayoutConstants.DEFAULT_EDGE_LENGTH = 50;
