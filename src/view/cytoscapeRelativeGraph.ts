@@ -89,11 +89,11 @@ var cy = cytoscape({
 } as any);
 
 // RELOAD EVENT LISTENERS
-document?.getElementById("reload")?.addEventListener("click", function () {
-  reload(cy, sortingOption);
-});
+// document?.getElementById("reload")?.addEventListener("click", function () {
+//   reload(cy, sortingOption);
+// });
 
-runNodeHover(cy);
-runNodeClick(cy);
-runNodeLabels(cy);
-runNodeSort(cy);
+// runNodeHover(cy);
+// runNodeClick(cy);
+// runNodeLabels(cy);
+// runNodeSort(cy);
