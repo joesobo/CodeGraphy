@@ -9,11 +9,11 @@ import { sortingOption, runNodeSort } from "../utils/nodeSort";
 // @ts-ignore
 import cypopper from "cytoscape-popper";
 // @ts-ignore
-import coseBilkent from "../build/cytoscape-cose-bilkent";
+import coseBilkent from "cytoscape-cose-bilkent";
 // @ts-ignore
-import fcose from "../build/cytoscape-fcose";
+import fcose from "cytoscape-fcose";
 // @ts-ignore
-import cola from "../build/cytoscape-cola";
+import cola from "cytoscape-cola";
 
 cytoscape.use(cypopper);
 cytoscape.use(coseBilkent);
