@@ -5,8 +5,10 @@ import { getConnections, Connection } from "../utils/connections";
 const currentPath = vscode.workspace.workspaceFolders
   ? vscode.workspace.workspaceFolders[0].uri.path.substring(1)
   : "";
-let currentFile = vscode.window.activeTextEditor?.document.fileName || '';
-currentFile = currentFile.startsWith('/') ? currentFile.substring(1) : currentFile;
+let currentFile = vscode.window.activeTextEditor?.document.fileName || "";
+currentFile = currentFile.startsWith("/")
+  ? currentFile.substring(1)
+  : currentFile;
 const files: string[] = dirIt(currentPath);
 
 export class GraphProvider implements vscode.WebviewViewProvider {
@@ -50,6 +52,9 @@ export class GraphProvider implements vscode.WebviewViewProvider {
         "dist",
         "compiled/cytoscapeRelativeGraph.js"
       )
+    );
+    const testURI = webview.asWebviewUri(
+      vscode.Uri.joinPath(this._extensionUri, "dist", "compiled/index.es.js")
     );
     const allConnections: Connection[][] = await getConnections(
       files,
@@ -166,7 +171,16 @@ export class GraphProvider implements vscode.WebviewViewProvider {
       </style>
 
       <body>
+        <script src="https://unpkg.com/vue@3"></script>
         <h1>CodeGraphy</h1>
+
+        <div id="app"></div>
+
+        <script type="module"
+          // Vue
+          src="${testURI}">
+        </script>
+
         <h3>Full Graph</h3>
         <div id="cy"></div>
 
