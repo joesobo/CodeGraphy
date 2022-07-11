@@ -4,15 +4,12 @@
   <h3>Full Graph</h3>
   <div id="cy"></div>
 
-  <h3>Local Graph</h3>
-  <div id="cy-relative"></div>
-
   <button id="reload" style="width: 100%; margin-bottom: 8px">Reload</button>
 
   <div style="display: flex; flex-direction: column; margin-bottom: 8px">
     <div>
       <label>Sorting:</label>
-      <select id="sorting-options">
+      <select style="margin-left: 8px" id="sorting-options">
         <option value="cose" selected>Cose</option>
         <option value="fcose">FCose</option>
         <option value="cose-bilkent">Cose Bilkent</option>
@@ -50,6 +47,9 @@
         <span class="slider round"></span>
       </label>
     </div>
+
+    <h3 style="margin-top: 32px">Local Graph</h3>
+    <div id="cy-relative"></div>
 
     <div style="margin-top: 8px">
       <label>Local Depth:</label>

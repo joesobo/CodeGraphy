@@ -11,7 +11,5 @@ module.exports = defineConfig({
     },
     emptyOutDir: false,
     outDir: "dist/compiled",
-    cssCodeSplit: true,
-    rollupOptions: {},
   },
 });
