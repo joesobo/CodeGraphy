@@ -9,9 +9,9 @@ export const blackListExtensions = [
 
 export const whiteListDirs = [""];
 export const blackListDirs = [
-  "node_modules/",
-  "dist/",
-  "static/",
-  "coverage/",
-  "storybook-static/",
+  "node_modules",
+  "dist",
+  "static",
+  "coverage",
+  "storybook-static",
 ];
