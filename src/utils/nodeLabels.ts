@@ -1,6 +1,10 @@
 import { styles } from "./cytoscapeHelper";
 
-export let canUseLabels = true;
+const labelSwitch = document?.getElementById(
+  "label-switch"
+) as HTMLInputElement;
+
+export let canUseLabels = labelSwitch.checked;
 
 export const runNodeLabels = (cy: any) => {
   // LABEL EVENT LISTENERS

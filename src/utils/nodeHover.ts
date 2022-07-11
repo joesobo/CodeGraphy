@@ -1,13 +1,12 @@
 export const runNodeHover = (cy: any) => {
-  let canUseHover = true;
-
   // HOVER NODE LISTENER
   const hoverSwitch = document?.getElementById(
     "hover-switch"
   ) as HTMLInputElement;
 
+  let canUseHover = hoverSwitch.checked;
   hoverSwitch.onchange = () => {
-    canUseHover = !canUseHover;
+    canUseHover = hoverSwitch.checked;
   };
 
   // HOVER OVER NODE EVENT
