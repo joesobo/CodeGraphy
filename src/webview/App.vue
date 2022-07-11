@@ -41,7 +41,12 @@
     <div style="margin-top: 8px; display: flex; align-items: center">
       <label>Hide Labels:</label>
       <label class="switch">
-        <input type="checkbox" id="label-switch" />
+        <input
+          type="checkbox"
+          id="label-switch"
+          :checked="canUseLabels"
+          @click="toggleLabels()"
+        />
         <span class="slider round"></span>
       </label>
     </div>
@@ -55,8 +60,13 @@
 
 <script setup lang="ts">
 let canUseHover = true;
+let canUseLabels = true;
 
 const toggleHover = () => {
   canUseHover = !canUseHover;
+};
+
+const toggleLabels = () => {
+  canUseLabels = !canUseLabels;
 };
 </script>
