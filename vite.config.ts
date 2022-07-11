@@ -9,7 +9,7 @@ module.exports = defineConfig({
       formats: ["es", "cjs"],
       fileName: (format) => `index.${format}.js`,
     },
-    emptyOutDir: true,
+    emptyOutDir: false,
     outDir: "dist/compiled",
     cssCodeSplit: true,
     rollupOptions: {},
