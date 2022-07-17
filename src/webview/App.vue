@@ -1,10 +1,16 @@
 <template>
   <h1>CodeGraphy</h1>
+  <div id="cy" ref="cyElement"></div>
 
   <h3>Full Graph</h3>
-  <div id="cy"></div>
 
-  <button id="reload" style="width: 100%; margin-bottom: 8px">Reload</button>
+  <button
+    id="reload"
+    style="width: 100%; margin-bottom: 8px"
+    @click="reload(mainCy, sortingOption)"
+  >
+    Reload
+  </button>
 
   <div style="display: flex; flex-direction: column; margin-bottom: 8px">
     <div>
@@ -49,24 +55,72 @@
     </div>
 
     <h3 style="margin-top: 32px">Local Graph</h3>
-    <div id="cy-relative"></div>
+    <div id="cy-relative" ref="cyElementRelative"></div>
 
     <div style="margin-top: 8px">
       <label>Local Depth:</label>
-      <input style="margin-left: 8px" id="local-depth" value="1" />
+      <input
+        :change="depthChange"
+        style="margin-left: 8px"
+        id="local-depth"
+        value="1"
+      />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-let canUseHover = true;
-let canUseLabels = true;
+import { ref, onMounted } from "vue";
+import { processData } from "../utils/dataProcessor";
+import { styles, reload } from "../utils/cytoscapeHelper";
+import { getNewCytoscape } from "../utils/cytoscapeGraphCreator";
+import { runNodeClick } from "../utils/nodeClick";
+import { canUseHover, toggleHover, runNodeHover } from "../utils/nodeHover";
+import { canUseLabels, toggleLabels, runNodeLabels } from "../utils/nodeLabels";
+import { sortingOption, runNodeSort } from "../utils/nodeSort";
 
-const toggleHover = () => {
-  canUseHover = !canUseHover;
-};
+// @ts-ignore
+const nodeFiles = files;
+// @ts-ignore
+const nodeConnections = connections;
+// @ts-ignore
+const nodeCurrentFile = currentFile;
 
-const toggleLabels = () => {
-  canUseLabels = !canUseLabels;
+const cyElement = ref(null);
+const cyElementRelative = ref(null);
+
+let mainCy = null;
+
+onMounted(() => {
+  let nodes = processData(nodeFiles, nodeConnections);
+  let cy = getNewCytoscape(nodes, styles(canUseLabels), cyElement.value);
+  runNodeHover(cy);
+  runNodeClick(cy);
+  runNodeLabels(cy);
+  runNodeSort(cy);
+  mainCy = cy;
+
+  nodes = processData(nodeFiles, nodeConnections, 1, nodeCurrentFile);
+  let cyRelative = getNewCytoscape(
+    nodes,
+    styles(canUseLabels),
+    cyElementRelative.value
+  );
+
+  reload(cy, "reload");
+  reload(cyRelative, "reload");
+});
+
+const depthChange = () => {
+  const localDepth = document?.getElementById(
+    "local-depth"
+  ) as HTMLInputElement;
+
+  const depthValue = parseInt(localDepth.value);
+  nodes = processData(nodeFiles, nodeConnections, depthValue, nodeCurrentFile);
+
+  mainCy.elements().remove();
+  mainCy.add(nodes);
+  reload(mainCy, sortingOption);
 };
 </script>

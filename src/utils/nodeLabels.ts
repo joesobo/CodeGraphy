@@ -1,10 +1,10 @@
 import { styles } from "./cytoscapeHelper";
 
-const labelSwitch = document?.getElementById(
-  "label-switch"
-) as HTMLInputElement;
+export let canUseLabels = true;
 
-export let canUseLabels = labelSwitch.checked;
+export const toggleLabels = () => {
+  canUseLabels = !canUseLabels;
+};
 
 export const runNodeLabels = (cy: any) => {
   // LABEL EVENT LISTENERS
@@ -12,7 +12,7 @@ export const runNodeLabels = (cy: any) => {
     "label-switch"
   ) as HTMLInputElement;
   labelSwitch.onchange = () => {
-    canUseLabels = !canUseLabels;
+    canUseLabels = labelSwitch.checked;
     cy.style(styles(canUseLabels));
   };
 };

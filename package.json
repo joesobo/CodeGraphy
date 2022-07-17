@@ -41,8 +41,8 @@
   "icon": "img/graph.png",
   "scripts": {
     "vscode:prepublish": "yarn run package",
-    "compile": "concurrently \"vite build\" \"rollup -c\" \"webpack\"",
-    "watch": "concurrently \"vite build --watch\" \"rollup -c -w\" \"webpack --watch\"",
+    "compile": "concurrently \"rollup -c\" \"webpack\" \"vite build\"",
+    "watch": "concurrently \"rollup -c -w\" \"webpack --watch\" \"vite build --watch\"",
     "package": "webpack --mode production --devtool hidden-source-map",
     "lint": "eslint src --ext ts"
   },

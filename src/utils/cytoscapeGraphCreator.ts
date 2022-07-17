@@ -17,10 +17,10 @@ cytoscape.use(cola);
 export const getNewCytoscape = (
   nodes: any[],
   nodeStyles: any,
-  elementID: string
+  htmlElement: HTMLElement
 ) =>
   cytoscape({
-    container: document.getElementById(elementID),
+    container: htmlElement,
     elements: nodes,
     style: nodeStyles,
     layout: {

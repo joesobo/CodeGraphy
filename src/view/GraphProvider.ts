@@ -39,20 +39,6 @@ export class GraphProvider implements vscode.WebviewViewProvider {
   }
 
   private async _getHtmlForWebview(webview: vscode.Webview) {
-    const scriptUri = webview.asWebviewUri(
-      vscode.Uri.joinPath(
-        this._extensionUri,
-        "dist",
-        "compiled/cytoscapeGraph.js"
-      )
-    );
-    const relativeScriptUri = webview.asWebviewUri(
-      vscode.Uri.joinPath(
-        this._extensionUri,
-        "dist",
-        "compiled/cytoscapeRelativeGraph.js"
-      )
-    );
     const vueURI = webview.asWebviewUri(
       vscode.Uri.joinPath(this._extensionUri, "dist", "compiled/index.es.js")
     );
@@ -86,7 +72,9 @@ export class GraphProvider implements vscode.WebviewViewProvider {
       </head>
 
       <body>
-        <div id="app"></div>
+        <div id="app">
+            <div id="cy"></div>
+        </div>
 
         <script type="module"
           // Vue
@@ -98,16 +86,6 @@ export class GraphProvider implements vscode.WebviewViewProvider {
           var connections = ${JSON.stringify(allConnections)}
           var files = ${JSON.stringify(files)}
           var currentFile = ${JSON.stringify(currentFile)}
-        </script>
-
-        <script type="module"
-          // Running Cytoscape Graph
-          src="${scriptUri}">
-        </script>
-
-        <script type="module"
-          // Running Cytoscape Relative Graph
-          src="${relativeScriptUri}">
         </script>
 
         <script>

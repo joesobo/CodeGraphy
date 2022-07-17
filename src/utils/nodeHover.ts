@@ -1,3 +1,9 @@
+export let canUseHover = true;
+
+export const toggleHover = () => {
+  canUseHover = !canUseHover;
+};
+
 export const runNodeHover = (cy: any) => {
   // HOVER NODE LISTENER
   const hoverSwitch = document?.getElementById(

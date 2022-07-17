@@ -1,7 +1,6 @@
 import { reload } from "./cytoscapeHelper";
 
-const select = document.getElementById("sorting-options") as HTMLSelectElement;
-export let sortingOption = select.options[select.selectedIndex].value;
+export let sortingOption = "cose";
 
 export const runNodeSort = (cy: any) => {
   // SORT EVENT LISTENERS
