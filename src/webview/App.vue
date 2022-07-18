@@ -60,10 +60,10 @@
     <div style="margin-top: 8px">
       <label>Local Depth:</label>
       <input
-        :change="depthChange"
         style="margin-left: 8px"
         id="local-depth"
-        value="1"
+        v-model="localDepth"
+        @change="depthChange"
       />
     </div>
   </div>
@@ -90,6 +90,9 @@ const cyElement = ref(null);
 const cyElementRelative = ref(null);
 
 let mainCy = null;
+let relativeCy = null;
+
+let localDepth = 1;
 
 onMounted(() => {
   let nodes = processData(nodeFiles, nodeConnections);
@@ -106,21 +109,22 @@ onMounted(() => {
     styles(canUseLabels),
     cyElementRelative.value
   );
+  relativeCy = cyRelative;
 
   reload(cy, "reload");
   reload(cyRelative, "reload");
 });
 
 const depthChange = () => {
-  const localDepth = document?.getElementById(
-    "local-depth"
-  ) as HTMLInputElement;
+  let nodes = processData(
+    nodeFiles,
+    nodeConnections,
+    localDepth,
+    nodeCurrentFile
+  );
 
-  const depthValue = parseInt(localDepth.value);
-  nodes = processData(nodeFiles, nodeConnections, depthValue, nodeCurrentFile);
-
-  mainCy.elements().remove();
-  mainCy.add(nodes);
-  reload(mainCy, sortingOption);
+  relativeCy.elements().remove();
+  relativeCy.add(nodes);
+  reload(relativeCy, "reload");
 };
 </script>
