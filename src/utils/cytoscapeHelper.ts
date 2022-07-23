@@ -26,8 +26,10 @@ export const styles = (canUseLabels: boolean) => [
   {
     selector: ".selectedNode",
     style: {
-      shape: "circle",
+      shape: "ellipse",
       "background-color": "#fff",
+      width: "35",
+      height: "35",
       label: canUseLabels ? "data(label)" : "",
     },
   },
