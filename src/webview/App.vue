@@ -70,7 +70,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from "vue";
+import { Ref, ref, onMounted } from "vue";
 import { processData } from "../utils/dataProcessor";
 import { styles, reload } from "../utils/cytoscapeHelper";
 import { getNewCytoscape } from "../utils/cytoscapeGraphCreator";
@@ -86,33 +86,35 @@ const nodeConnections = connections;
 // @ts-ignore
 const nodeCurrentFile = currentFile;
 
-const cyElement = ref(null);
-const cyElementRelative = ref(null);
+const cyElement: Ref<HTMLElement | undefined> = ref();
+const cyElementRelative: Ref<HTMLElement | undefined> = ref();
 
-let mainCy = null;
-let relativeCy = null;
+let mainCy: any = null;
+let relativeCy: any = null;
 
 let localDepth = 1;
 
 onMounted(() => {
-  let nodes = processData(nodeFiles, nodeConnections);
-  let cy = getNewCytoscape(nodes, styles(canUseLabels), cyElement.value);
-  runNodeHover(cy);
-  runNodeClick(cy);
-  runNodeLabels(cy);
-  runNodeSort(cy);
-  mainCy = cy;
+  if (cyElement.value && cyElementRelative.value) {
+    let nodes = processData(nodeFiles, nodeConnections);
+    let cy = getNewCytoscape(nodes, styles(canUseLabels), cyElement.value);
+    runNodeHover(cy);
+    runNodeClick(cy);
+    runNodeLabels(cy);
+    runNodeSort(cy);
+    mainCy = cy;
 
-  nodes = processData(nodeFiles, nodeConnections, 1, nodeCurrentFile);
-  let cyRelative = getNewCytoscape(
-    nodes,
-    styles(canUseLabels),
-    cyElementRelative.value
-  );
-  relativeCy = cyRelative;
+    nodes = processData(nodeFiles, nodeConnections, 1, nodeCurrentFile);
+    let cyRelative = getNewCytoscape(
+      nodes,
+      styles(canUseLabels),
+      cyElementRelative.value
+    );
+    relativeCy = cyRelative;
 
-  reload(cy, "reload");
-  reload(cyRelative, "reload");
+    reload(cy, "reload");
+    reload(cyRelative, "reload");
+  }
 });
 
 const depthChange = () => {

@@ -5,5 +5,6 @@ declare module "*.vue" {
     Record<string, unknown>,
     Record<string, unknown>
   >;
+
   export default component;
 }
