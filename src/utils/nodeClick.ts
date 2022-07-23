@@ -16,10 +16,17 @@ export const runNodeClick = (cy: any, cyRelative: any) => {
 
     const path = nodes[id].data.fullPath;
 
+    // update style of clicked node
+    cy.nodes().forEach((node: any) => {
+      node.classes("node");
+    });
+    event.target.classes("selectedNode");
+
     // change relative graph
     let relativeNodes = processData(nodeFiles, nodeConnections, 1, path);
     cyRelative.elements().remove();
     cyRelative.add(relativeNodes);
+    cyRelative.nodes()[0].classes("selectedNode");
     reload(cyRelative, "reload");
 
     // @ts-ignore

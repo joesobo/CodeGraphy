@@ -24,6 +24,14 @@ export const styles = (canUseLabels: boolean) => [
     },
   },
   {
+    selector: ".selectedNode",
+    style: {
+      shape: "circle",
+      "background-color": "#fff",
+      label: canUseLabels ? "data(label)" : "",
+    },
+  },
+  {
     selector: "label",
     style: {
       color: "#d4d4d4",

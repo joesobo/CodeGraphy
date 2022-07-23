@@ -98,6 +98,15 @@ onMounted(() => {
   if (cyElement.value && cyElementRelative.value) {
     let nodes = processData(nodeFiles, nodeConnections);
     let cy = getNewCytoscape(nodes, styles(canUseLabels), cyElement.value);
+    console.log(nodeCurrentFile);
+
+    // set initial style for opened file
+    cy.nodes().forEach((node) => {
+      if (node.data().fullPath === nodeCurrentFile) {
+        node.classes("selectedNode");
+      }
+    });
+
     runNodeHover(cy);
     runNodeLabels(cy);
     runNodeSort(cy);
@@ -109,6 +118,10 @@ onMounted(() => {
       styles(canUseLabels),
       cyElementRelative.value
     );
+
+    // set initial style for opened file
+    cyRelative.nodes()[0].classes("selectedNode");
+
     relativeCy = cyRelative;
 
     reload(cy, "reload");
