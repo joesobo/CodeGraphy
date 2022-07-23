@@ -99,7 +99,6 @@ onMounted(() => {
     let nodes = processData(nodeFiles, nodeConnections);
     let cy = getNewCytoscape(nodes, styles(canUseLabels), cyElement.value);
     runNodeHover(cy);
-    runNodeClick(cy);
     runNodeLabels(cy);
     runNodeSort(cy);
     mainCy = cy;
@@ -114,6 +113,8 @@ onMounted(() => {
 
     reload(cy, "reload");
     reload(cyRelative, "reload");
+
+    runNodeClick(mainCy, relativeCy);
   }
 });
 
