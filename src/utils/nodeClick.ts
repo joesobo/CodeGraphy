@@ -28,7 +28,15 @@ export const runNodeClick = (cy: any, cyRelative: any) => {
 
     reload(cyRelative, "reload");
 
-    // @ts-ignore
     openFile(path);
+  });
+};
+
+// Ability to open file on click
+const openFile = (file: string) => {
+  // @ts-ignore
+  vscode.postMessage({
+    command: "openFile",
+    text: file,
   });
 };

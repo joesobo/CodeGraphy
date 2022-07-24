@@ -1,7 +1,7 @@
 <p align="center">
   <img src="https://user-images.githubusercontent.com/26047842/177056994-e6be0cd0-6e18-40c1-a254-ae847c62ffaf.png" />
- </p> 
- 
+ </p>
+
  <p align="center">
   <a href="https://marketplace.visualstudio.com/items?itemName=codegraphy.codegraphy"><img src="https://vsmarketplacebadge.apphb.com/version-short/codegraphy.codegraphy.svg" alt="Marketplace"></a>
   <a href="https://marketplace.visualstudio.com/items?itemName=codegraphy.codegraphy"><img src="https://vsmarketplacebadge.apphb.com/downloads-short/codegraphy.codegraphy.svg" alt="Marketplace"></a>
@@ -26,7 +26,7 @@ Install CodeGraphy for [VSCode](https://marketplace.visualstudio.com/items?itemN
 
 ### Node Graph
 
-CodeGraphy's main feature is its ability to display the file heirarchy within the current directory and the connections within the files of the directory. 
+CodeGraphy's main feature is its ability to display the file heirarchy within the current directory and the connections within the files of the directory.
 
 - Ability to open files directly from CodeGraphy
 - Can change the style of the force-based graph
@@ -34,11 +34,36 @@ CodeGraphy's main feature is its ability to display the file heirarchy within th
 
 ![Screenshot 2022-07-23 130538](https://user-images.githubusercontent.com/26047842/180621198-06cc6f39-ed52-4cfb-b978-9388fd0322ee.png)
 
+### Settings
+
+To color in nodes of the graph add these configurations to your `settings.json`. These can be manually editted from the `Groups` section of the extension.
+
+```json
+"codegraphy.nodeSettings": [
+  {
+    "extension": ".js",
+    "color": "#4985be"
+  },
+  {
+    "extension": ".ts",
+    "color": "#eac73e"
+  },
+  {
+    "extension": ".vue",
+    "color": "#74cc4b"
+  },
+  {
+    "extension": ".json",
+    "color": "#dc6844"
+  }
+]
+```
+
 ## Known Issues
 
 This extension is still a work in progress. It is subject to major changes still. As it is the extension primary works on `js` files.
 
-- Does not include `required` connections 
+- Does not include `required` connections
 - Does not include custom relative pathing
 
 ## Contributing

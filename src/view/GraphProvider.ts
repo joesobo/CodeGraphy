@@ -50,8 +50,10 @@ export class GraphProvider implements vscode.WebviewViewProvider {
       currentPath
     );
 
+    const configuration = vscode.workspace.getConfiguration();
+    const nodeSettings = configuration.codegraphy.nodeSettings;
     // Handle messages from the webview
-    webview.onDidReceiveMessage((message) => {
+    webview.onDidReceiveMessage(async (message) => {
       switch (message.command) {
         case "openFile":
           const openPath = vscode.Uri.file(message.text);
@@ -59,6 +61,11 @@ export class GraphProvider implements vscode.WebviewViewProvider {
             vscode.window.showTextDocument(doc);
           });
           return;
+        case "editSettings":
+          return await configuration.update(
+            "codegraphy.nodeSettings",
+            message.text
+          );
       }
     });
 
@@ -73,7 +80,7 @@ export class GraphProvider implements vscode.WebviewViewProvider {
 
       <body>
         <div id="app">
-            <div id="cy"></div>
+          <div id="cy"></div>
         </div>
 
         <script type="module"
@@ -86,17 +93,8 @@ export class GraphProvider implements vscode.WebviewViewProvider {
           var connections = ${JSON.stringify(allConnections)}
           var files = ${JSON.stringify(files)}
           var currentFile = ${JSON.stringify(currentFile)}
-        </script>
-
-        <script>
-          // Ability to open file on click
-          const vscode = acquireVsCodeApi();
-          var openFile = (file) => {
-            vscode.postMessage({
-              command: 'openFile',
-              text: file,
-            })
-          }
+          var nodeSettings = ${JSON.stringify(nodeSettings)}
+          var vscode = acquireVsCodeApi();
         </script>
       </body>
     </html>`;

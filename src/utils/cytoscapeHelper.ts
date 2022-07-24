@@ -1,5 +1,5 @@
 import { setWindowSize } from "./windowHelper";
-import { whitelistNodes, selectedNode } from "../temp/tempInfo";
+import { selectedNode } from "../temp/tempInfo";
 
 let layout: any;
 let lastLayout = "cose";
@@ -76,11 +76,19 @@ export const setNodeStyles = (
   nodeCurrentFile?: string,
   currentNode?: any
 ) => {
+  // Reset styles
+  cy.nodes().forEach((node: any) => {
+    node.classes("node");
+    node.style({ "background-color": "#4a4a4c" });
+  });
+
+  // Apply setting styles
   cy.nodes().forEach((node: any) => {
     const nodePath = node.data().fullPath;
 
-    whitelistNodes.forEach((nodeMeta) => {
-      if (nodePath.endsWith(nodeMeta.extention)) {
+    // @ts-ignore
+    nodeSettings.forEach((nodeMeta: any) => {
+      if (nodePath.endsWith(nodeMeta.extension)) {
         node.classes("node");
         node.style({ "background-color": nodeMeta.color });
       }

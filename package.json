@@ -77,7 +77,17 @@
         "category": "CodeGraphy",
         "title": "Graph Code"
       }
-    ]
+    ],
+    "configuration": {
+      "title": "CodeGraph Nodes",
+      "properties": {
+        "codegraphy.nodeSettings": {
+          "type": "array",
+          "default": [],
+          "description": "Node Metadata"
+        }
+      }
+    }
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^17.0.0",

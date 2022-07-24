@@ -5,6 +5,7 @@ button {
   color: white;
   border: none;
   cursor: pointer;
+  border-radius: 8px;
 }
 
 .popper-div {
@@ -93,4 +94,13 @@ input:checked + .slider:before {
 
 .hover-button:hover {
   text-decoration: underline;
+}
+
+.colorPicker {
+  width: 20px;
+  height: 20px;
+  border-radius: 100%;
+  border: 2px solid #424958;
+  margin-left: 8px;
+  cursor: pointer;
 }
