@@ -1,4 +1,4 @@
-export let canUseHover = true;
+export let canUseHover = false;
 
 export const toggleHover = () => {
   canUseHover = !canUseHover;

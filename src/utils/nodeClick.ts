@@ -17,16 +17,14 @@ export const runNodeClick = (cy: any, cyRelative: any) => {
     const path = nodes[id].data.fullPath;
 
     // update style of clicked node
-    setNodeStyles(cy);
-    event.target.classes("selectedNode");
+    setNodeStyles(cy, undefined, event.target);
 
     // change relative graph
     let relativeNodes = processData(nodeFiles, nodeConnections, 1, path);
     cyRelative.elements().remove();
     cyRelative.add(relativeNodes);
 
-    setNodeStyles(cyRelative);
-    cyRelative.nodes()[0].classes("selectedNode");
+    setNodeStyles(cyRelative, undefined, cyRelative.nodes()[0]);
 
     reload(cyRelative, "reload");
 

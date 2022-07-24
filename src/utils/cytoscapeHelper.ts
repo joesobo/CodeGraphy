@@ -1,4 +1,5 @@
 import { setWindowSize } from "./windowHelper";
+import { whitelistNodes, selectedNode } from "../temp/tempInfo";
 
 let layout: any;
 let lastLayout = "cose";
@@ -27,38 +28,8 @@ export const styles = (canUseLabels: boolean) => [
     selector: ".selectedNode",
     style: {
       shape: "ellipse",
-      "background-color": "#fff",
       width: "35",
       height: "35",
-      label: canUseLabels ? "data(label)" : "",
-    },
-  },
-  {
-    selector: ".typescript",
-    style: {
-      shape: "heptagon",
-      "background-color": "#eac73e",
-    },
-  },
-  {
-    selector: ".vue",
-    style: {
-      shape: "heptagon",
-      "background-color": "#74cc4b",
-    },
-  },
-  {
-    selector: ".json",
-    style: {
-      shape: "heptagon",
-      "background-color": "#4985be",
-    },
-  },
-  {
-    selector: ".default",
-    style: {
-      shape: "heptagon",
-      "background-color": "#4a4a4c",
     },
   },
   {
@@ -100,21 +71,30 @@ const setLayout = (cy: any, layoutName: string) => {
   } as any);
 };
 
-export const setNodeStyles = (cy: any, nodeCurrentFile?: string) => {
+export const setNodeStyles = (
+  cy: any,
+  nodeCurrentFile?: string,
+  currentNode?: any
+) => {
   cy.nodes().forEach((node: any) => {
     const nodePath = node.data().fullPath;
 
-    if (nodeCurrentFile && node.data().fullPath === nodeCurrentFile) {
-      node.classes("selectedNode");
-    } else if (nodePath.endsWith(".ts")) {
-      node.classes("typescript");
-    } else if (nodePath.endsWith(".vue")) {
-      node.classes("vue");
-    } else if (nodePath.endsWith(".json")) {
-      node.classes("json");
-    } else {
-      node.classes("default");
-    }
+    whitelistNodes.forEach((nodeMeta) => {
+      if (nodePath.endsWith(nodeMeta.extention)) {
+        node.classes("node");
+        node.style({ "background-color": nodeMeta.color });
+      }
+
+      if (nodeCurrentFile && nodePath === nodeCurrentFile) {
+        node.classes("selectedNode");
+        node.style({ "background-color": selectedNode.color });
+      }
+
+      if (currentNode) {
+        currentNode.classes("selectedNode");
+        currentNode.style({ "background-color": selectedNode.color });
+      }
+    });
   });
 };
 
