@@ -84,3 +84,13 @@ input:checked + .slider:before {
 .slider.round:before {
   border-radius: 50%;
 }
+
+.hover-button {
+  background: none;
+  padding: 0;
+  margin: 0;
+}
+
+.hover-button:hover {
+  text-decoration: underline;
+}
