@@ -72,7 +72,7 @@
 <script setup lang="ts">
 import { Ref, ref, onMounted } from "vue";
 import { processData } from "../utils/dataProcessor";
-import { styles, reload } from "../utils/cytoscapeHelper";
+import { styles, reload, setNodeStyles } from "../utils/cytoscapeHelper";
 import { getNewCytoscape } from "../utils/cytoscapeGraphCreator";
 import { runNodeClick } from "../utils/nodeClick";
 import { canUseHover, toggleHover, runNodeHover } from "../utils/nodeHover";
@@ -98,14 +98,9 @@ onMounted(() => {
   if (cyElement.value && cyElementRelative.value) {
     let nodes = processData(nodeFiles, nodeConnections);
     let cy = getNewCytoscape(nodes, styles(canUseLabels), cyElement.value);
-    console.log(nodeCurrentFile);
 
     // set initial style for opened file
-    cy.nodes().forEach((node) => {
-      if (node.data().fullPath === nodeCurrentFile) {
-        node.classes("selectedNode");
-      }
-    });
+    setNodeStyles(cy, nodeCurrentFile);
 
     runNodeHover(cy);
     runNodeLabels(cy);
@@ -120,7 +115,7 @@ onMounted(() => {
     );
 
     // set initial style for opened file
-    cyRelative.nodes()[0].classes("selectedNode");
+    setNodeStyles(cyRelative, nodeCurrentFile);
 
     relativeCy = cyRelative;
 

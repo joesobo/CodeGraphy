@@ -34,6 +34,34 @@ export const styles = (canUseLabels: boolean) => [
     },
   },
   {
+    selector: ".typescript",
+    style: {
+      shape: "heptagon",
+      "background-color": "#eac73e",
+    },
+  },
+  {
+    selector: ".vue",
+    style: {
+      shape: "heptagon",
+      "background-color": "#74cc4b",
+    },
+  },
+  {
+    selector: ".json",
+    style: {
+      shape: "heptagon",
+      "background-color": "#4985be",
+    },
+  },
+  {
+    selector: ".default",
+    style: {
+      shape: "heptagon",
+      "background-color": "#4a4a4c",
+    },
+  },
+  {
     selector: "label",
     style: {
       color: "#d4d4d4",
@@ -70,6 +98,24 @@ const setLayout = (cy: any, layoutName: string) => {
     randomize: false,
     infinite: true,
   } as any);
+};
+
+export const setNodeStyles = (cy: any, nodeCurrentFile?: string) => {
+  cy.nodes().forEach((node: any) => {
+    const nodePath = node.data().fullPath;
+
+    if (nodeCurrentFile && node.data().fullPath === nodeCurrentFile) {
+      node.classes("selectedNode");
+    } else if (nodePath.endsWith(".ts")) {
+      node.classes("typescript");
+    } else if (nodePath.endsWith(".vue")) {
+      node.classes("vue");
+    } else if (nodePath.endsWith(".json")) {
+      node.classes("json");
+    } else {
+      node.classes("default");
+    }
+  });
 };
 
 // WINDOW SIZE SETUP
