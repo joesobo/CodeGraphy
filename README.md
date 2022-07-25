@@ -22,7 +22,7 @@ Install CodeGraphy for [VSCode](https://marketplace.visualstudio.com/items?itemN
 
 ## Features
 
-![Screenshot 2022-07-23 130655](https://user-images.githubusercontent.com/26047842/180621194-55a3cb7d-8a3f-40da-8dd4-7423d1e346cc.png)
+![Main Graph](https://user-images.githubusercontent.com/26047842/180671502-63367d2a-85c3-4e20-8f2c-dedc1fada0ba.png)
 
 ### Node Graph
 
@@ -32,7 +32,7 @@ CodeGraphy's main feature is its ability to display the file heirarchy within th
 - Can change the style of the force-based graph
 - Displays connections between files
 
-![Screenshot 2022-07-23 130538](https://user-images.githubusercontent.com/26047842/180621198-06cc6f39-ed52-4cfb-b978-9388fd0322ee.png)
+![Full Extension](https://user-images.githubusercontent.com/26047842/180671519-b7aa7da9-e025-4685-b4ad-a5e6cb1b1264.png)
 
 ### Settings
 
@@ -58,6 +58,8 @@ To color in nodes of the graph add these configurations to your `settings.json`.
   }
 ]
 ```
+
+![Node Group Settings](https://user-images.githubusercontent.com/26047842/180671587-65727960-e0bf-4053-82ea-3f6dac719f39.png)
 
 ## Known Issues
 
