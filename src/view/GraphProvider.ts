@@ -59,7 +59,7 @@ export class GraphProvider implements vscode.WebviewViewProvider {
           // open new file
           const openPath = vscode.Uri.file(message.text);
 
-          vscode.workspace
+          await vscode.workspace
             .openTextDocument(openPath)
             .then(async (doc) => {
               await vscode.window.showTextDocument(doc);
