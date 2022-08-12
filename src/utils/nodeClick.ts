@@ -9,7 +9,7 @@ const nodeConnections = connections;
 // SETUP
 let nodes = processData(nodeFiles, nodeConnections);
 
-export const runNodeClick = (cy: any, cyRelative: any) => {
+export const runNodeClick = (cy: any, cyRelative: any, depth: number = 1) => {
   // CLICK NODE EVENT
   cy.on("click", "node", function (event: any) {
     const id = event.target.id();
@@ -20,7 +20,7 @@ export const runNodeClick = (cy: any, cyRelative: any) => {
     setNodeStyles(cy, undefined, event.target);
 
     // change relative graph
-    let relativeNodes = processData(nodeFiles, nodeConnections, 1, path);
+    let relativeNodes = processData(nodeFiles, nodeConnections, depth, path);
     cyRelative.elements().remove();
     cyRelative.add(relativeNodes);
 

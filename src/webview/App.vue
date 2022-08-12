@@ -149,8 +149,6 @@ onMounted(() => {
   }
 });
 
-console.log(nodeCurrentFile);
-
 // Handle the message inside the webview
 window.addEventListener("message", (event) => {
   const message = event.data; // The JSON data our extension sent
@@ -158,7 +156,6 @@ window.addEventListener("message", (event) => {
   switch (message.command) {
     case "setCurrentFile":
       nodeCurrentFile = message.text;
-      console.log(nodeCurrentFile);
   }
 });
 
@@ -170,15 +167,16 @@ const depthChange = () => {
     nodeCurrentFile
   );
 
-  console.log(nodeFiles, nodeConnections, localDepth, nodeCurrentFile);
-
   relativeCy.value.elements().remove();
   relativeCy.value.add(nodes);
-  
+
   // set initial style for opened file
   setNodeStyles(relativeCy.value, nodeCurrentFile);
 
   reload(relativeCy.value, "reload");
+
+  mainCy.value.off("click");
+  runNodeClick(mainCy.value, relativeCy.value, localDepth);
 };
 
 const toggleMainGraph = () => {
