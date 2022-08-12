@@ -68,6 +68,7 @@ const setLayout = (cy: any, layoutName: string) => {
     animationDuration: 1000,
     randomize: false,
     infinite: true,
+    fit: false
   } as any);
 };
 
