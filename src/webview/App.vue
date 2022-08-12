@@ -104,7 +104,7 @@ const nodeFiles = files;
 // @ts-ignore
 const nodeConnections = connections;
 // @ts-ignore
-const nodeCurrentFile = currentFile;
+let nodeCurrentFile = currentFile;
 
 const cyElement: Ref<HTMLElement | undefined> = ref();
 const cyElementRelative: Ref<HTMLElement | undefined> = ref();
@@ -149,6 +149,19 @@ onMounted(() => {
   }
 });
 
+console.log(nodeCurrentFile);
+
+// Handle the message inside the webview
+window.addEventListener("message", (event) => {
+  const message = event.data; // The JSON data our extension sent
+
+  switch (message.command) {
+    case "setCurrentFile":
+      nodeCurrentFile = message.text;
+      console.log(nodeCurrentFile);
+  }
+});
+
 const depthChange = () => {
   let nodes = processData(
     nodeFiles,
@@ -157,8 +170,14 @@ const depthChange = () => {
     nodeCurrentFile
   );
 
+  console.log(nodeFiles, nodeConnections, localDepth, nodeCurrentFile);
+
   relativeCy.value.elements().remove();
   relativeCy.value.add(nodes);
+  
+  // set initial style for opened file
+  setNodeStyles(relativeCy.value, nodeCurrentFile);
+
   reload(relativeCy.value, "reload");
 };
 

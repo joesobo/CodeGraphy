@@ -56,10 +56,24 @@ export class GraphProvider implements vscode.WebviewViewProvider {
     webview.onDidReceiveMessage(async (message) => {
       switch (message.command) {
         case "openFile":
+          // open new file
           const openPath = vscode.Uri.file(message.text);
-          vscode.workspace.openTextDocument(openPath).then((doc) => {
-            vscode.window.showTextDocument(doc);
-          });
+
+          await vscode.workspace
+            .openTextDocument(openPath)
+            .then(async (doc) => {
+              await vscode.window.showTextDocument(doc);
+
+              // update reference of currently open file
+              let currentFile =
+                vscode.window.activeTextEditor?.document.fileName || "";
+              currentFile = currentFile.startsWith("/")
+                ? currentFile.substring(1)
+                : currentFile;
+
+              webview.postMessage({ command: "setCurrentFile", text: currentFile });
+            });
+
           return;
         case "editSettings":
           return await configuration.update(
