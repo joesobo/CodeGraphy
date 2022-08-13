@@ -1,4 +1,3 @@
-import { setWindowSize } from "./windowHelper";
 import { selectedNode } from "../temp/tempInfo";
 
 let layout: any;
@@ -55,9 +54,7 @@ export const reload = (cy: any, layoutOption: string) => {
 
 // LAYOUT SETUP
 const setLayout = (cy: any, layoutName: string) => {
-  if (layoutName === "reload") {
-    setWindowSize();
-  } else {
+  if (layoutName !== "reload") {
     lastLayout = layoutName;
   }
 
@@ -68,7 +65,7 @@ const setLayout = (cy: any, layoutName: string) => {
     animationDuration: 1000,
     randomize: false,
     infinite: true,
-    fit: false
+    fit: false,
   } as any);
 };
 
@@ -106,9 +103,6 @@ export const setNodeStyles = (
     });
   });
 };
-
-// WINDOW SIZE SETUP
-setWindowSize();
 
 // NEEDED FOR POPOVERS
 // @ts-ignore
