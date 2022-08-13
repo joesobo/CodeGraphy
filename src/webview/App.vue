@@ -81,7 +81,7 @@
           style="margin-left: 8px"
           id="local-depth"
           v-model="localDepth"
-          @change="depthChange"
+          @change="refreshLocalGraph"
         />
       </div>
     </div>
@@ -122,12 +122,10 @@ onMounted(() => {
     let nodes = processData(nodeFiles, nodeConnections);
     let cy = getNewCytoscape(nodes, styles(canUseLabels), cyElement.value);
 
-    // set initial style for opened file
-    setNodeStyles(cy, nodeCurrentFile);
-
     runNodeHover(cy);
     runNodeLabels(cy);
     runNodeSort(cy);
+    runNodeClick(cy, nodes);
     mainCy.value = cy;
 
     nodes = processData(nodeFiles, nodeConnections, 1, nodeCurrentFile);
@@ -137,15 +135,13 @@ onMounted(() => {
       cyElementRelative.value
     );
 
-    // set initial style for opened file
-    setNodeStyles(cyRelative, nodeCurrentFile);
+    runNodeSort(cyRelative);
+    runNodeClick(cyRelative, nodes);
 
     relativeCy.value = cyRelative;
 
-    reload(cy, "reload");
-    reload(cyRelative, "reload");
-
-    runNodeClick(mainCy.value, relativeCy.value);
+    refreshMainGraph();
+    refreshLocalGraph();
   }
 });
 
@@ -156,10 +152,19 @@ window.addEventListener("message", (event) => {
   switch (message.command) {
     case "setCurrentFile":
       nodeCurrentFile = message.text;
+
+      refreshMainGraph();
+      refreshLocalGraph();
   }
 });
 
-const depthChange = () => {
+const refreshMainGraph = () => {
+  setNodeStyles(mainCy.value, nodeCurrentFile);
+
+  reload(mainCy.value, "reload");
+};
+
+const refreshLocalGraph = () => {
   let nodes = processData(
     nodeFiles,
     nodeConnections,
@@ -170,13 +175,13 @@ const depthChange = () => {
   relativeCy.value.elements().remove();
   relativeCy.value.add(nodes);
 
-  // set initial style for opened file
+  // turn off old click listener to update with new depth nodes
+  relativeCy.value.off("click");
+  runNodeClick(relativeCy.value, nodes);
+
   setNodeStyles(relativeCy.value, nodeCurrentFile);
 
   reload(relativeCy.value, "reload");
-
-  mainCy.value.off("click");
-  runNodeClick(mainCy.value, relativeCy.value, localDepth);
 };
 
 const toggleMainGraph = () => {

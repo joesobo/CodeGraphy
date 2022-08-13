@@ -96,11 +96,15 @@ input:checked + .slider:before {
   text-decoration: underline;
 }
 
-.colorPicker {
+.color-input {
+  margin-left: 8px;
+}
+
+.color-input.user .box {
   width: 20px;
   height: 20px;
-  border-radius: 100%;
-  border: 2px solid #424958;
-  margin-left: 8px;
-  cursor: pointer;
+}
+
+.color-input.user .slider:before {
+  background-color: transparent;
 }

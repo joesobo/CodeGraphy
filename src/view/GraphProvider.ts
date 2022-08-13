@@ -59,27 +59,27 @@ export class GraphProvider implements vscode.WebviewViewProvider {
           // open new file
           const openPath = vscode.Uri.file(message.text);
 
-          await vscode.workspace
-            .openTextDocument(openPath)
-            .then(async (doc) => {
-              await vscode.window.showTextDocument(doc);
-
-              // update reference of currently open file
-              let currentFile =
-                vscode.window.activeTextEditor?.document.fileName || "";
-              currentFile = currentFile.startsWith("/")
-                ? currentFile.substring(1)
-                : currentFile;
-
-              webview.postMessage({ command: "setCurrentFile", text: currentFile });
-            });
-
+          vscode.workspace.openTextDocument(openPath).then(async (doc) => {
+            vscode.window.showTextDocument(doc);
+          });
           return;
         case "editSettings":
           return await configuration.update(
             "codegraphy.nodeSettings",
             message.text
           );
+      }
+    });
+
+    vscode.window.onDidChangeActiveTextEditor((editor) => {
+      if (editor) {
+        // update reference of currently open file
+        let currentFile = editor?.document.fileName || "";
+        currentFile = currentFile.startsWith("/")
+          ? currentFile.substring(1)
+          : currentFile;
+
+        webview.postMessage({ command: "setCurrentFile", text: currentFile });
       }
     });
 
