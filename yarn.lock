@@ -2574,6 +2574,11 @@ text-table@^0.2.0:
   resolved "https://registry.yarnpkg.com/text-table/-/text-table-0.2.0.tgz#7f5ee823ae805207c00af2df4a84ec3fcfa570b4"
   integrity sha1-f17oI66AUgfACvLfSoTsP8+lcLQ=
 
+tinycolor2@^1.4.2:
+  version "1.4.2"
+  resolved "https://registry.yarnpkg.com/tinycolor2/-/tinycolor2-1.4.2.tgz#3f6a4d1071ad07676d7fa472e1fac40a719d8803"
+  integrity sha512-vJhccZPs965sV/L2sU4oRQVAos0pQXwsvTLkWYdqJ+a8Q5kPFzJTuOFwy7UniPli44NKQGAglksjvOcpo95aZA==
+
 to-regex-range@^5.0.1:
   version "5.0.1"
   resolved "https://registry.yarnpkg.com/to-regex-range/-/to-regex-range-5.0.1.tgz#1648c44aae7c8d988a326018ed72f5b4dd0392e4"
@@ -2681,6 +2686,13 @@ vite@^2.9.14:
     rollup "^2.59.0"
   optionalDependencies:
     fsevents "~2.3.2"
+
+vue-color-input@^1.0.6:
+  version "1.0.6"
+  resolved "https://registry.yarnpkg.com/vue-color-input/-/vue-color-input-1.0.6.tgz#3f706d7c331d48ad345a587a5cc968280490fa01"
+  integrity sha512-Z8Jh9AMb6MHM1zBhKCYa/H73WNlrM2WQnwB1WV6Nwz9lFIV75zUE9NgfzJ0AyKuCxVfPC0FZYObPI5IFGwRLMA==
+  dependencies:
+    tinycolor2 "^1.4.2"
 
 vue@^3.2.37:
   version "3.2.37"

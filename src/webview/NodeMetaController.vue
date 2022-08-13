@@ -17,11 +17,15 @@
             v-model="group.extension"
             @change="updateSettings"
           />
+
           <!-- Color picker -->
-          <div
-            class="colorPicker"
-            :style="`background-color: ${group.color}`"
-          ></div>
+          <ColorInput
+            v-model="group.color"
+            position="top"
+            format="hex"
+            disable-alpha
+          />
+
           <!-- Clear Button -->
           <button
             @click="removeGroupAtIndex(index)"
@@ -42,6 +46,7 @@
 <script setup lang="ts">
 import { Ref, ref } from "vue";
 import { setNodeStyles } from "../utils/cytoscapeHelper";
+import ColorInput from "vue-color-input";
 
 const props = defineProps(["cy", "cyRelative"]);
 

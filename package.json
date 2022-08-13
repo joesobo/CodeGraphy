@@ -124,6 +124,7 @@
     "cytoscape-popper": "^2.0.0",
     "cytoscape-qtip": "^2.8.0",
     "jquery": "^3.6.0",
-    "vue": "^3.2.37"
+    "vue": "^3.2.37",
+    "vue-color-input": "^1.0.6"
   }
 }
