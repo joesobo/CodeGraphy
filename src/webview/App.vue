@@ -13,7 +13,11 @@
       <h3>Full Graph</h3>
     </button>
     <div v-show="displayMainGraph">
-      <div id="cy" ref="cyElement"></div>
+      <div
+        id="cy"
+        ref="cyElement"
+        :style="`height: ${windowWidth}px; width: ${windowWidth}px; background-color: #1e1e1e;`"
+      ></div>
 
       <button
         id="reload"
@@ -73,7 +77,11 @@
       <h3>Local Graph</h3>
     </button>
     <div v-show="displayRelativeGraph">
-      <div id="cy-relative" ref="cyElementRelative"></div>
+      <div
+        id="cy-relative"
+        ref="cyElementRelative"
+        :style="`height: ${windowWidth}px; width: ${windowWidth}px; background-color: #1e1e1e;`"
+      ></div>
 
       <div style="margin-top: 8px">
         <label>Local Depth:</label>
@@ -117,6 +125,8 @@ let relativeCy: Ref<any> = ref(null);
 
 let localDepth = 1;
 
+let windowWidth: Ref<number> = ref(window.innerWidth - 32);
+
 onMounted(() => {
   if (cyElement.value && cyElementRelative.value) {
     let nodes = processData(nodeFiles, nodeConnections);
@@ -143,6 +153,10 @@ onMounted(() => {
     refreshMainGraph();
     refreshLocalGraph();
   }
+
+  window.onresize = () => {
+    windowWidth.value = window.innerWidth - 32;
+  };
 });
 
 // Handle the message inside the webview
