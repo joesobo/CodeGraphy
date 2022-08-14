@@ -1,5 +1,5 @@
 <template>
-  <Disclosure title="Blacklist" ref="nodeGroupController" size="sm">
+  <Disclosure title="Blacklist" size="sm">
     <div
       style="
         display: flex;
@@ -38,8 +38,6 @@
 <script setup lang="ts">
 import { Ref, ref } from "vue";
 import Disclosure from "./Disclosure.vue";
-
-const nodeGroupController: Ref<HTMLElement | undefined> = ref();
 
 // @ts-ignore
 let groups: any[] = nodeSettings;

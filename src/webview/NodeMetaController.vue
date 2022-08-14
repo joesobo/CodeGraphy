@@ -1,5 +1,5 @@
 <template>
-  <Disclosure title="Groups" ref="nodeGroupController" size="sm">
+  <Disclosure title="Groups" size="sm">
     <div
       style="
         display: flex;
@@ -51,8 +51,6 @@ import Disclosure from "./Disclosure.vue";
 
 const props = defineProps(["cy", "cyRelative"]);
 
-const nodeGroupController: Ref<HTMLElement | undefined> = ref();
-
 // @ts-ignore
 let groups: any[] = nodeSettings;
 // @ts-ignore
@@ -79,7 +77,7 @@ const removeGroupAtIndex = (index: number) => {
 const updateSettings = () => {
   // @ts-ignore
   vscode.postMessage({
-    command: "editSettings",
+    command: "editMetaSettings",
     text: groups,
   });
 

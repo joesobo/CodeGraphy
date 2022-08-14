@@ -1,5 +1,5 @@
 <template>
-  <Disclosure title="Whitelist" ref="nodeGroupController" size="sm">
+  <Disclosure title="Whitelist" size="sm">
     <div
       style="
         display: flex;
@@ -39,18 +39,15 @@
 import { Ref, ref } from "vue";
 import Disclosure from "./Disclosure.vue";
 
-const nodeGroupController: Ref<HTMLElement | undefined> = ref();
+// @ts-ignore
+let groups: any[] = whitelistSettings;
+// @ts-ignore
+let groupsRef: Ref<any[]> = ref(whitelistSettings);
 
-// @ts-ignore
-let groups: any[] = nodeSettings;
-// @ts-ignore
-let groupsRef: Ref<any[]> = ref(nodeSettings);
+console.log(groups);
 
 const createNewGroup = () => {
-  groupsRef.value.push({
-    extension: ".test",
-    color: "#fff",
-  });
+  groupsRef.value.push(".test");
 
   updateSettings();
 };
@@ -67,7 +64,7 @@ const removeGroupAtIndex = (index: number) => {
 const updateSettings = () => {
   // @ts-ignore
   vscode.postMessage({
-    command: "editSettings",
+    command: "editWhitelistSettings",
     text: groups,
   });
 };

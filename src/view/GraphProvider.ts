@@ -52,6 +52,8 @@ export class GraphProvider implements vscode.WebviewViewProvider {
 
     const configuration = vscode.workspace.getConfiguration();
     const nodeSettings = configuration.codegraphy.nodeSettings;
+    const whitelistSettings = configuration.codegraphy.whitelistSettings;
+
     // Handle messages from the webview
     webview.onDidReceiveMessage(async (message) => {
       switch (message.command) {
@@ -63,9 +65,14 @@ export class GraphProvider implements vscode.WebviewViewProvider {
             vscode.window.showTextDocument(doc);
           });
           return;
-        case "editSettings":
+        case "editMetaSettings":
           return await configuration.update(
             "codegraphy.nodeSettings",
+            message.text
+          );
+        case "editWhitelistSettings":
+          return await configuration.update(
+            "codegraphy.whitelistSettings",
             message.text
           );
       }
@@ -108,6 +115,7 @@ export class GraphProvider implements vscode.WebviewViewProvider {
           var files = ${JSON.stringify(files)}
           var currentFile = ${JSON.stringify(currentFile)}
           var nodeSettings = ${JSON.stringify(nodeSettings)}
+          var whitelistSettings = ${JSON.stringify(whitelistSettings)}
           var vscode = acquireVsCodeApi();
         </script>
       </body>
