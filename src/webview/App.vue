@@ -9,10 +9,7 @@
   >
     <h1>CodeGraphy</h1>
 
-    <button @click="toggleMainGraph()" class="hover-button">
-      <h3>Full Graph</h3>
-    </button>
-    <div v-show="displayMainGraph">
+    <Disclosure title="Full Graph" open>
       <div
         id="cy"
         ref="cyElement"
@@ -65,18 +62,9 @@
           <span class="slider round"></span>
         </label>
       </div>
+    </Disclosure>
 
-      <NodeMetaController :cy="mainCy" :cyRelative="relativeCy" />
-    </div>
-
-    <button
-      @click="toggleRelativeGraph()"
-      class="hover-button"
-      style="margin-top: 32px"
-    >
-      <h3>Local Graph</h3>
-    </button>
-    <div v-show="displayRelativeGraph">
+    <Disclosure title="Local Graph" style="margin-top: 32px">
       <div
         id="cy-relative"
         ref="cyElementRelative"
@@ -92,12 +80,19 @@
           @change="refreshLocalGraph"
         />
       </div>
-    </div>
+    </Disclosure>
+
+    <Disclosure title="Config" size="sm" style="margin-top: 32px">
+      <NodeMetaController :cy="mainCy" :cyRelative="relativeCy" />
+      <WhitelistController />
+      <BlacklistController />
+    </Disclosure>
   </div>
 </template>
 
 <script setup lang="ts">
 import { Ref, ref, onMounted } from "vue";
+
 import { processData } from "../utils/dataProcessor";
 import { styles, reload, setNodeStyles } from "../utils/cytoscapeHelper";
 import { getNewCytoscape } from "../utils/cytoscapeGraphCreator";
@@ -105,7 +100,11 @@ import { runNodeClick } from "../utils/nodeClick";
 import { canUseHover, toggleHover, runNodeHover } from "../utils/nodeHover";
 import { canUseLabels, toggleLabels, runNodeLabels } from "../utils/nodeLabels";
 import { sortingOption, runNodeSort } from "../utils/nodeSort";
+
 import NodeMetaController from "./NodeMetaController.vue";
+import Disclosure from "./Disclosure.vue";
+import WhitelistController from "./WhitelistController.vue";
+import BlacklistController from "./BlacklistController.vue";
 
 // @ts-ignore
 const nodeFiles = files;
@@ -116,9 +115,6 @@ let nodeCurrentFile = currentFile;
 
 const cyElement: Ref<HTMLElement | undefined> = ref();
 const cyElementRelative: Ref<HTMLElement | undefined> = ref();
-
-let displayMainGraph: Ref<boolean> = ref(true);
-let displayRelativeGraph: Ref<boolean> = ref(false);
 
 let mainCy: Ref<any> = ref(null);
 let relativeCy: Ref<any> = ref(null);
@@ -196,13 +192,5 @@ const refreshLocalGraph = () => {
   setNodeStyles(relativeCy.value, nodeCurrentFile);
 
   reload(relativeCy.value, "reload");
-};
-
-const toggleMainGraph = () => {
-  displayMainGraph.value = !displayMainGraph.value;
-};
-
-const toggleRelativeGraph = () => {
-  displayRelativeGraph.value = !displayRelativeGraph.value;
 };
 </script>

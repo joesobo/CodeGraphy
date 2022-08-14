@@ -86,16 +86,6 @@ input:checked + .slider:before {
   border-radius: 50%;
 }
 
-.hover-button {
-  background: none;
-  padding: 0;
-  margin: 0;
-}
-
-.hover-button:hover {
-  text-decoration: underline;
-}
-
 .color-input {
   margin-left: 8px;
 }
@@ -107,4 +97,46 @@ input:checked + .slider:before {
 
 .color-input.user .slider:before {
   background-color: transparent;
+}
+
+.dropdown-icon {
+  height: 16px;
+}
+
+.dropdown-icon:after {
+  content: "▼";
+  z-index: 1;
+  text-align: center;
+  width: 16px;
+}
+
+details {
+  cursor: pointer;
+  width: 100%;
+}
+
+summary {
+  border-bottom: 1px solid transparent;
+}
+
+summary:hover {
+  border-bottom: 1px solid white;
+}
+
+details > summary {
+  list-style: none;
+}
+
+details > summary::-webkit-details-marker {
+  display: none;
+}
+
+summary {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.rotate {
+  transform: rotate(180deg);
 }

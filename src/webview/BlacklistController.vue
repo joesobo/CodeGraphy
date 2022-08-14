@@ -1,5 +1,5 @@
 <template>
-  <Disclosure title="Groups" ref="nodeGroupController" size="sm">
+  <Disclosure title="Blacklist" ref="nodeGroupController" size="sm">
     <div
       style="
         display: flex;
@@ -16,14 +16,6 @@
             style="border-radius: 8px; border: none; padding: 4px"
             v-model="group.extension"
             @change="updateSettings"
-          />
-
-          <!-- Color picker -->
-          <ColorInput
-            v-model="group.color"
-            position="top"
-            format="hex"
-            disable-alpha
           />
 
           <!-- Clear Button -->
@@ -45,11 +37,7 @@
 
 <script setup lang="ts">
 import { Ref, ref } from "vue";
-import { setNodeStyles } from "../utils/cytoscapeHelper";
-import ColorInput from "vue-color-input";
 import Disclosure from "./Disclosure.vue";
-
-const props = defineProps(["cy", "cyRelative"]);
 
 const nodeGroupController: Ref<HTMLElement | undefined> = ref();
 
@@ -82,8 +70,5 @@ const updateSettings = () => {
     command: "editSettings",
     text: groups,
   });
-
-  setNodeStyles(props.cy);
-  setNodeStyles(props.cyRelative);
 };
 </script>
