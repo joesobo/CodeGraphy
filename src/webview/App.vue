@@ -107,9 +107,9 @@ import WhitelistController from "./WhitelistController.vue";
 import BlacklistController from "./BlacklistController.vue";
 
 // @ts-ignore
-const nodeFiles = files;
+let nodeFiles = files;
 // @ts-ignore
-const nodeConnections = connections;
+let nodeConnections = connections;
 // @ts-ignore
 let nodeCurrentFile = currentFile;
 // @ts-ignore
@@ -173,10 +173,21 @@ window.addEventListener("message", (event) => {
 
       refreshMainGraph();
       refreshLocalGraph();
+    case "setFilesAndConnections":
+      nodeFiles = message.text.files;
+      nodeConnections = message.text.connections;
+
+      refreshMainGraph();
+      refreshLocalGraph();
   }
 });
 
 const refreshMainGraph = () => {
+  let nodes = processData(nodeFiles, nodeConnections, nodeWhitelistSettings);
+
+  mainCy.value.elements().remove();
+  mainCy.value.add(nodes);
+
   setNodeStyles(mainCy.value, nodeCurrentFile);
 
   reload(mainCy.value, "reload");

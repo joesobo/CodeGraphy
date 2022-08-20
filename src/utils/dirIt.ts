@@ -9,12 +9,21 @@ import {
   containsBlackListExtension,
 } from "./blacklistHelper";
 
-const files: string[] = [];
-const dirs: string[] = [];
+let files: string[] = [];
+let dirs: string[] = [];
 
 // returns a full list of files in a dir and its subdirs
 // ignores any files in the node_modules dir or is not a whitelisted extension
-export const dirIt = (directory: any, whitelistSettings: string[]) => {
+export const dirIt = (
+  directory: any,
+  whitelistSettings: string[],
+  clear?: boolean
+) => {
+  if (clear) {
+    files = [];
+    dirs = [];
+  }
+
   try {
     let dirContent = fs.readdirSync(directory);
 
@@ -36,7 +45,7 @@ export const dirIt = (directory: any, whitelistSettings: string[]) => {
     });
 
     if (dirs.length !== 0) {
-      dirIt(dirs.pop(), whitelistSettings);
+      dirIt(dirs.pop(), whitelistSettings, false);
     }
 
     return files;

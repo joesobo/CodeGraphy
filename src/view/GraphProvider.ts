@@ -41,7 +41,7 @@ export class GraphProvider implements vscode.WebviewViewProvider {
     // VSCode configuration
     const configuration = vscode.workspace.getConfiguration();
     const nodeSettings = configuration.codegraphy.nodeSettings;
-    const whitelistSettings: string[] =
+    let whitelistSettings: string[] =
       configuration.codegraphy.whitelistSettings;
 
     // Workspace information
@@ -52,11 +52,8 @@ export class GraphProvider implements vscode.WebviewViewProvider {
     currentFile = currentFile.startsWith("/")
       ? currentFile.substring(1)
       : currentFile;
-    const files: string[] = dirIt(currentPath, whitelistSettings);
-    const connections: Connection[][] = await getConnections(
-      files,
-      currentPath
-    );
+    let files: string[] = dirIt(currentPath, whitelistSettings);
+    let connections: Connection[][] = await getConnections(files, currentPath);
 
     // Handle messages from the webview
     webview.onDidReceiveMessage(async (message) => {
@@ -75,20 +72,25 @@ export class GraphProvider implements vscode.WebviewViewProvider {
             message.text
           );
         case "editWhitelistSettings":
-          return await configuration.update(
+          await configuration.update(
             "codegraphy.whitelistSettings",
             message.text
           );
+          whitelistSettings = message.text;
 
-        // get new connections and nodes
+          // get new connections and nodes
+          files = dirIt(currentPath, whitelistSettings, true);
+          connections = await getConnections(files, currentPath);
 
-        // send message
-        //   webview.postMessage({ command: "setFiles", text: files });
-        //   webview.postMessage({ command: "setConnections", text: connections });
+          // send message to update
+          return await webview.postMessage({
+            command: "setFilesAndConnections",
+            text: { files: files, connections: connections },
+          });
       }
     });
 
-    vscode.window.onDidChangeActiveTextEditor((editor) => {
+    vscode.window.onDidChangeActiveTextEditor(async (editor) => {
       if (editor) {
         // update reference of currently open file
         let currentFile = editor?.document.fileName || "";
@@ -96,7 +98,10 @@ export class GraphProvider implements vscode.WebviewViewProvider {
           ? currentFile.substring(1)
           : currentFile;
 
-        webview.postMessage({ command: "setCurrentFile", text: currentFile });
+        await webview.postMessage({
+          command: "setCurrentFile",
+          text: currentFile,
+        });
       }
     });
 

@@ -53,7 +53,6 @@ const createNewGroup = () => {
 const removeGroupAtIndex = (index: number) => {
   if (index > -1) {
     groupsRef.value.splice(index, 1);
-    groups.splice(index, 1);
   }
 
   updateSettings();
