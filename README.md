@@ -56,6 +56,9 @@ To color in nodes of the graph add these configurations to your `settings.json`.
     "extension": ".json",
     "color": "#dc6844"
   }
+],
+"codegraphy.whitelistSettings": [
+    ".js",".ts",".vue",".json",
 ]
 ```
 

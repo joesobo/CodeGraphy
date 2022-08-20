@@ -11,9 +11,14 @@ export const removeWhiteListExtension = (input: string) => {
   return output;
 };
 
-export const containsWhiteListExtension = (input: string) => {
-  return whiteListExtensions.some((element) => {
-    if (input.includes(element)) {
+export const containsWhiteListExtension = (
+  input: string,
+  whitelistSettings: string[]
+) => {
+  return whitelistSettings.some((element) => {
+    const inputExtension = `.${input.split(".").pop()}`;
+
+    if (inputExtension === element) {
       return true;
     }
 

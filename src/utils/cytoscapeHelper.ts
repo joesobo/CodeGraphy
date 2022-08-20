@@ -43,10 +43,6 @@ export const styles = (canUseLabels: boolean) => [
 
 // REFRESH LAYOUT
 export const reload = (cy: any, layoutOption: string) => {
-  if (layout) {
-    layout.stop();
-  }
-
   setLayout(cy, layoutOption);
 
   layout.run();

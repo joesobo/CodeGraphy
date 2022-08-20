@@ -1,5 +1,5 @@
 <template>
-  <Disclosure title="Groups" size="sm">
+  <Disclosure title="Whitelist" size="sm">
     <div
       style="
         display: flex;
@@ -14,16 +14,8 @@
           <!-- Extension input -->
           <input
             style="border-radius: 8px; border: none; padding: 4px"
-            v-model="group.extension"
+            v-model="groupsRef[index]"
             @change="updateSettings"
-          />
-
-          <!-- Color picker -->
-          <ColorInput
-            v-model="group.color"
-            position="top"
-            format="hex"
-            disable-alpha
           />
 
           <!-- Clear Button -->
@@ -45,22 +37,15 @@
 
 <script setup lang="ts">
 import { Ref, ref } from "vue";
-import { setNodeStyles } from "../utils/cytoscapeHelper";
-import ColorInput from "vue-color-input";
 import Disclosure from "./Disclosure.vue";
 
-const props = defineProps(["cy", "cyRelative"]);
-
 // @ts-ignore
-let groups: any[] = nodeSettings;
+let groups: any[] = whitelistSettings;
 // @ts-ignore
-let groupsRef: Ref<any[]> = ref(nodeSettings);
+let groupsRef: Ref<any[]> = ref(whitelistSettings);
 
 const createNewGroup = () => {
-  groupsRef.value.push({
-    extension: ".test",
-    color: "#fff",
-  });
+  groupsRef.value.push(".test");
 
   updateSettings();
 };
@@ -76,11 +61,8 @@ const removeGroupAtIndex = (index: number) => {
 const updateSettings = () => {
   // @ts-ignore
   vscode.postMessage({
-    command: "editMetaSettings",
+    command: "editWhitelistSettings",
     text: groups,
   });
-
-  setNodeStyles(props.cy);
-  setNodeStyles(props.cyRelative);
 };
 </script>
