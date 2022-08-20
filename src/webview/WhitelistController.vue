@@ -14,7 +14,7 @@
           <!-- Extension input -->
           <input
             style="border-radius: 8px; border: none; padding: 4px"
-            v-model="group.extension"
+            v-model="groupsRef[index]"
             @change="updateSettings"
           />
 
@@ -43,8 +43,6 @@ import Disclosure from "./Disclosure.vue";
 let groups: any[] = whitelistSettings;
 // @ts-ignore
 let groupsRef: Ref<any[]> = ref(whitelistSettings);
-
-console.log(groups);
 
 const createNewGroup = () => {
   groupsRef.value.push(".test");

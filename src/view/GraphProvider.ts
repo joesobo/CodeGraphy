@@ -2,15 +2,6 @@ import * as vscode from "vscode";
 import { dirIt } from "../utils/dirIt";
 import { getConnections, Connection } from "../utils/connections";
 
-const currentPath = vscode.workspace.workspaceFolders
-  ? vscode.workspace.workspaceFolders[0].uri.path.substring(1)
-  : "";
-let currentFile = vscode.window.activeTextEditor?.document.fileName || "";
-currentFile = currentFile.startsWith("/")
-  ? currentFile.substring(1)
-  : currentFile;
-const files: string[] = dirIt(currentPath);
-
 export class GraphProvider implements vscode.WebviewViewProvider {
   _view?: vscode.WebviewView;
   _doc?: vscode.TextDocument;
@@ -39,20 +30,33 @@ export class GraphProvider implements vscode.WebviewViewProvider {
   }
 
   private async _getHtmlForWebview(webview: vscode.Webview) {
+    // setup HTML links
     const vueURI = webview.asWebviewUri(
       vscode.Uri.joinPath(this._extensionUri, "dist", "compiled/index.es.js")
     );
     const styleMainUri = webview.asWebviewUri(
       vscode.Uri.joinPath(this._extensionUri, "src/assets", "style.css")
     );
-    const allConnections: Connection[][] = await getConnections(
+
+    // VSCode configuration
+    const configuration = vscode.workspace.getConfiguration();
+    const nodeSettings = configuration.codegraphy.nodeSettings;
+    const whitelistSettings: string[] =
+      configuration.codegraphy.whitelistSettings;
+
+    // Workspace information
+    const currentPath = vscode.workspace.workspaceFolders
+      ? vscode.workspace.workspaceFolders[0].uri.path.substring(1)
+      : "";
+    let currentFile = vscode.window.activeTextEditor?.document.fileName || "";
+    currentFile = currentFile.startsWith("/")
+      ? currentFile.substring(1)
+      : currentFile;
+    const files: string[] = dirIt(currentPath, whitelistSettings);
+    const connections: Connection[][] = await getConnections(
       files,
       currentPath
     );
-
-    const configuration = vscode.workspace.getConfiguration();
-    const nodeSettings = configuration.codegraphy.nodeSettings;
-    const whitelistSettings = configuration.codegraphy.whitelistSettings;
 
     // Handle messages from the webview
     webview.onDidReceiveMessage(async (message) => {
@@ -75,6 +79,12 @@ export class GraphProvider implements vscode.WebviewViewProvider {
             "codegraphy.whitelistSettings",
             message.text
           );
+
+        // get new connections and nodes
+
+        // send message
+        //   webview.postMessage({ command: "setFiles", text: files });
+        //   webview.postMessage({ command: "setConnections", text: connections });
       }
     });
 
@@ -111,7 +121,7 @@ export class GraphProvider implements vscode.WebviewViewProvider {
 
         <script>
           // Connection and file data transfer
-          var connections = ${JSON.stringify(allConnections)}
+          var connections = ${JSON.stringify(connections)}
           var files = ${JSON.stringify(files)}
           var currentFile = ${JSON.stringify(currentFile)}
           var nodeSettings = ${JSON.stringify(nodeSettings)}

@@ -112,6 +112,8 @@ const nodeFiles = files;
 const nodeConnections = connections;
 // @ts-ignore
 let nodeCurrentFile = currentFile;
+// @ts-ignore
+let nodeWhitelistSettings: string[] = whitelistSettings;
 
 const cyElement: Ref<HTMLElement | undefined> = ref();
 const cyElementRelative: Ref<HTMLElement | undefined> = ref();
@@ -125,7 +127,7 @@ let windowWidth: Ref<number> = ref(window.innerWidth - 32);
 
 onMounted(() => {
   if (cyElement.value && cyElementRelative.value) {
-    let nodes = processData(nodeFiles, nodeConnections);
+    let nodes = processData(nodeFiles, nodeConnections, nodeWhitelistSettings);
     let cy = getNewCytoscape(nodes, styles(canUseLabels), cyElement.value);
 
     runNodeHover(cy);
@@ -134,7 +136,13 @@ onMounted(() => {
     runNodeClick(cy, nodes);
     mainCy.value = cy;
 
-    nodes = processData(nodeFiles, nodeConnections, 1, nodeCurrentFile);
+    nodes = processData(
+      nodeFiles,
+      nodeConnections,
+      nodeWhitelistSettings,
+      1,
+      nodeCurrentFile
+    );
     let cyRelative = getNewCytoscape(
       nodes,
       styles(canUseLabels),
@@ -178,6 +186,7 @@ const refreshLocalGraph = () => {
   let nodes = processData(
     nodeFiles,
     nodeConnections,
+    nodeWhitelistSettings,
     localDepth,
     nodeCurrentFile
   );
