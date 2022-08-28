@@ -1,5 +1,5 @@
 import * as vscode from "vscode";
-import { dirIt } from "../files/dirIt";
+import { fetchDirFiles } from "../files/fetchDirFiles";
 import { getConnections, Connection } from "../connections/connections";
 
 export const handleMessages = async (
@@ -53,7 +53,7 @@ const handleReceivedMessages = (
         whitelistSettings = message.text;
 
         // get new connections and nodes
-        files = dirIt(currentPath, whitelistSettings, true);
+        files = fetchDirFiles(currentPath, whitelistSettings, true);
         connections = await getConnections(files, currentPath);
 
         // send message to update

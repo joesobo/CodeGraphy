@@ -5,5 +5,5 @@
 </template>
 
 <script setup lang="ts">
-import Disclosure from "./Disclosure.vue";
+import Disclosure from "../components/Disclosure.vue";
 </script>

@@ -45,9 +45,9 @@
 
 <script setup lang="ts">
 import { Ref, ref } from "vue";
-import { setNodeStyles } from "../utils/cytoscape/cytoscapeHelper";
+import { setNodeStyles } from "../../utils/cytoscape/cytoscapeHelper";
 import ColorInput from "vue-color-input";
-import Disclosure from "./Disclosure.vue";
+import Disclosure from "../components/Disclosure.vue";
 
 const props = defineProps(["cy", "cyRelative"]);
 

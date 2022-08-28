@@ -1,5 +1,5 @@
 import * as vscode from "vscode";
-import { dirIt } from "../utils/files/dirIt";
+import { fetchDirFiles } from "../utils/files/fetchDirFiles";
 import { getConnections, Connection } from "../utils/connections/connections";
 import { handleMessages } from "../utils/vscode/handleMessages";
 
@@ -53,7 +53,7 @@ export class GraphProvider implements vscode.WebviewViewProvider {
     currentFile = currentFile.startsWith("/")
       ? currentFile.substring(1)
       : currentFile;
-    let files: string[] = dirIt(currentPath, whitelistSettings);
+    let files: string[] = fetchDirFiles(currentPath, whitelistSettings);
     let connections: Connection[][] = await getConnections(files, currentPath);
 
     // Handle message calls to and from the Vue side

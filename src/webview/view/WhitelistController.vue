@@ -37,7 +37,7 @@
 
 <script setup lang="ts">
 import { Ref, ref } from "vue";
-import Disclosure from "./Disclosure.vue";
+import Disclosure from "../components/Disclosure.vue";
 
 // @ts-ignore
 let groups: any[] = whitelistSettings;

@@ -12,7 +12,7 @@
     <Disclosure title="Full Graph" open>
       <div
         id="cy"
-        ref="cyElement"
+        ref="mainGraphElement"
         :style="`height: ${windowWidth}px; width: ${windowWidth}px; background-color: #1e1e1e;`"
       ></div>
 
@@ -67,7 +67,7 @@
     <Disclosure title="Local Graph" style="margin-top: 32px">
       <div
         id="cy-relative"
-        ref="cyElementRelative"
+        ref="relativeGraphElement"
         :style="`height: ${windowWidth}px; width: ${windowWidth}px; background-color: #1e1e1e;`"
       ></div>
 
@@ -77,7 +77,7 @@
           style="margin-left: 8px"
           id="local-depth"
           v-model="localDepth"
-          @change="refreshLocalGraph"
+          @change="refreshLocalGraph(relativeCy, nodeCurrentFile, localDepth)"
         />
       </div>
     </Disclosure>
@@ -93,30 +93,27 @@
 <script setup lang="ts">
 import { Ref, ref, onMounted } from "vue";
 
-import { processData } from "../utils/node/dataProcessor";
-import {
-  styles,
-  reload,
-  setNodeStyles,
-} from "../utils/cytoscape/cytoscapeHelper";
-import { getNewCytoscape } from "../utils/cytoscape/cytoscapeGraphCreator";
-import { runNodeClick } from "../utils/node/nodeClick";
 import {
   canUseHover,
   toggleHover,
-  runNodeHover,
-} from "../utils/node/nodeHover";
-import {
   canUseLabels,
   toggleLabels,
-  runNodeLabels,
-} from "../utils/node/nodeLabels";
-import { sortingOption, runNodeSort } from "../utils/node/nodeSort";
+  sortingOption,
+} from "../utils/node";
 
-import NodeMetaController from "./NodeMetaController.vue";
-import Disclosure from "./Disclosure.vue";
-import WhitelistController from "./WhitelistController.vue";
-import BlacklistController from "./BlacklistController.vue";
+import {
+  reload,
+  setupMainGraph,
+  setupRelativeGraph,
+  refreshMainGraph,
+  refreshLocalGraph,
+} from "../utils/cytoscape";
+
+import NodeMetaController from "./view/NodeMetaController.vue";
+import WhitelistController from "./view/WhitelistController.vue";
+import BlacklistController from "./view/BlacklistController.vue";
+
+import Disclosure from "./components/Disclosure.vue";
 
 // @ts-ignore
 let nodeFiles = files;
@@ -124,11 +121,9 @@ let nodeFiles = files;
 let nodeConnections = connections;
 // @ts-ignore
 let nodeCurrentFile = currentFile;
-// @ts-ignore
-let nodeWhitelistSettings: string[] = whitelistSettings;
 
-const cyElement: Ref<HTMLElement | undefined> = ref();
-const cyElementRelative: Ref<HTMLElement | undefined> = ref();
+const mainGraphElement: Ref<HTMLElement | undefined> = ref();
+const relativeGraphElement: Ref<HTMLElement | undefined> = ref();
 
 let mainCy: Ref<any> = ref(null);
 let relativeCy: Ref<any> = ref(null);
@@ -138,37 +133,8 @@ let localDepth = 1;
 let windowWidth: Ref<number> = ref(window.innerWidth - 32);
 
 onMounted(() => {
-  if (cyElement.value && cyElementRelative.value) {
-    let nodes = processData(nodeFiles, nodeConnections, nodeWhitelistSettings);
-    let cy = getNewCytoscape(nodes, styles(canUseLabels), cyElement.value);
-
-    runNodeHover(cy);
-    runNodeLabels(cy);
-    runNodeSort(cy);
-    runNodeClick(cy, nodes);
-    mainCy.value = cy;
-
-    nodes = processData(
-      nodeFiles,
-      nodeConnections,
-      nodeWhitelistSettings,
-      1,
-      nodeCurrentFile
-    );
-    let cyRelative = getNewCytoscape(
-      nodes,
-      styles(canUseLabels),
-      cyElementRelative.value
-    );
-
-    runNodeSort(cyRelative);
-    runNodeClick(cyRelative, nodes);
-
-    relativeCy.value = cyRelative;
-
-    refreshMainGraph();
-    refreshLocalGraph();
-  }
+  mainCy.value = setupMainGraph(mainGraphElement.value);
+  relativeCy.value = setupRelativeGraph(relativeGraphElement.value);
 
   window.onresize = () => {
     windowWidth.value = window.innerWidth - 32;
@@ -183,48 +149,16 @@ window.addEventListener("message", (event) => {
     case "setCurrentFile":
       nodeCurrentFile = message.text;
 
-      refreshMainGraph();
-      refreshLocalGraph();
+      refreshMainGraph(mainCy.value, nodeCurrentFile);
+      refreshLocalGraph(relativeCy.value, nodeCurrentFile, localDepth);
       return;
     case "setFilesAndConnections":
       nodeFiles = message.text.files;
       nodeConnections = message.text.connections;
 
-      refreshMainGraph();
-      refreshLocalGraph();
+      refreshMainGraph(mainCy.value, nodeCurrentFile);
+      refreshLocalGraph(relativeCy.value, nodeCurrentFile, localDepth);
       return;
   }
 });
-
-const refreshMainGraph = () => {
-  let nodes = processData(nodeFiles, nodeConnections, nodeWhitelistSettings);
-
-  mainCy.value.elements().remove();
-  mainCy.value.add(nodes);
-
-  setNodeStyles(mainCy.value, nodeCurrentFile);
-
-  reload(mainCy.value, "reload");
-};
-
-const refreshLocalGraph = () => {
-  let nodes = processData(
-    nodeFiles,
-    nodeConnections,
-    nodeWhitelistSettings,
-    localDepth,
-    nodeCurrentFile
-  );
-
-  relativeCy.value.elements().remove();
-  relativeCy.value.add(nodes);
-
-  // turn off old click listener to update with new depth nodes
-  relativeCy.value.off("click");
-  runNodeClick(relativeCy.value, nodes);
-
-  setNodeStyles(relativeCy.value, nodeCurrentFile);
-
-  reload(relativeCy.value, "reload");
-};
 </script>

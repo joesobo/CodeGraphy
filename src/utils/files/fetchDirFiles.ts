@@ -14,7 +14,7 @@ let dirs: string[] = [];
 
 // returns a full list of files in a dir and its subdirs
 // ignores any files in the node_modules dir or is not a whitelisted extension
-export const dirIt = (
+export const fetchDirFiles = (
   directory: any,
   whitelistSettings: string[],
   clear?: boolean
@@ -45,7 +45,7 @@ export const dirIt = (
     });
 
     if (dirs.length !== 0) {
-      dirIt(dirs.pop(), whitelistSettings, false);
+      fetchDirFiles(dirs.pop(), whitelistSettings, false);
     }
 
     return files;
