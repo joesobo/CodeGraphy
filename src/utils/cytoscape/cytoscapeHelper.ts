@@ -1,4 +1,4 @@
-import { selectedNode } from "../temp/tempInfo";
+import { selectedNode } from "../../temp/tempInfo";
 
 let layout: any;
 let lastLayout = "cose";

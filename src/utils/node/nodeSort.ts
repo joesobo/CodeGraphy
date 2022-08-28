@@ -1,4 +1,4 @@
-import { reload } from "./cytoscapeHelper";
+import { reload } from "../cytoscape/cytoscapeHelper";
 
 export let sortingOption = "cose";
 

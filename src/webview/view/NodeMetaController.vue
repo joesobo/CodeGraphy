@@ -45,7 +45,7 @@
 
 <script setup lang="ts">
 import { Ref, ref } from "vue";
-import { setNodeStyles } from "../utils/cytoscapeHelper";
+import { setNodeStyles } from "../utils/cytoscape/cytoscapeHelper";
 import ColorInput from "vue-color-input";
 import Disclosure from "./Disclosure.vue";
 

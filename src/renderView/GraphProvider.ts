@@ -1,6 +1,7 @@
 import * as vscode from "vscode";
-import { dirIt } from "../utils/dirIt";
-import { getConnections, Connection } from "../utils/connections";
+import { dirIt } from "../utils/files/dirIt";
+import { getConnections, Connection } from "../utils/connections/connections";
+import { handleMessages } from "../utils/vscode/handleMessages";
 
 export class GraphProvider implements vscode.WebviewViewProvider {
   _view?: vscode.WebviewView;
@@ -55,55 +56,14 @@ export class GraphProvider implements vscode.WebviewViewProvider {
     let files: string[] = dirIt(currentPath, whitelistSettings);
     let connections: Connection[][] = await getConnections(files, currentPath);
 
-    // Handle messages from the webview
-    webview.onDidReceiveMessage(async (message) => {
-      switch (message.command) {
-        case "openFile":
-          // open new file
-          const openPath = vscode.Uri.file(message.text);
-
-          vscode.workspace.openTextDocument(openPath).then(async (doc) => {
-            vscode.window.showTextDocument(doc);
-          });
-          return;
-        case "editMetaSettings":
-          return await configuration.update(
-            "codegraphy.nodeSettings",
-            message.text
-          );
-        case "editWhitelistSettings":
-          await configuration.update(
-            "codegraphy.whitelistSettings",
-            message.text
-          );
-          whitelistSettings = message.text;
-
-          // get new connections and nodes
-          files = dirIt(currentPath, whitelistSettings, true);
-          connections = await getConnections(files, currentPath);
-
-          // send message to update
-          return await webview.postMessage({
-            command: "setFilesAndConnections",
-            text: { files: files, connections: connections },
-          });
-      }
-    });
-
-    vscode.window.onDidChangeActiveTextEditor(async (editor) => {
-      if (editor) {
-        // update reference of currently open file
-        let currentFile = editor?.document.fileName || "";
-        currentFile = currentFile.startsWith("/")
-          ? currentFile.substring(1)
-          : currentFile;
-
-        await webview.postMessage({
-          command: "setCurrentFile",
-          text: currentFile,
-        });
-      }
-    });
+    // Handle message calls to and from the Vue side
+    await handleMessages(
+      webview,
+      currentPath,
+      files,
+      connections,
+      whitelistSettings
+    );
 
     return `
     <!DOCTYPE html>

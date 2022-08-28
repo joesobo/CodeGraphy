@@ -1,4 +1,4 @@
-import { blackListExtensions, blackListDirs } from "../temp/tempInfo";
+import { blackListExtensions, blackListDirs } from "../../temp/tempInfo";
 
 export const removeBlackListExtension = (input: string) => {
   let output = input;

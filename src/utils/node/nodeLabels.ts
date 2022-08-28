@@ -1,4 +1,4 @@
-import { styles } from "./cytoscapeHelper";
+import { styles } from "../cytoscape/cytoscapeHelper";
 
 export let canUseLabels = true;
 

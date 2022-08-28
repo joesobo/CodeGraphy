@@ -1,4 +1,4 @@
-import { containsWhiteListExtension } from "./whitelistHelper";
+import { containsWhiteListExtension } from "../files/whitelistHelper";
 
 export const processData = (
   files: string[],

@@ -8,11 +8,11 @@ import fs from "fs";
 const production = !process.env.ROLLUP_WATCH;
 
 export default fs
-  .readdirSync(path.join(__dirname, "src", "view"))
+  .readdirSync(path.join(__dirname, "src", "renderView"))
   .map((input) => {
     const name = input.split(".")[0];
     return {
-      input: "src/view/" + input,
+      input: "src/renderView/" + input,
       output: {
         sourcemap: true,
         format: "iife",

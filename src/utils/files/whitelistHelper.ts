@@ -1,4 +1,4 @@
-import { whiteListExtensions, whiteListDirs } from "../temp/tempInfo";
+import { whiteListExtensions, whiteListDirs } from "../../temp/tempInfo";
 
 export const removeWhiteListExtension = (input: string) => {
   let output = input;

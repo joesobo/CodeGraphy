@@ -93,13 +93,25 @@
 <script setup lang="ts">
 import { Ref, ref, onMounted } from "vue";
 
-import { processData } from "../utils/dataProcessor";
-import { styles, reload, setNodeStyles } from "../utils/cytoscapeHelper";
-import { getNewCytoscape } from "../utils/cytoscapeGraphCreator";
-import { runNodeClick } from "../utils/nodeClick";
-import { canUseHover, toggleHover, runNodeHover } from "../utils/nodeHover";
-import { canUseLabels, toggleLabels, runNodeLabels } from "../utils/nodeLabels";
-import { sortingOption, runNodeSort } from "../utils/nodeSort";
+import { processData } from "../utils/node/dataProcessor";
+import {
+  styles,
+  reload,
+  setNodeStyles,
+} from "../utils/cytoscape/cytoscapeHelper";
+import { getNewCytoscape } from "../utils/cytoscape/cytoscapeGraphCreator";
+import { runNodeClick } from "../utils/node/nodeClick";
+import {
+  canUseHover,
+  toggleHover,
+  runNodeHover,
+} from "../utils/node/nodeHover";
+import {
+  canUseLabels,
+  toggleLabels,
+  runNodeLabels,
+} from "../utils/node/nodeLabels";
+import { sortingOption, runNodeSort } from "../utils/node/nodeSort";
 
 import NodeMetaController from "./NodeMetaController.vue";
 import Disclosure from "./Disclosure.vue";
@@ -173,12 +185,14 @@ window.addEventListener("message", (event) => {
 
       refreshMainGraph();
       refreshLocalGraph();
+      return;
     case "setFilesAndConnections":
       nodeFiles = message.text.files;
       nodeConnections = message.text.connections;
 
       refreshMainGraph();
       refreshLocalGraph();
+      return;
   }
 });
 

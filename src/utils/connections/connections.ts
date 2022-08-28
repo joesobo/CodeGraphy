@@ -1,6 +1,6 @@
 import readline from "readline";
 import fs from "fs";
-import { removeWhiteListExtension } from "./whitelistHelper";
+import { removeWhiteListExtension } from "../files/whitelistHelper";
 
 export type Connection = {
   group: string;

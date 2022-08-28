@@ -1,5 +1,5 @@
 import * as vscode from "vscode";
-import { GraphProvider } from "./view/GraphProvider";
+import { GraphProvider } from "./renderView/GraphProvider";
 
 export function activate(context: vscode.ExtensionContext) {
   const graphProvider = new GraphProvider(context.extensionUri);
