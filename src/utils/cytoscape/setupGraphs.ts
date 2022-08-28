@@ -25,7 +25,13 @@ export const setupMainGraph = (mainGraphElement: HTMLElement | undefined) => {
     runNodeSort(cy);
     runNodeClick(cy, nodes);
 
-    refreshMainGraph(cy, nodeCurrentFile);
+    refreshMainGraph(
+      cy,
+      nodeCurrentFile,
+      nodeFiles,
+      nodeConnections,
+      nodeWhitelistSettings
+    );
 
     return cy;
   }
@@ -51,13 +57,25 @@ export const setupRelativeGraph = (
     runNodeSort(cyRelative);
     runNodeClick(cyRelative, nodes);
 
-    refreshLocalGraph(cyRelative, nodeCurrentFile);
+    refreshLocalGraph(
+      cyRelative,
+      nodeCurrentFile,
+      nodeFiles,
+      nodeConnections,
+      nodeWhitelistSettings
+    );
 
     return cyRelative;
   }
 };
 
-export const refreshMainGraph = (mainCy: any, nodeCurrentFile?: any) => {
+export const refreshMainGraph = (
+  mainCy: any,
+  nodeCurrentFile: any,
+  nodeFiles: any,
+  nodeConnections: any,
+  nodeWhitelistSettings: any
+) => {
   let nodes = processData(nodeFiles, nodeConnections, nodeWhitelistSettings);
 
   mainCy.elements().remove();
@@ -70,7 +88,10 @@ export const refreshMainGraph = (mainCy: any, nodeCurrentFile?: any) => {
 
 export const refreshLocalGraph = (
   relativeCy: any,
-  nodeCurrentFile?: any,
+  nodeCurrentFile: any,
+  nodeFiles: any,
+  nodeConnections: any,
+  nodeWhitelistSettings: any,
   localDepth: number = 1
 ) => {
   let nodes = processData(

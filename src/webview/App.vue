@@ -77,7 +77,7 @@
           style="margin-left: 8px"
           id="local-depth"
           v-model="localDepth"
-          @change="refreshLocalGraph(relativeCy, nodeCurrentFile, localDepth)"
+          @change="refreshGraphs"
         />
       </div>
     </Disclosure>
@@ -121,6 +121,8 @@ let nodeFiles = files;
 let nodeConnections = connections;
 // @ts-ignore
 let nodeCurrentFile = currentFile;
+// @ts-ignore
+let nodeWhitelistSettings: string[] = whitelistSettings;
 
 const mainGraphElement: Ref<HTMLElement | undefined> = ref();
 const relativeGraphElement: Ref<HTMLElement | undefined> = ref();
@@ -149,16 +151,32 @@ window.addEventListener("message", (event) => {
     case "setCurrentFile":
       nodeCurrentFile = message.text;
 
-      refreshMainGraph(mainCy.value, nodeCurrentFile);
-      refreshLocalGraph(relativeCy.value, nodeCurrentFile, localDepth);
+      refreshGraphs();
       return;
     case "setFilesAndConnections":
       nodeFiles = message.text.files;
       nodeConnections = message.text.connections;
 
-      refreshMainGraph(mainCy.value, nodeCurrentFile);
-      refreshLocalGraph(relativeCy.value, nodeCurrentFile, localDepth);
+      refreshGraphs();
       return;
   }
 });
+
+const refreshGraphs = () => {
+  refreshMainGraph(
+    mainCy.value,
+    nodeCurrentFile,
+    nodeFiles,
+    nodeConnections,
+    nodeWhitelistSettings
+  );
+  refreshLocalGraph(
+    relativeCy.value,
+    nodeCurrentFile,
+    nodeFiles,
+    nodeConnections,
+    nodeWhitelistSettings,
+    localDepth
+  );
+};
 </script>
