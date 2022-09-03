@@ -84,12 +84,22 @@
       "properties": {
         "codegraphy.nodeSettings": {
           "type": "array",
-          "default": [],
+          "default": [
+            {
+              "extension": ".js",
+              "color": "#4985be"
+            }
+          ],
           "description": "Node Metadata"
         },
         "codegraphy.blacklist": {
           "type": "array",
-          "default": [],
+          "default": [
+            ".vscode",
+            ".git",
+            ".github",
+            "node_modules"
+          ],
           "description": "Blacklist folders and files"
         }
       }
