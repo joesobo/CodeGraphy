@@ -42,6 +42,7 @@ export const getNewCytoscape = (
     // interaction options:
     minZoom: 1 / 2,
     maxZoom: 2,
+    wheelSensitivity: 0.25,
     zoomingEnabled: true,
     userZoomingEnabled: true,
     panningEnabled: true,
