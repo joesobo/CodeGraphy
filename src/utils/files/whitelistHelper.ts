@@ -15,6 +15,8 @@ export const containsWhiteListExtension = (
   input: string,
   whitelistSettings: string[]
 ) => {
+  if (whitelistSettings.length === 0) return true;
+
   return whitelistSettings.some((element) => {
     const inputExtension = `.${input.split(".").pop()}`;
 
