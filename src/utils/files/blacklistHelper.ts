@@ -1,8 +1,3 @@
-// returns true for anything that matches in the blacklist
-// Expected blacklist settings:
-// .js
-// file.js
-// folder/
 export const containsBlacklist = (
   input: string,
   blacklistSettings: string[]
