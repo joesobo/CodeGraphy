@@ -101,8 +101,6 @@ const indexOfNode = (files: string[], edgeNode: string) => {
     const extensionlessFile = file.split("/");
     const directFileName = extensionlessFile[extensionlessFile.length - 1];
 
-    console.log(directFileName, edgeNode);
-
     if (directFileName === edgeNode) {
       return index;
     }
