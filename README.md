@@ -57,9 +57,21 @@ To color in nodes of the graph add these configurations to your `settings.json`.
     "color": "#dc6844"
   }
 ],
-"codegraphy.whitelistSettings": [
-    ".js",".ts",".vue",".json",
-]
+"codegraphy.blacklist": [
+    ".spec.",
+    ".d.ts",
+    ".config.js",
+    ".stories.",
+    ".map",
+    ".vscode",
+    ".git",
+    ".github",
+    "node_modules",
+    "dist",
+    "static",
+    "coverage",
+    "storybook-static",
+],
 ```
 
 ![Node Group Settings](https://user-images.githubusercontent.com/26047842/180671587-65727960-e0bf-4053-82ea-3f6dac719f39.png)

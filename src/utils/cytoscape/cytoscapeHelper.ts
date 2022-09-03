@@ -1,7 +1,9 @@
-import { selectedNode } from "../../temp/tempInfo";
-
 let layout: any;
 let lastLayout = "cose";
+
+const selectedNode = {
+  color: "#fff",
+};
 
 // CYTOSCAPE GRAPH STYLES
 export const styles = (canUseLabels: boolean) => [

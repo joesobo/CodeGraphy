@@ -1,6 +1,5 @@
 import readline from "readline";
 import fs from "fs";
-import { removeWhiteListExtension } from "../files/whitelistHelper";
 
 export type Connection = {
   group: string;
@@ -100,9 +99,9 @@ const indexOfNode = (files: string[], edgeNode: string) => {
   for (let index = 0; index < files.length; index++) {
     const file = files[index];
     const extensionlessFile = file.split("/");
-    const directFileName = removeWhiteListExtension(
-      extensionlessFile[extensionlessFile.length - 1]
-    );
+    const directFileName = extensionlessFile[extensionlessFile.length - 1];
+
+    console.log(directFileName, edgeNode);
 
     if (directFileName === edgeNode) {
       return index;

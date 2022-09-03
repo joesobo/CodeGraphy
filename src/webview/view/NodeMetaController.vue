@@ -1,5 +1,5 @@
 <template>
-  <Disclosure title="Groups" size="sm">
+  <Disclosure title="Config" size="sm" style="margin-top: 32px">
     <div
       style="
         display: flex;

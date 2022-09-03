@@ -1,33 +1,13 @@
 import * as vscode from "vscode";
-import { fetchDirFiles } from "../files/fetchDirFiles";
-import { getConnections, Connection } from "../connections/connections";
 
-export const handleMessages = async (
-  webview: vscode.Webview,
-  currentPath: string,
-  files: string[],
-  connections: Connection[][],
-  whitelistSettings: string[]
-) => {
+export const handleMessages = async (webview: vscode.Webview) => {
   // Handle messages from the webview
-  handleReceivedMessages(
-    webview,
-    whitelistSettings,
-    files,
-    currentPath,
-    connections
-  );
+  handleReceivedMessages(webview);
 
   handleSendMessages(webview);
 };
 
-const handleReceivedMessages = (
-  webview: vscode.Webview,
-  whitelistSettings: string[],
-  files: string[],
-  currentPath: string,
-  connections: Connection[][]
-) => {
+const handleReceivedMessages = (webview: vscode.Webview) => {
   webview.onDidReceiveMessage(async (message) => {
     const configuration = vscode.workspace.getConfiguration();
 
@@ -45,22 +25,6 @@ const handleReceivedMessages = (
           "codegraphy.nodeSettings",
           message.text
         );
-      case "editWhitelistSettings":
-        await configuration.update(
-          "codegraphy.whitelistSettings",
-          message.text
-        );
-        whitelistSettings = message.text;
-
-        // get new connections and nodes
-        files = fetchDirFiles(currentPath, whitelistSettings, true);
-        connections = await getConnections(files, currentPath);
-
-        // send message to update
-        return await webview.postMessage({
-          command: "setFilesAndConnections",
-          text: { files: files, connections: connections },
-        });
     }
   });
 };

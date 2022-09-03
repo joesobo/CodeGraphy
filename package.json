@@ -86,10 +86,10 @@
           "default": [],
           "description": "Node Metadata"
         },
-        "codegraphy.whitelistSettings": {
+        "codegraphy.blacklist": {
           "type": "array",
           "default": [],
-          "description": "Whitelist files"
+          "description": "Blacklist folders and files"
         }
       }
     }

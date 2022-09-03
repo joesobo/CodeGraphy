@@ -40,10 +40,8 @@ export class GraphProvider implements vscode.WebviewViewProvider {
     );
 
     // VSCode configuration
-    const configuration = vscode.workspace.getConfiguration();
-    const nodeSettings = configuration.codegraphy.nodeSettings;
-    let whitelistSettings: string[] =
-      configuration.codegraphy.whitelistSettings;
+    let { nodeSettings, blacklist } =
+      vscode.workspace.getConfiguration().codegraphy;
 
     // Workspace information
     const currentPath = vscode.workspace.workspaceFolders
@@ -53,17 +51,11 @@ export class GraphProvider implements vscode.WebviewViewProvider {
     currentFile = currentFile.startsWith("/")
       ? currentFile.substring(1)
       : currentFile;
-    let files: string[] = fetchDirFiles(currentPath, whitelistSettings);
+    let files: string[] = fetchDirFiles(currentPath, blacklist);
     let connections: Connection[][] = await getConnections(files, currentPath);
 
     // Handle message calls to and from the Vue side
-    await handleMessages(
-      webview,
-      currentPath,
-      files,
-      connections,
-      whitelistSettings
-    );
+    await handleMessages(webview);
 
     return `
     <!DOCTYPE html>
@@ -90,7 +82,7 @@ export class GraphProvider implements vscode.WebviewViewProvider {
           var files = ${JSON.stringify(files)}
           var currentFile = ${JSON.stringify(currentFile)}
           var nodeSettings = ${JSON.stringify(nodeSettings)}
-          var whitelistSettings = ${JSON.stringify(whitelistSettings)}
+          var blacklistSettings = ${JSON.stringify(blacklist)}
           var vscode = acquireVsCodeApi();
         </script>
       </body>

@@ -82,11 +82,7 @@
       </div>
     </Disclosure>
 
-    <Disclosure title="Config" size="sm" style="margin-top: 32px">
-      <NodeMetaController :cy="mainCy" :cyRelative="relativeCy" />
-      <WhitelistController />
-      <BlacklistController />
-    </Disclosure>
+    <NodeMetaController :cy="mainCy" :cyRelative="relativeCy" />
   </div>
 </template>
 
@@ -110,8 +106,6 @@ import {
 } from "../utils/cytoscape";
 
 import NodeMetaController from "./view/NodeMetaController.vue";
-import WhitelistController from "./view/WhitelistController.vue";
-import BlacklistController from "./view/BlacklistController.vue";
 
 import Disclosure from "./components/Disclosure.vue";
 
@@ -121,8 +115,6 @@ let nodeFiles = files;
 let nodeConnections = connections;
 // @ts-ignore
 let nodeCurrentFile = currentFile;
-// @ts-ignore
-let nodeWhitelistSettings: string[] = whitelistSettings;
 
 const mainGraphElement: Ref<HTMLElement | undefined> = ref();
 const relativeGraphElement: Ref<HTMLElement | undefined> = ref();
@@ -163,19 +155,12 @@ window.addEventListener("message", (event) => {
 });
 
 const refreshGraphs = () => {
-  refreshMainGraph(
-    mainCy.value,
-    nodeCurrentFile,
-    nodeFiles,
-    nodeConnections,
-    nodeWhitelistSettings
-  );
+  refreshMainGraph(mainCy.value, nodeCurrentFile, nodeFiles, nodeConnections);
   refreshLocalGraph(
     relativeCy.value,
     nodeCurrentFile,
     nodeFiles,
     nodeConnections,
-    nodeWhitelistSettings,
     localDepth
   );
 };

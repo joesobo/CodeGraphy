@@ -1,9 +1,6 @@
-import { containsWhiteListExtension } from "../files/whitelistHelper";
-
 export const processData = (
   files: string[],
   connections: any[],
-  whitelistSettings: string[],
   depth?: number,
   openFile?: any
 ) => {
@@ -71,18 +68,16 @@ export const processData = (
   // push root nodes
   for (let index = 0; index < tempFiles.length; index++) {
     const file = tempFiles[index];
-    if (containsWhiteListExtension(file, whitelistSettings)) {
-      const filePath = file.replace(/\\/g, "/");
-      const fileName = filePath.split("/").pop() || "";
-      nodes.push({
-        group: "nodes",
-        data: {
-          id: index,
-          label: fileName,
-          fullPath: file,
-        },
-      });
-    }
+    const filePath = file.replace(/\\/g, "/");
+    const fileName = filePath.split("/").pop() || "";
+    nodes.push({
+      group: "nodes",
+      data: {
+        id: index,
+        label: fileName,
+        fullPath: file,
+      },
+    });
   }
 
   // push edges

@@ -12,12 +12,10 @@ let nodeFiles = files;
 let nodeConnections = connections;
 // @ts-ignore
 let nodeCurrentFile = currentFile;
-// @ts-ignore
-let nodeWhitelistSettings: string[] = whitelistSettings;
 
 export const setupMainGraph = (mainGraphElement: HTMLElement | undefined) => {
   if (mainGraphElement) {
-    let nodes = processData(nodeFiles, nodeConnections, nodeWhitelistSettings);
+    let nodes = processData(nodeFiles, nodeConnections);
     let cy = getNewCytoscape(nodes, styles(canUseLabels), mainGraphElement);
 
     runNodeHover(cy);
@@ -25,13 +23,7 @@ export const setupMainGraph = (mainGraphElement: HTMLElement | undefined) => {
     runNodeSort(cy);
     runNodeClick(cy, nodes);
 
-    refreshMainGraph(
-      cy,
-      nodeCurrentFile,
-      nodeFiles,
-      nodeConnections,
-      nodeWhitelistSettings
-    );
+    refreshMainGraph(cy, nodeCurrentFile, nodeFiles, nodeConnections);
 
     return cy;
   }
@@ -41,13 +33,7 @@ export const setupRelativeGraph = (
   relativeGraphElement: HTMLElement | undefined
 ) => {
   if (relativeGraphElement) {
-    let nodes = processData(
-      nodeFiles,
-      nodeConnections,
-      nodeWhitelistSettings,
-      1,
-      nodeCurrentFile
-    );
+    let nodes = processData(nodeFiles, nodeConnections, 1, nodeCurrentFile);
     let cyRelative = getNewCytoscape(
       nodes,
       styles(canUseLabels),
@@ -57,13 +43,7 @@ export const setupRelativeGraph = (
     runNodeSort(cyRelative);
     runNodeClick(cyRelative, nodes);
 
-    refreshLocalGraph(
-      cyRelative,
-      nodeCurrentFile,
-      nodeFiles,
-      nodeConnections,
-      nodeWhitelistSettings
-    );
+    refreshLocalGraph(cyRelative, nodeCurrentFile, nodeFiles, nodeConnections);
 
     return cyRelative;
   }
@@ -73,10 +53,9 @@ export const refreshMainGraph = (
   mainCy: any,
   nodeCurrentFile: any,
   nodeFiles: any,
-  nodeConnections: any,
-  nodeWhitelistSettings: any
+  nodeConnections: any
 ) => {
-  let nodes = processData(nodeFiles, nodeConnections, nodeWhitelistSettings);
+  let nodes = processData(nodeFiles, nodeConnections);
 
   mainCy.elements().remove();
   mainCy.add(nodes);
@@ -91,13 +70,11 @@ export const refreshLocalGraph = (
   nodeCurrentFile: any,
   nodeFiles: any,
   nodeConnections: any,
-  nodeWhitelistSettings: any,
   localDepth: number = 1
 ) => {
   let nodes = processData(
     nodeFiles,
     nodeConnections,
-    nodeWhitelistSettings,
     localDepth,
     nodeCurrentFile
   );

@@ -1,22 +1,15 @@
 import fs from "fs";
 import path from "path";
-import {
-  containsWhitelistDir,
-  containsWhiteListExtension,
-} from "./whitelistHelper";
-import {
-  containsBlacklistDir,
-  containsBlackListExtension,
-} from "./blacklistHelper";
+import { containsBlacklist } from "./blacklistHelper";
 
 let files: string[] = [];
 let dirs: string[] = [];
 
 // returns a full list of files in a dir and its subdirs
-// ignores any files in the node_modules dir or is not a whitelisted extension
+// ignores any files or folders blacklisted
 export const fetchDirFiles = (
   directory: any,
-  whitelistSettings: string[],
+  blacklistSettings: string[],
   clear?: boolean
 ) => {
   if (clear) {
@@ -30,14 +23,9 @@ export const fetchDirFiles = (
     dirContent.forEach((dirPath) => {
       const fullPath = path.join(directory, dirPath);
 
-      if (containsWhitelistDir(fullPath) && !containsBlacklistDir(fullPath)) {
+      if (!containsBlacklist(fullPath, blacklistSettings)) {
         if (fs.statSync(fullPath).isFile()) {
-          if (
-            containsWhiteListExtension(fullPath, whitelistSettings) &&
-            !containsBlackListExtension(fullPath)
-          ) {
-            files.push(fullPath);
-          }
+          files.push(fullPath);
         } else {
           dirs.push(fullPath);
         }
@@ -45,7 +33,7 @@ export const fetchDirFiles = (
     });
 
     if (dirs.length !== 0) {
-      fetchDirFiles(dirs.pop(), whitelistSettings, false);
+      fetchDirFiles(dirs.pop(), blacklistSettings, false);
     }
 
     return files;
