@@ -1,19 +1,12 @@
 <template>
-  <Disclosure title="Config" size="sm" style="margin-top: 32px">
-    <div
-      style="
-        display: flex;
-        flex-direction: column;
-        background-color: #1e1e1e;
-        padding: 8px;
-      "
-    >
+  <Disclosure title="Config" size="sm" class="mt-8">
+    <div class="flex flex-col bg-zinc-900 p-2">
       <!-- Loop for number of groups -->
       <div v-for="(group, index) in groupsRef" :key="index">
-        <div style="display: flex; align-items: center">
+        <div class="flex items-center h-8">
           <!-- Extension input -->
           <input
-            style="border-radius: 8px; border: none; padding: 4px"
+            class="rounded-lg border-none p-1 h-6 text-black"
             v-model="group.extension"
             @change="updateSettings"
           />
@@ -24,21 +17,17 @@
             position="top"
             format="hex"
             disable-alpha
+            class="ml-2"
           />
 
           <!-- Clear Button -->
-          <button
-            @click="removeGroupAtIndex(index)"
-            style="background: none; margin: 0"
-          >
+          <button @click="removeGroupAtIndex(index)" class="bg-transparent m-0">
             X
           </button>
         </div>
       </div>
 
-      <button @click="createNewGroup" style="margin-right: 8px; width: 100%">
-        New Group
-      </button>
+      <button @click="createNewGroup" class="mr-2 w-full">New Group</button>
     </div>
   </Disclosure>
 </template>

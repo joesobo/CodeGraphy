@@ -41,8 +41,8 @@
   "icon": "img/graph.png",
   "scripts": {
     "vscode:prepublish": "yarn run package",
-    "compile": "concurrently \"rollup -c\" \"webpack\" \"vite build\"",
-    "watch": "concurrently \"rollup -c -w\" \"webpack --watch\" \"vite build --watch\"",
+    "compile": "concurrently \"rollup -c\" \"webpack\" \"vite build\" \"tailwindcss -i ./src/assets/tailwind.css -o ./dist/output.css\"",
+    "watch": "concurrently \"rollup -c -w\" \"webpack --watch\" \"vite build --watch\" \"tailwindcss -i ./src/assets/tailwind.css -o ./dist/output.css --watch\"",
     "package": "webpack --mode production --devtool hidden-source-map",
     "lint": "eslint src --ext ts",
     "test": "jest"
@@ -131,6 +131,7 @@
     "mocha": "^9.2.2",
     "rollup": "^2.3.4",
     "rollup-plugin-terser": "^7.0.2",
+    "tailwindcss": "^3.1.8",
     "ts-jest": "^28.0.8",
     "ts-loader": "^9.2.8",
     "typescript": "^4.6.4",

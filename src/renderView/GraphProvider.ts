@@ -38,6 +38,9 @@ export class GraphProvider implements vscode.WebviewViewProvider {
     const styleMainUri = webview.asWebviewUri(
       vscode.Uri.joinPath(this._extensionUri, "src/assets", "style.css")
     );
+    const tailwindUri = webview.asWebviewUri(
+      vscode.Uri.joinPath(this._extensionUri, "dist", "output.css")
+    );
 
     // VSCode configuration
     let { nodeSettings, blacklist } =
@@ -64,6 +67,7 @@ export class GraphProvider implements vscode.WebviewViewProvider {
         <meta charset="UTF-8">
         <script src="https://cdnjs.cloudflare.com/ajax/libs/cytoscape/3.21.1/cytoscape.min.js" integrity="sha512-H44mkyNG9R5Y8NDjFoZ0lnMGgxfsbfbuewUNJJjecVOUzR3n/JL8+UFc07pP74T5tA+aGOMKCwazdDYwoquE8g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
         <link href="${styleMainUri}" rel="stylesheet">
+        <link href="${tailwindUri}" rel="stylesheet">
       </head>
 
       <body>

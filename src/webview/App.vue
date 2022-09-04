@@ -1,31 +1,25 @@
 <template>
-  <div
-    style="
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-      margin-bottom: 16px;
-    "
-  >
+  <div class="flex flex-col flex-start mb-4">
     <h1>CodeGraphy</h1>
 
     <Disclosure title="Full Graph" open>
       <div
         id="cy"
         ref="mainGraphElement"
-        :style="`height: ${windowWidth}px; width: ${windowWidth}px; background-color: #1e1e1e;`"
+        class="bg-zinc-900"
+        :style="`height: ${windowWidth}px; width: ${windowWidth}px;`"
       ></div>
 
       <button
         id="reload"
-        style="width: 100%; margin-bottom: 8px"
+        class="w-full mb-2"
         @click="reload(mainCy, sortingOption)"
       >
         Reload
       </button>
 
       <label>Sorting:</label>
-      <select style="margin-left: 8px" id="sorting-options">
+      <select class="ml-2 text-black" id="sorting-options">
         <option value="cose" selected>Cose</option>
         <option value="fcose">FCose</option>
         <option value="cose-bilkent">Cose Bilkent</option>
@@ -37,44 +31,47 @@
         <option value="breadthfirst">Breadthfirst</option>
       </select>
 
-      <div style="margin-top: 8px; display: flex; align-items: center">
+      <div class="mt-2 flex items-center">
         <label>Hover:</label>
-        <label class="switch">
+        <label class="mt-1 ml-2 relative inline-block w-8 h-4">
           <input
             type="checkbox"
             id="hover-switch"
             :checked="canUseHover"
             @click="toggleHover()"
+            class="opacity-0 w-0 h-0 text-black"
           />
-          <span class="slider round"></span>
+          <span class="slider rounded-full before:rounded-full"></span>
         </label>
       </div>
 
-      <div style="margin-top: 8px; display: flex; align-items: center">
+      <div class="mt-2 flex items-center">
         <label>Hide Labels:</label>
-        <label class="switch">
+        <label class="mt-1 ml-2 relative inline-block w-8 h-4">
           <input
             type="checkbox"
             id="label-switch"
             :checked="canUseLabels"
             @click="toggleLabels()"
+            class="opacity-0 w-0 h-0 text-black"
           />
-          <span class="slider round"></span>
+          <span class="slider rounded-full before:rounded-full"></span>
         </label>
       </div>
     </Disclosure>
 
-    <Disclosure title="Local Graph" style="margin-top: 32px">
+    <Disclosure title="Local Graph" class="mt-4">
       <div
         id="cy-relative"
         ref="relativeGraphElement"
-        :style="`height: ${windowWidth}px; width: ${windowWidth}px; background-color: #1e1e1e;`"
+        class="bg-zinc-900"
+        :style="`height: ${windowWidth}px; width: ${windowWidth}px;`"
       ></div>
 
-      <div style="margin-top: 8px">
+      <div class="mt-2">
         <label>Local Depth:</label>
         <input
-          style="margin-left: 8px"
+          class="ml-2 text-black"
           id="local-depth"
           v-model="localDepth"
           @change="refreshGraphs"

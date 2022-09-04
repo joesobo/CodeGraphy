@@ -1,14 +1,20 @@
 <template>
-  <details :open="open" @toggle="toggleState">
-    <summary :tabindex="disabled ? -1 : 0">
+  <details :open="open" @toggle="toggleState" class="cursor-pointer w-full">
+    <summary
+      :tabindex="disabled ? -1 : 0"
+      class="flex justify-between items-center list-none border-transparent hover:border-b hover:border-solid hover:border-white"
+    >
       <h1
-        style="margin-top: 0.5em; margin-bottom: 0.5em; color: white"
-        :style="size === 'lg' ? 'font-size: 1.5em;' : 'font-size: 1em;'"
+        :class="size === 'lg' ? 'text-base' : 'text-sm'"
+        class="my-2 text-white font-semibold"
       >
         {{ title }}
       </h1>
-      <div v-if="state" class="dropdown-icon rotate" />
-      <div v-else class="dropdown-icon" />
+      <div
+        v-if="state"
+        class="after:content-['▼'] h-4 w-4 text-center z-10 rotate-180"
+      />
+      <div v-else class="after:content-['▼'] h-4 w-4 text-center z-10" />
     </summary>
 
     <slot />

@@ -22,7 +22,18 @@ export const runNodeHover = (cy: any) => {
         content: () => {
           let content = document.createElement("div");
 
-          content.classList.add("popper-div");
+          content.classList.add(
+            "relative",
+            "bg-zinc-700",
+            "text-white",
+            "rounded",
+            "text-sm",
+            "outline-none",
+            "py-1",
+            "px-2",
+            "max-w-[200px]",
+            "break-words"
+          );
 
           const nodeData = event.target.data();
 
