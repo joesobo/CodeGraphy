@@ -1,19 +1,18 @@
 export const runNodeClick = (cy: any, nodes: any[]) => {
-  // CLICK NODE EVENT
-  cy.on("click", "node", function (event: any) {
-    const id = event.target.id();
+	// CLICK NODE EVENT
+	cy.on("click", "node", function (event: any) {
+		const id = event.target.id()
 
-    const path = nodes[id].data.fullPath;
+		const path = nodes[id].data.fullPath
 
-    openFile(path);
-  });
-};
+		openFile(path)
+	})
+}
 
 // Ability to open file on click
 const openFile = (file: string) => {
-  // @ts-ignore
-  vscode.postMessage({
-    command: "openFile",
-    text: file,
-  });
-};
+	vscode.postMessage({
+		command: "openFile",
+		text: file
+	})
+}

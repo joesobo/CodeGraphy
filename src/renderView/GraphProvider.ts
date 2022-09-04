@@ -1,66 +1,66 @@
-import * as vscode from "vscode";
-import { fetchDirFiles } from "../utils/files/fetchDirFiles";
-import { getConnections, Connection } from "../utils/connections/connections";
-import { handleMessages } from "../utils/vscode/handleMessages";
+import * as vscode from "vscode"
+import { fetchDirFiles } from "../utils/files/fetchDirFiles"
+import { getConnections } from "../utils/connections/connections"
+import { handleMessages } from "../utils/vscode/handleMessages"
 
 export class GraphProvider implements vscode.WebviewViewProvider {
-  _view?: vscode.WebviewView;
-  _doc?: vscode.TextDocument;
+	_view?: vscode.WebviewView
+	_doc?: vscode.TextDocument
 
-  constructor(private readonly _extensionUri: vscode.Uri) {}
+	constructor(private readonly _extensionUri: vscode.Uri) {}
 
-  public resolveWebviewView(webviewView: vscode.WebviewView) {
-    this._view = webviewView;
+	public resolveWebviewView(webviewView: vscode.WebviewView) {
+		this._view = webviewView
 
-    webviewView.webview.options = {
-      enableScripts: true,
-      localResourceRoots: [this._extensionUri],
-    };
+		webviewView.webview.options = {
+			enableScripts: true,
+			localResourceRoots: [this._extensionUri]
+		}
 
-    this.updateWebview(webviewView);
-  }
+		this.updateWebview(webviewView)
+	}
 
-  private async updateWebview(webviewView: vscode.WebviewView) {
-    webviewView.webview.html = await this._getHtmlForWebview(
-      webviewView.webview
-    );
-  }
+	private async updateWebview(webviewView: vscode.WebviewView) {
+		webviewView.webview.html = await this._getHtmlForWebview(
+			webviewView.webview
+		)
+	}
 
-  public revive(panel: vscode.WebviewView) {
-    this._view = panel;
-  }
+	public revive(panel: vscode.WebviewView) {
+		this._view = panel
+	}
 
-  private async _getHtmlForWebview(webview: vscode.Webview) {
-    // setup HTML links
-    const vueURI = webview.asWebviewUri(
-      vscode.Uri.joinPath(this._extensionUri, "dist", "compiled/index.es.js")
-    );
-    const styleMainUri = webview.asWebviewUri(
-      vscode.Uri.joinPath(this._extensionUri, "src/assets", "style.css")
-    );
-    const tailwindUri = webview.asWebviewUri(
-      vscode.Uri.joinPath(this._extensionUri, "dist", "output.css")
-    );
+	private async _getHtmlForWebview(webview: vscode.Webview) {
+		// setup HTML links
+		const vueURI = webview.asWebviewUri(
+			vscode.Uri.joinPath(this._extensionUri, "dist", "compiled/index.es.js")
+		)
+		const styleMainUri = webview.asWebviewUri(
+			vscode.Uri.joinPath(this._extensionUri, "src/assets", "style.css")
+		)
+		const tailwindUri = webview.asWebviewUri(
+			vscode.Uri.joinPath(this._extensionUri, "dist", "output.css")
+		)
 
-    // VSCode configuration
-    let { nodeSettings, blacklist } =
-      vscode.workspace.getConfiguration().codegraphy;
+		// VSCode configuration
+		nodeSettings = vscode.workspace.getConfiguration().codegraphy.nodeSettings
+		blacklistSettings = vscode.workspace.getConfiguration().codegraphy.blacklist
 
-    // Workspace information
-    const currentPath = vscode.workspace.workspaceFolders
-      ? vscode.workspace.workspaceFolders[0].uri.path.substring(1)
-      : "";
-    let currentFile = vscode.window.activeTextEditor?.document.fileName || "";
-    currentFile = currentFile.startsWith("/")
-      ? currentFile.substring(1)
-      : currentFile;
-    let files: string[] = fetchDirFiles(currentPath, blacklist);
-    let connections: Connection[][] = await getConnections(files, currentPath);
+		// Workspace information
+		const currentPath = vscode.workspace.workspaceFolders
+			? vscode.workspace.workspaceFolders[0].uri.path.substring(1)
+			: ""
+		currentFile = vscode.window.activeTextEditor?.document.fileName || ""
+		currentFile = currentFile.startsWith("/")
+			? currentFile.substring(1)
+			: currentFile
+		files = fetchDirFiles(currentPath, blacklistSettings)
+		connections = await getConnections(files, currentPath)
 
-    // Handle message calls to and from the Vue side
-    await handleMessages(webview);
+		// Handle message calls to and from the Vue side
+		await handleMessages(webview)
 
-    return `
+		return `
     <!DOCTYPE html>
     <html lang="en">
       <head>
@@ -86,10 +86,10 @@ export class GraphProvider implements vscode.WebviewViewProvider {
           var files = ${JSON.stringify(files)}
           var currentFile = ${JSON.stringify(currentFile)}
           var nodeSettings = ${JSON.stringify(nodeSettings)}
-          var blacklistSettings = ${JSON.stringify(blacklist)}
+          var blacklistSettings = ${JSON.stringify(blacklistSettings)}
           var vscode = acquireVsCodeApi();
         </script>
       </body>
-    </html>`;
-  }
+    </html>`
+	}
 }

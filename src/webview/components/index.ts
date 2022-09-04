@@ -1,1 +1,1 @@
-export * from "./Disclosure.vue";
+export * from "./Disclosure.vue"

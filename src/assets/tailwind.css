@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 @layer components {
-  button {
-    @apply py-1 px-2 mt-2 bg-[#1177bb] text-white border-none cursor-pointer rounded-lg;
-  }
+	button {
+		@apply py-1 px-2 mt-2 bg-[#1177bb] text-white border-none cursor-pointer rounded-lg;
+	}
 }

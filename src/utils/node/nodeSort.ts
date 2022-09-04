@@ -1,16 +1,14 @@
-import { reload } from "../cytoscape/cytoscapeHelper";
+import { reload } from "../cytoscape/cytoscapeHelper"
 
-export let sortingOption = "cose";
+export let sortingOption = "cose"
 
 export const runNodeSort = (cy: any) => {
-  // SORT EVENT LISTENERS
-  const select = document.getElementById(
-    "sorting-options"
-  ) as HTMLSelectElement;
-  sortingOption = select.options[select.selectedIndex].value;
+	// SORT EVENT LISTENERS
+	const select = document.getElementById("sorting-options") as HTMLSelectElement
+	sortingOption = select.options[select.selectedIndex].value
 
-  select.onchange = () => {
-    sortingOption = select.options[select.selectedIndex].value;
-    reload(cy, sortingOption);
-  };
-};
+	select.onchange = () => {
+		sortingOption = select.options[select.selectedIndex].value
+		reload(cy, sortingOption)
+	}
+}
