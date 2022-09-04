@@ -27,7 +27,8 @@
 		"quotes": ["error", "double"],
 		"semi": ["error", "never"],
 		"@typescript-eslint/ban-ts-comment": 1,
-		"vue/multi-word-component-names": 0
+		"vue/multi-word-component-names": 0,
+		"vue/v-on-event-hyphenation": 0
 	},
 	"globals": {
 		"connections": "writable",

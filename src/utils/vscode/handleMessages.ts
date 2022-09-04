@@ -21,6 +21,11 @@ const handleReceivedMessages = (webview: vscode.Webview) => {
 				vscode.window.showTextDocument(doc)
 			})
 			return
+		case "editSelectedSetting":
+			return await configuration.update(
+				"codegraphy.selectedColor",
+				message.text
+			)
 		case "editMetaSettings":
 			return await configuration.update(
 				"codegraphy.nodeSettings",

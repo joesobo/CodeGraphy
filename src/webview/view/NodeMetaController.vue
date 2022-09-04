@@ -1,6 +1,23 @@
 <template>
 	<Disclosure title="Config" size="sm" class="mt-8">
 		<div class="flex flex-col bg-zinc-900 p-2">
+			<h2 class="text-base font-semibold">Selected</h2>
+			<div class="flex items-center h-8 pb-2">
+				<!-- Extension input -->
+				<p class="text-xs font-bold">Selected Color:</p>
+
+				<!-- Color picker -->
+				<ColorInput
+					v-model="selectedRef"
+					position="top"
+					format="hex"
+					disable-alpha
+					class="ml-[78px]"
+					@change="updateSelectedSetting"
+				/>
+			</div>
+
+			<h2 class="text-base font-semibold">Node Meta</h2>
 			<!-- Loop for number of groups -->
 			<div v-for="(group, index) in groupsRef" :key="index">
 				<div class="flex items-center h-8">
@@ -8,7 +25,7 @@
 					<input
 						v-model="group.extension"
 						class="rounded-lg border-none p-1 h-6 text-black"
-						@change="updateSettings"
+						@change="updateMetaSettings"
 					/>
 
 					<!-- Color picker -->
@@ -18,6 +35,7 @@
 						format="hex"
 						disable-alpha
 						class="ml-2"
+						@change="updateMetaSettings"
 					/>
 
 					<!-- Clear Button -->
@@ -42,13 +60,14 @@ const props = defineProps<{ cy: any; cyRelative: any }>()
 
 let groups: any[] = nodeSettings
 let groupsRef: Ref<any[]> = ref(nodeSettings)
+let selectedRef: Ref<string> = ref(selectedColor)
 
 const createNewGroup = () => {
 	groupsRef.value.push({
 		extension: ".test"
 	})
 
-	updateSettings()
+	updateMetaSettings()
 }
 
 const removeGroupAtIndex = (index: number) => {
@@ -56,16 +75,28 @@ const removeGroupAtIndex = (index: number) => {
 		groupsRef.value.splice(index, 1)
 	}
 
-	updateSettings()
+	updateMetaSettings()
 }
 
-const updateSettings = () => {
+const updateSelectedSetting = () => {
+	selectedColor = selectedRef.value
+	vscode.postMessage({
+		command: "editSelectedSetting",
+		text: selectedRef.value
+	})
+
+	setNodeStyles(props.cy, currentFile)
+	setNodeStyles(props.cyRelative, currentFile)
+}
+
+const updateMetaSettings = () => {
+	nodeSettings = groupsRef.value
 	vscode.postMessage({
 		command: "editMetaSettings",
 		text: groups
 	})
 
-	setNodeStyles(props.cy)
-	setNodeStyles(props.cyRelative)
+	setNodeStyles(props.cy, currentFile)
+	setNodeStyles(props.cyRelative, currentFile)
 }
 </script>

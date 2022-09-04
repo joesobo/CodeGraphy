@@ -11,6 +11,7 @@ export const runNodeClick = (cy: any, nodes: any[]) => {
 
 // Ability to open file on click
 const openFile = (file: string) => {
+	currentFile = file
 	vscode.postMessage({
 		command: "openFile",
 		text: file
