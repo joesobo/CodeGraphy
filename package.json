@@ -83,6 +83,13 @@
 		"configuration": {
 			"title": "CodeGraphy Settings",
 			"properties": {
+				"codegraphy.selectedColor": {
+					"type": "string",
+					"default": [
+						"#fff"
+					],
+					"description": "Selected Node Color"
+				},
 				"codegraphy.nodeSettings": {
 					"type": "array",
 					"default": [

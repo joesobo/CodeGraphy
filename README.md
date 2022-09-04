@@ -39,6 +39,7 @@ CodeGraphy's main feature is its ability to display the file heirarchy within th
 To color in nodes of the graph add these configurations to your `settings.json`. These can be manually editted from the `Groups` section of the extension.
 
 ```json
+"codegraphy.selectedColor": "#fff",
 "codegraphy.nodeSettings": [
   {
     "extension": ".js",

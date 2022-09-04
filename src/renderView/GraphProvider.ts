@@ -43,19 +43,21 @@ export class GraphProvider implements vscode.WebviewViewProvider {
 		)
 
 		// VSCode configuration
-		nodeSettings = vscode.workspace.getConfiguration().codegraphy.nodeSettings
-		blacklistSettings = vscode.workspace.getConfiguration().codegraphy.blacklist
+		const codeGraphyConf = vscode.workspace.getConfiguration().codegraphy
+		const selectedColor = codeGraphyConf.selectedColor
+		const nodeSettings = codeGraphyConf.nodeSettings
+		const blacklistSettings = codeGraphyConf.blacklist
 
 		// Workspace information
 		const currentPath = vscode.workspace.workspaceFolders
 			? vscode.workspace.workspaceFolders[0].uri.path.substring(1)
 			: ""
-		currentFile = vscode.window.activeTextEditor?.document.fileName || ""
+		let currentFile = vscode.window.activeTextEditor?.document.fileName || ""
 		currentFile = currentFile.startsWith("/")
 			? currentFile.substring(1)
 			: currentFile
-		files = fetchDirFiles(currentPath, blacklistSettings)
-		connections = await getConnections(files, currentPath)
+		const files = fetchDirFiles(currentPath, blacklistSettings)
+		const connections = await getConnections(files, currentPath)
 
 		// Handle message calls to and from the Vue side
 		await handleMessages(webview)
@@ -85,6 +87,7 @@ export class GraphProvider implements vscode.WebviewViewProvider {
           var connections = ${JSON.stringify(connections)}
           var files = ${JSON.stringify(files)}
           var currentFile = ${JSON.stringify(currentFile)}
+          var selectedColor = ${JSON.stringify(selectedColor)}
           var nodeSettings = ${JSON.stringify(nodeSettings)}
           var blacklistSettings = ${JSON.stringify(blacklistSettings)}
           var vscode = acquireVsCodeApi();

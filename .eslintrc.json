@@ -33,6 +33,7 @@
 		"connections": "writable",
 		"files": "writable",
 		"currentFile": "writable",
+		"selectedColor": "writable",
 		"nodeSettings": "writable",
 		"blacklistSettings": "writable",
 		"vscode": "writable"

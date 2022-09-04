@@ -1,10 +1,6 @@
 let layout: any
 let lastLayout = "cose"
 
-const selectedNode = {
-	color: "#fff"
-}
-
 // CYTOSCAPE GRAPH STYLES
 export const styles = (canUseLabels: boolean) => [
 	{
@@ -89,12 +85,12 @@ export const setNodeStyles = (
 
 			if (nodeCurrentFile && nodePath === nodeCurrentFile) {
 				node.classes("selectedNode")
-				node.style({ "background-color": selectedNode.color })
+				node.style({ "background-color": selectedColor })
 			}
 
 			if (currentNode) {
 				currentNode.classes("selectedNode")
-				currentNode.style({ "background-color": selectedNode.color })
+				currentNode.style({ "background-color": selectedColor })
 			}
 		})
 	})

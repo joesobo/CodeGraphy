@@ -45,8 +45,7 @@ let groupsRef: Ref<any[]> = ref(nodeSettings)
 
 const createNewGroup = () => {
 	groupsRef.value.push({
-		extension: ".test",
-		color: "#fff"
+		extension: ".test"
 	})
 
 	updateSettings()

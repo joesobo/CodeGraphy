@@ -4,6 +4,7 @@ declare global {
 	let connections: Connection[][]
 	let files: string[]
 	let currentFile: string
+	let selectedColor: string
 	let nodeSettings: Record<string, any>[]
 	let blacklistSettings: string[]
 	let vscode: any
