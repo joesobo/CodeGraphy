@@ -10,103 +10,85 @@ export type Connection = {
 	}
 }
 
-const findConnections = async (
-	files: string[],
-	startIndex: number,
+let connectionCurrentPath: string
+let sanitizedFiles: string[]
+
+// Finds all connections for each file
+export const getAllConnections = async (
+	filePaths: string[],
 	currentPath: string
-): Promise<Connection[]> => {
-	const connections: Connection[] = []
+) => {
+	const connections: Connection[][] = []
+	sanitizedFiles = sanitize(filePaths)
+	connectionCurrentPath = currentPath
 
-	const lineReader = readline.createInterface({
-		input: fs.createReadStream(files[startIndex])
-	})
-	const sanitizedFiles = sanitize(files)
-	const file = sanitizedFiles[startIndex]
+	for (let index = 0; index < filePaths.length; index++) {
+		const filePath = filePaths[index]
+		const lineReader = readline.createInterface({
+			input: fs.createReadStream(filePath)
+		})
 
-	for await (const line of lineReader) {
-		// if line starts with import
-		if (line.startsWith("import")) {
-			// split line up by spaces
-			const lineArr = line.split(" ")
-			// set import path = to whatever comes after `from`
-			const fromIndex = lineArr.findIndex((el) => el === "from")
-			let importPath = lineArr[fromIndex + 1].replace(";", "")
-			let lastIndex = -1
+		const fileConnections = await findFileConnections(
+			filePath,
+			lineReader,
+			index
+		)
 
-			// check if root path
-			if (importPath.startsWith("'") || importPath.startsWith("\"")) {
-				importPath = importPath.replace(/["']/g, "")
-				let testPath = ""
-
-				// if a relative path, walk back from current path
-				if (importPath.startsWith(".")) {
-					const relativePathArr = importPath.split("/")
-					const tempPath = file.split("/")
-
-					if (importPath.startsWith("..")) {
-						tempPath.pop()
-					}
-
-					relativePathArr.forEach((element) => {
-						if (element === "." || element === "..") {
-							tempPath.pop()
-						} else {
-							tempPath.push(element)
-						}
-					})
-
-					testPath = tempPath.join("/")
-				}
-				// if a direct path, search root dir following path
-				else {
-					testPath = `${currentPath}/${importPath}`
-				}
-
-				lastIndex = indexOfPath(sanitizedFiles, testPath)
-			}
-			// if just a name, look for file in files
-			else {
-				lastIndex = indexOfNode(sanitizedFiles, importPath.slice(-1))
-			}
-
-			if (lastIndex !== -1) {
-				connections.push({
-					group: "edges",
-					data: {
-						id: startIndex + "-" + lastIndex,
-						source: startIndex,
-						target: lastIndex
-					}
-				})
-			}
+		if (fileConnections) {
+			connections.push(fileConnections)
 		}
 	}
 
 	return connections
 }
 
-const indexOfPath = (files: string[], testPath: string) => {
-	for (let index = 0; index < files.length; index++) {
-		if (files[index].includes(testPath)) {
-			return index
+const findFileConnections = async (
+	filePath: string,
+	lineReader: readline.Interface,
+	fileIndex: number
+) => {
+	const currentFileConnections: Connection[] = []
+
+	for await (let line of lineReader) {
+		if (!containsConnection(line)) continue
+
+		// cleans up connection line
+		line = line.replace("(", " ").replace(")", "").replace(";", "")
+
+		const importPath = findImportPath(line)
+
+		const connectionIndex = findConnectionIndex(importPath, filePath)
+
+		if (connectionIndex !== -1) {
+			currentFileConnections.push({
+				group: "edges",
+				data: {
+					id: fileIndex + "-" + connectionIndex,
+					source: fileIndex,
+					target: connectionIndex
+				}
+			})
 		}
 	}
 
-	return -1
+	return currentFileConnections
 }
 
-const indexOfNode = (files: string[], edgeNode: string) => {
-	for (let index = 0; index < files.length; index++) {
-		const file = files[index]
-		const extensionlessFile = file.split("/")
-		const directFileName = extensionlessFile[extensionlessFile.length - 1]
+const containsConnection = (line: string) => {
+	return (
+		/^import.*(from.*("|').*("|')|"|')/.test(line) ||
+		/.*require\(('|").*('|")\)/.test(line) ||
+		/^export.*(from.*("|').*("|')|"|')/.test(line)
+	)
+}
 
-		if (directFileName === edgeNode) {
-			return index
-		}
-	}
+function findImportPath(line: string) {
+	const lineArr = line.split(" ")
+	const pathIndex = lineArr.findIndex(
+		(el) => el.startsWith("\"") || el.startsWith("'")
+	)
 
-	return -1
+	return lineArr[pathIndex]
 }
 
 const sanitize = (files: string[]): string[] => {
@@ -124,13 +106,55 @@ const sanitize = (files: string[]): string[] => {
 	return santizedFiles
 }
 
-export const getConnections = async (files: string[], currentPath: string) => {
-	const connections = []
+// cleans up the import path and returns its file index
+function findConnectionIndex(importPath: string, filePath: string) {
+	let foundIndex = -1
+	let path = ""
+
+	importPath = importPath.replace(/["']/g, "")
+
+	// clean up path to search index
+	if (importPath.startsWith(".")) {
+		path = handleRelativePath(importPath, filePath)
+	} else {
+		path = handleDirectPath(importPath)
+	}
+
+	foundIndex = indexOfPath(sanitizedFiles, path)
+
+	return foundIndex
+}
+
+// if a relative path, walk back from current file path
+const handleRelativePath = (importPath: string, filePath: string) => {
+	const relativePathArr = importPath.split("/")
+	const tempPath = filePath.split("/")
+
+	if (importPath.startsWith("..")) {
+		tempPath.pop()
+	}
+
+	relativePathArr.forEach((element) => {
+		if (element === "." || element === "..") {
+			tempPath.pop()
+		} else {
+			tempPath.push(element)
+		}
+	})
+
+	return tempPath.join("/")
+}
+
+const handleDirectPath = (importPath: string) => {
+	return `${connectionCurrentPath}/${importPath}`
+}
+
+const indexOfPath = (files: string[], testPath: string) => {
 	for (let index = 0; index < files.length; index++) {
-		const result = await findConnections(files, index, currentPath)
-		if (result.length > 0) {
-			connections.push(result)
+		if (files[index].includes(testPath)) {
+			return index
 		}
 	}
-	return connections
+
+	return -1
 }
