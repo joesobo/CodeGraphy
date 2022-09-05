@@ -78,7 +78,9 @@ const containsConnection = (line: string) => {
 	return (
 		/^import.*(from.*("|').*("|')|"|')/.test(line) ||
 		/.*require\(('|").*('|")\)/.test(line) ||
-		/^export.*(from.*("|').*("|')|"|')/.test(line)
+		/^export.*(from.*("|').*("|')|"|')/.test(line) ||
+		/^export.*(from.*("|').*("|')|"|')/.test(line) ||
+		/.*CodeGraphy connect: ('|").*.('|").*/.test(line)
 	)
 }
 
