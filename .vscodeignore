@@ -14,6 +14,5 @@ tsconfig.json
 .prettierignore
 .prettierrc.json
 babel.config.js
-LICENSE
 yarn.lock
 yarn-error.log
