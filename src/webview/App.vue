@@ -99,7 +99,8 @@ import {
 	setupMainGraph,
 	setupRelativeGraph,
 	refreshMainGraph,
-	refreshLocalGraph
+	refreshLocalGraph,
+	setNodeStyles
 } from "../utils/cytoscape"
 
 import NodeMetaController from "./view/NodeMetaController.vue"
@@ -136,7 +137,14 @@ window.addEventListener("message", (event) => {
 	case "setCurrentFile":
 		nodeCurrentFile = message.text
 
-		refreshGraphs()
+		setNodeStyles(mainCy.value, nodeCurrentFile)
+		refreshLocalGraph(
+			relativeCy.value,
+			nodeCurrentFile,
+			nodeFiles,
+			nodeConnections,
+			localDepth
+		)
 		return
 	case "setFilesAndConnections":
 		nodeFiles = message.text.files

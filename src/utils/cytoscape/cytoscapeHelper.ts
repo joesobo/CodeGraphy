@@ -94,6 +94,8 @@ export const setNodeStyles = (
 			}
 		})
 	})
+
+	cy.style().update()
 }
 
 // NEEDED FOR POPOVERS
