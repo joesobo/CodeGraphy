@@ -10,11 +10,11 @@
 
 # CodeGraphy
 
-> CodeGraphy **enhances** files connections inside VSCode and allows for **birds eye views** of each repository. It helps you to **visualize code hierarchy** at a glance, **seamlessly navigate and explore** your file hierarchy, **gain valuable insights** via a force based node graph UI, and so much more.
+> CodeGraphy **enhances** files connections inside VSCode and allows for **birds eye views** of each repository. It helps you to **visualize code hierarchy** at a glance, **seamlessly navigate and explore** your file hierarchy, **gain valuable insights** via a force based node graph UI, and more.
 
 CodeGraphy is an [open-source](https://github.com/joesobo/CodeGraphy "Open CodeGraphy on GitHub") extension for [Visual Studio Code](https://code.visualstudio.com).
 
-Simply CodeGraphy helps you **better understand file connections**. With its force-based grpah you can get a completely different view of the architecture of your codebase and make quick informed decisions about where your code is "knotted" in the graph.
+Simply CodeGraphy helps you **better understand file connections**. With its force-based graph you can get a completely different view of the architecture of your codebase and make quick informed decisions about where your code is "knotted" in the graph.
 
 ## Install CodeGraphy
 
@@ -26,7 +26,7 @@ Install CodeGraphy for [VSCode](https://marketplace.visualstudio.com/items?itemN
 
 ### Node Graph
 
-CodeGraphy's main feature is its ability to display the file heirarchy within the current directory and the connections within the files of the directory.
+CodeGraphy's main feature is its ability to display the file hierarchy within the current directory and the connections within the files of the directory.
 
 - Ability to open files directly from CodeGraphy
 - Can change the style of the force-based graph
@@ -36,7 +36,7 @@ CodeGraphy's main feature is its ability to display the file heirarchy within th
 
 ### Settings
 
-To color in nodes of the graph add these configurations to your `settings.json`. These can be manually editted from the `Groups` section of the extension.
+To color of nodes and selected node of the graph add these configurations to your `settings.json`. You can also `blacklist` any files or folders you want ignored. These can be manually editted from the `Config` section of the extension.
 
 ```json
 "codegraphy.selectedColor": "#fff",
@@ -60,18 +60,11 @@ To color in nodes of the graph add these configurations to your `settings.json`.
 ],
 "codegraphy.blacklist": [
     ".spec.",
-    ".d.ts",
-    ".config.js",
-    ".stories.",
-    ".map",
     ".vscode",
     ".git",
     ".github",
     "node_modules",
     "dist",
-    "static",
-    "coverage",
-    "storybook-static",
 ],
 ```
 
@@ -79,10 +72,9 @@ To color in nodes of the graph add these configurations to your `settings.json`.
 
 ## Known Issues
 
-This extension is still a work in progress. It is subject to major changes still. As it is the extension primary works on `js` files.
+This extension is still a work in progress. It is subject to major changes still.
 
-- Does not include `required` connections
-- Does not include custom relative pathing
+- Does not include custom relative pathing (Ex: `@/file/to/path.js`)
 
 ## Contributing
 
