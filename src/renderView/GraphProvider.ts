@@ -56,8 +56,22 @@ export class GraphProvider implements vscode.WebviewViewProvider {
 		currentFile = currentFile.startsWith("/")
 			? currentFile.substring(1)
 			: currentFile
-		const files = fetchDirFiles(currentPath, blacklistSettings)
-		const connections = await getAllConnections(files, currentPath)
+		let files = fetchDirFiles(currentPath, blacklistSettings)
+		let connections = await getAllConnections(files, currentPath)
+
+		// on file save update files and connections
+		vscode.workspace.onDidSaveTextDocument(async () => {
+			files = fetchDirFiles(currentPath, blacklistSettings, true)
+			connections = await getAllConnections(files, currentPath)
+
+			await webview.postMessage({
+				command: "setFilesAndConnections",
+				text: {
+					files,
+					connections
+				}
+			})
+		})
 
 		// Handle message calls to and from the Vue side
 		await handleMessages(webview)
