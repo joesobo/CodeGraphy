@@ -122,6 +122,8 @@ function findConnectionIndex(importPath: string, filePath: string) {
 		path = handleDirectPath(importPath)
 	}
 
+	console.log(path)
+
 	foundIndex = indexOfPath(sanitizedFiles, path)
 
 	return foundIndex
@@ -152,11 +154,22 @@ const handleDirectPath = (importPath: string) => {
 }
 
 const indexOfPath = (files: string[], testPath: string) => {
+	const potentionIndices = []
+
 	for (let index = 0; index < files.length; index++) {
 		if (files[index].includes(testPath)) {
-			return index
+			potentionIndices.push(index)
 		}
 	}
 
-	return -1
+	let bestIndex = -1
+	let maxLength = 100
+	potentionIndices.forEach((index) => {
+		if (files[index].split(".").length < maxLength) {
+			maxLength = files[index].split(".").length
+			bestIndex = index
+		}
+	})
+
+	return bestIndex
 }
