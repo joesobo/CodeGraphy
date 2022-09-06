@@ -35,9 +35,11 @@ export class GraphProvider implements vscode.WebviewViewProvider {
 		const vueURI = webview.asWebviewUri(
 			vscode.Uri.joinPath(this._extensionUri, "dist", "compiled/index.es.js")
 		)
+		// CodeGraphy connect: "../assets/style.css"
 		const styleMainUri = webview.asWebviewUri(
 			vscode.Uri.joinPath(this._extensionUri, "src/assets", "style.css")
 		)
+		// CodeGraphy connect: "../assets/tailwind.css"
 		const tailwindUri = webview.asWebviewUri(
 			vscode.Uri.joinPath(this._extensionUri, "dist", "output.css")
 		)
