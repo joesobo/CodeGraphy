@@ -7,7 +7,7 @@ Hi! I'm really excited that you are interested in contributing to CodeGraphy. Be
 
 ## Pull Request Guidelines
 
-- All development should be done in dedicated branches. **Do not submit PRs against the `main` branch.**
+- All development should be done in dedicated branches.
 
 - Checkout a topic branch from the relevant branch, e.g. `main`, and merge back against that branch.
 
@@ -26,7 +26,7 @@ Hi! I'm really excited that you are interested in contributing to CodeGraphy. Be
 
 ### Committing Changes
 
-Commit messages should follow the [commit message convention](./COMMIT_CONVENTION.md) so that changelogs can be automatically generated. Commit messages will be automatically validated upon commit.
+We prefer using commit messages that follow these [commit message convention](./COMMIT_CONVENTION.md) so that important changes are quickly and easily viewed from the code history.
 
 ### Commonly used Yarn scripts
 
@@ -34,5 +34,3 @@ Commit messages should follow the [commit message convention](./COMMIT_CONVENTIO
 # watch and auto re-build extension
 $ yarn watch
 ```
-
-There are some other scripts available in the `scripts` section of the `package.json` file.
