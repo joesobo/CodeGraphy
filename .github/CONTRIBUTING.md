@@ -4,7 +4,6 @@ Hi! I'm really excited that you are interested in contributing to CodeGraphy. Be
 
 - [Code of Conduct](https://github.com/joesobo/CodeGraphy/blob/main/.github/CODE_OF_CONDUCT.md)
 - [Pull Request Guidelines](#pull-request-guidelines)
-- [Project Structure](#project-structure)
 
 ## Pull Request Guidelines
 
