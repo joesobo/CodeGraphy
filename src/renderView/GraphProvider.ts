@@ -52,7 +52,7 @@ export class GraphProvider implements vscode.WebviewViewProvider {
 
 		// Workspace information
 		const currentPath = vscode.workspace.workspaceFolders
-			? vscode.workspace.workspaceFolders[0].uri.path.substring(1)
+			? vscode.workspace.workspaceFolders[0].uri.path
 			: ""
 		let currentFile = vscode.window.activeTextEditor?.document.fileName || ""
 		currentFile = currentFile.startsWith("/")

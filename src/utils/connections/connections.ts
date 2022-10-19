@@ -122,8 +122,6 @@ function findConnectionIndex(importPath: string, filePath: string) {
 		path = handleDirectPath(importPath)
 	}
 
-	console.log(path)
-
 	foundIndex = indexOfPath(sanitizedFiles, path)
 
 	return foundIndex
