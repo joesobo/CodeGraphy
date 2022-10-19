@@ -34,3 +34,14 @@ We prefer using commit messages that follow these [commit message convention](./
 # watch and auto re-build extension
 $ yarn watch
 ```
+
+## Running the Project
+
+```bash
+# start watching for any changes
+yarn watch 
+```
+
+Navigate to the `src/extension.ts`
+
+Press `F5` to open up a debug window
