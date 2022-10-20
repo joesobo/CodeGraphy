@@ -3,6 +3,7 @@ import { styles, reload, setNodeStyles } from "../cytoscape/cytoscapeHelper"
 import { getNewCytoscape } from "../cytoscape/cytoscapeGraphCreator"
 import { runNodeClick } from "../node/nodeClick"
 import { runNodeHover } from "../node/nodeHover"
+import { runNodeSelectedOnly } from "../node/nodeSelectedOnly"
 import { canUseLabels, runNodeLabels } from "../node/nodeLabels"
 import { runNodeSort } from "../node/nodeSort"
 
@@ -17,6 +18,7 @@ export const setupMainGraph = (mainGraphElement: HTMLElement | undefined) => {
 
 		runNodeHover(cy)
 		runNodeLabels(cy)
+		runNodeSelectedOnly(cy)
 		runNodeSort(cy)
 		runNodeClick(cy, nodes)
 

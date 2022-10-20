@@ -98,6 +98,25 @@ export const setNodeStyles = (
 	cy.style().update()
 }
 
+export const setNodeVisibility = (
+	cy: any,
+	selectedOnly?: boolean
+) => {
+	// Apply setting styles
+	cy.nodes().forEach((node: any) => {
+		const nodePath = node.data().fullPath
+		let visible = true
+
+		if (selectedOnly) {
+			visible = nodeSettings.some((nodeMeta: any) => (
+				nodePath.endsWith(nodeMeta.extension)
+			))
+		}
+
+		node.style({ "display": visible ? "element" : "none" })
+	})
+}
+
 // NEEDED FOR POPOVERS
 window.process = {
 	env: {
