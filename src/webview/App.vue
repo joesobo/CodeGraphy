@@ -64,6 +64,20 @@
 					<span class="slider rounded-full before:rounded-full"></span>
 				</label>
 			</div>
+
+			<div class="mt-2 flex items-center">
+				<label>Hide Unused Nodes:</label>
+				<label class="mt-1 ml-2 relative inline-block w-8 h-4">
+					<input
+						id="selected-only-switch"
+						type="checkbox"
+						:checked="canUseSelectedOnly"
+						class="opacity-0 w-0 h-0 text-black"
+						@click="toggleSelectedOnly()"
+					/>
+					<span class="slider rounded-full before:rounded-full"></span>
+				</label>
+			</div>
 		</Disclosure>
 
 		<Disclosure title="Local Graph" class="mt-4">
@@ -97,6 +111,8 @@ import {
 	toggleHover,
 	canUseLabels,
 	toggleLabels,
+	canUseSelectedOnly,
+	toggleSelectedOnly,
 	sortingOption
 } from "../utils/node"
 
