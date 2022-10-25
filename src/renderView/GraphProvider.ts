@@ -1,4 +1,5 @@
 import * as vscode from "vscode"
+import Os from "os"
 import { fetchDirFiles } from "../utils/files/fetchDirFiles"
 import { getAllConnections } from "../utils/connections/connections"
 import { handleMessages } from "../utils/vscode/handleMessages"
@@ -51,9 +52,12 @@ export class GraphProvider implements vscode.WebviewViewProvider {
 		const blacklistSettings = codeGraphyConf.blacklist
 
 		// Workspace information
-		const currentPath = vscode.workspace.workspaceFolders
+		let currentPath = vscode.workspace.workspaceFolders
 			? vscode.workspace.workspaceFolders[0].uri.path
 			: ""
+		if (Os.platform() === "win32") {
+			currentPath = currentPath.substring(1)
+		}
 		let currentFile = vscode.window.activeTextEditor?.document.fileName || ""
 		currentFile = currentFile.startsWith("/")
 			? currentFile.substring(1)
