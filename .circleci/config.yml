@@ -5,22 +5,109 @@ version: 2.1
 # Define a job to be invoked later in a workflow.
 # See: https://circleci.com/docs/2.0/configuration-reference/#jobs
 jobs:
-  say-hello:
-    # Specify the execution environment. You can specify an image from Dockerhub or use one of our Convenience Images from CircleCI's Developer Hub.
-    # See: https://circleci.com/docs/2.0/configuration-reference/#docker-machine-macos-windows-executor
+  setup:
     docker:
-      - image: cimg/base:stable
-    # Add steps to the job
-    # See: https://circleci.com/docs/2.0/configuration-reference/#steps
+      - image: cimg/node:16.18.0
+
     steps:
       - checkout
-      - run:
-          name: "Say hello"
-          command: "echo Hello, World!"
 
-# Invoke jobs via workflows
-# See: https://circleci.com/docs/2.0/configuration-reference/#workflows
+      - restore_cache:
+          key: yarn-cache-v1-{{ checksum "yarn.lock" }}
+
+      - run:
+          name: 'Install dependencies'
+          command: yarn install --frozen-lockfile
+
+      - save_cache:
+          key: yarn-cache-v1-{{ checksum "yarn.lock" }}
+          paths:
+            - node_modules
+
+      - persist_to_workspace:
+          root: .
+          paths:
+            - ./*
+
+  build:
+    docker:
+      - image: cimg/node:16.18.0
+
+    steps:
+      - checkout
+
+      - attach_workspace:
+          at: .
+
+      - run:
+          name: 'Build packages'
+          command: yarn compile
+      - persist_to_workspace:
+          root: .
+          paths:
+            - ./src
+
+  lint:
+    docker:
+      - image: cimg/node:16.18.0
+
+    steps:
+      - checkout
+
+      - attach_workspace:
+          at: .
+
+      - run:
+          name: 'Verify code quality and formatting'
+          command: yarn lint
+
+  test:
+    docker:
+      - image: cimg/node:16.18.0
+
+    steps:
+      - checkout
+
+      - attach_workspace:
+          at: .
+
+      - run:
+          name: 'Run unit tests'
+          command: yarn test --ci --runInBand --reporters=default
+
+  typecheck:
+    docker:
+      - image: cimg/node:16.18.0
+
+    steps:
+      - checkout
+
+      - attach_workspace:
+          at: .
+
+      - run:
+          name: 'Run typechecks'
+          command: yarn typecheck
+
 workflows:
-  say-hello-workflow:
+  version: 2
+  test-and-build:
     jobs:
-      - say-hello
+      - setup:
+          context: readonly-github-packages
+
+      - build:
+          requires:
+            - setup
+
+      - lint:
+          requires:
+            - build
+
+      - test:
+          requires:
+            - build
+
+      - typecheck:
+          requires:
+            - build

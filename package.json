@@ -4,6 +4,7 @@
 	"description": "Graphical file interface",
 	"version": "0.8.7",
 	"engines": {
+		"node": "16.18.0",
 		"vscode": "^1.67.0"
 	},
 	"license": "SEE LICENSE IN LICENSE",
@@ -46,7 +47,8 @@
 		"package": "webpack --mode production --devtool hidden-source-map",
 		"lint": "eslint src --ext .js,.vue,.ts,.json",
 		"format": "prettier --write .",
-		"test": "jest"
+		"test": "jest",
+		"typecheck": "vue-tsc --noEmit --skipLibCheck"
 	},
 	"activationEvents": [
 		"onView:code-graphy-sidebar",
