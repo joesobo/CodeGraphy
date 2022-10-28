@@ -23,6 +23,7 @@ export const setupMainGraph = (mainGraphElement: HTMLElement | undefined) => {
 		runNodeClick(cy, nodes)
 
 		refreshMainGraph(cy, nodeCurrentFile, nodeFiles, nodeConnections)
+		cy.layout({ name: "fcose" }).run()
 
 		return cy
 	}
@@ -43,6 +44,7 @@ export const setupRelativeGraph = (
 		runNodeClick(cyRelative, nodes)
 
 		refreshLocalGraph(cyRelative, nodeCurrentFile, nodeFiles, nodeConnections)
+		cyRelative.layout({ name: "fcose" }).run()
 
 		return cyRelative
 	}

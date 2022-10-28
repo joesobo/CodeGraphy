@@ -1,5 +1,6 @@
 import cytoscape from "cytoscape"
 
+import { reload } from "../cytoscape/cytoscapeHelper"
 import cypopper from "cytoscape-popper"
 import coseBilkent from "cytoscape-cose-bilkent"
 import fcose from "cytoscape-fcose"
@@ -20,15 +21,7 @@ export const getNewCytoscape = (
 		elements: nodes,
 		style: nodeStyles,
 		layout: {
-			name: "cose"
-		},
-		ready: function () {
-			this.layout({
-				name: "cose",
-				animate: "end",
-				animationEasing: "ease-out",
-				animationDuration: 1000
-			}).run()
+			name: "fcose"
 		},
 
 		// initial viewport state:

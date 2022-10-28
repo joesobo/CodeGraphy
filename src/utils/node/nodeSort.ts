@@ -1,6 +1,6 @@
 import { reload } from "../cytoscape/cytoscapeHelper"
 
-export let sortingOption = "cose"
+export let sortingOption = "fcose"
 
 export const runNodeSort = (cy: any) => {
 	// SORT EVENT LISTENERS
