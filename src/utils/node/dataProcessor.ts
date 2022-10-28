@@ -76,7 +76,8 @@ export const processData = (
 				id: index,
 				label: fileName,
 				fullPath: file
-			}
+			},
+			position: { x: Math.random() * 600, y: Math.random() * 600 }
 		})
 	}
 

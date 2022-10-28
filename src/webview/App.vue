@@ -20,8 +20,8 @@
 
 			<label>Sorting:</label>
 			<select id="sorting-options" class="ml-2 text-black">
-				<option value="cose" selected>Cose</option>
-				<option value="fcose">FCose</option>
+				<option value="cose">Cose</option>
+				<option value="fcose" selected>FCose</option>
 				<option value="cose-bilkent">Cose Bilkent</option>
 				<option value="cola">Cola</option>
 				<option value="grid">Grid</option>
