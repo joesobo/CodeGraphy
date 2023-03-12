@@ -16,6 +16,10 @@ CodeGraphy is an [open-source](https://github.com/joesobo/CodeGraphy "Open CodeG
 
 Simply CodeGraphy helps you **better understand file connections**. With its force-based graph you can get a completely different view of the architecture of your codebase and make quick informed decisions about where your code is "knotted" in the graph.
 
+# Note!
+
+Development for V2 is underway. This involves some large scale changes so its been completely rewritten from the ground up and will perform much better, with many additional features. Feel free to track its progress here: https://github.com/joesobo/CodeGraphyV2
+
 ## Install CodeGraphy
 
 Install CodeGraphy for [VSCode](https://marketplace.visualstudio.com/items?itemName=codegraphy.codegraphy)
